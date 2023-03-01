@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DTO.Schedule;
+package Schedule;
 
 /**
  *
  * @author toten
  */
-public class Schedule {
+public class ScheduleService {
     
 }

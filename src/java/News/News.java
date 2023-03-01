@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DTO.Donate;
+package News;
 
 import java.util.Date;
 import lombok.Builder;
@@ -19,11 +19,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Donate {
-    private int donate_id;
-    private int user_id;
-    private int program_id;
-    private double amount;
-    private Date donate_date;
-    private String message;
+public class News {
+    private int newsId;
+    private String newsTitle;
+    private String newsDes;
+    private Date postedDate;
+    private int userId;
 }
