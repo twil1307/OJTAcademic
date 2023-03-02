@@ -1,8 +1,3 @@
-<%-- 
-    Document   : footer
-    Created on : Jan 10, 2023, 2:28:35 PM
-    Author     : LE ANH TUAN
---%>
 
     <!-- Footer Start -->
     <div class="footer">

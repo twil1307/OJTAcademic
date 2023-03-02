@@ -8,8 +8,8 @@ package User;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import javafx.beans.binding.Bindings;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +20,7 @@ import javax.servlet.http.Part;
  *
  * @author toten
  */
+@MultipartConfig
 @WebServlet(name = "UserSignUpController", urlPatterns = {"/signup"})
 public class UserSignUpController extends HttpServlet {
 
@@ -65,9 +66,10 @@ public class UserSignUpController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserDAO userDAO = new UserDAO();
-        
+
         String username = req.getParameter("username");
         String password = req.getParameter("password");
+        String passwordConfirm = req.getParameter("passwordConfirm");
         String email = req.getParameter("email");
         String city = req.getParameter("city");
         String province = req.getParameter("province");
@@ -75,25 +77,53 @@ public class UserSignUpController extends HttpServlet {
         String name = req.getParameter("name");
         String phoneNumber = req.getParameter("phoneNumber");
         String dob = req.getParameter("dob");
+        String bankAccount = req.getParameter("bank_account");
         Part part = req.getPart("avatar");
+        String avatar;
+        
+        User userSignUp = new User(0, username, password, email, city, province, address, name, "donor", null, phoneNumber, dob, bankAccount);
+        
+//        Check password confirm is true
 
-        String realPath = req.getServletContext().getRealPath("/images");
-        String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
-
-        if (!Files.exists(Paths.get(realPath))) {
-            Files.createDirectories(Paths.get(realPath));
+        if(!password.equals(passwordConfirm)) {
+            req.setAttribute("signUpFailMessage", "Please check the password confirmation again!");
+            req.setAttribute(name, dob);
+            req.getRequestDispatcher("signup.jsp").forward(req, resp);
         }
 
-        System.out.println(realPath + "/" + fileName);
+//        Check avatar is null or not to store an empty string
+        if (part == null) {
+            avatar = "";
+        } else {
+            String realPath = req.getServletContext().getRealPath("/images");
+            String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
 
-        part.write(realPath + "/" + fileName);
+            if (!Files.exists(Paths.get(realPath))) {
+                Files.createDirectories(Paths.get(realPath));
+            }
 
-        String avatar = "images/" + fileName;
-        
-        
-//        Check if username is empty or existed
-        if(!username.isEmpty() && userDAO.checkExistedUsername(username)) {
+            System.out.println(realPath + "/" + fileName);
+
+            part.write(realPath + "/" + fileName);
+
+            avatar = "images/" + fileName;
             
+            userSignUp.setAvatar(avatar);
+        }
+
+//        Check if username is empty or existed
+        if (!username.isEmpty() && userDAO.checkExistedUsername(username) == null) {
+            try {
+                userDAO.signUpUser(userSignUp);
+                req.setAttribute("signUpSuccessMessage", "Create account successfully");
+                req.getRequestDispatcher("login.jsp").forward(req, resp);
+            } catch (Exception e) {
+                req.setAttribute("signUpFailMessage", "Create account failed");
+                req.getRequestDispatcher("signup.jsp").forward(req, resp);
+            }
+        } else {
+            req.setAttribute("signUpFailMessage", "Username existed");
+            req.getRequestDispatcher("signup.jsp").forward(req, resp);
         }
 
     }

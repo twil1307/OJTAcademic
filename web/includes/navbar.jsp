@@ -1,8 +1,4 @@
-<%-- 
-    Document   : navbar
-    Created on : Jan 10, 2023, 2:52:15 PM
-    Author     : LE ANH TUAN
---%>
+
 
 <body style="background-color: #dcf9fc">
 

@@ -5,10 +5,97 @@
  */
 package User;
 
+import context.DBContext;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author toten
  */
 public class UserDAO {
+
+    public void signUpUser(User acc) {
+        try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+            
+            String query = "INSERT INTO USER_ACCOUNT (USERNAME, PASSWORD, EMAIL, PHONE_NUMBER, CITY, PROVINCE, ADDRESS, AVATAR, NAME, ROLE, DOB, BANK_ACCOUNT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1,  acc.getUsername());
+            ps.setString(2, acc.getPassword());
+            ps.setString(3, acc.getEmail());
+            ps.setString(4, acc.getPhoneNumber());
+            ps.setString(5, acc.getCity());
+            ps.setString(6, acc.getProvince());
+            ps.setString(7, acc.getAddress());
+            ps.setString(8, acc.getAvatar());
+            ps.setString(9, acc.getName());
+            ps.setString(10, acc.getRole());
+            ps.setString(11, acc.getDob());
+            ps.setString(12, acc.getBank_account());
+            
+            ps.executeUpdate();
+
+//            rs = ps.getGeneratedKeys();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
     
+    
+//    Check if user is existed or not function
+    public User checkExistedUsername(String username) {
+        try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+
+            String query = "SELECT * FROM USER_ACCOUNT WHERE USERNAME=?";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+            ps.setString(1, username);
+
+            rs = ps.executeQuery();
+
+            User userAcc = null;
+            while (rs.next()) {
+                userAcc = User.builder()
+                        .user_id(rs.getInt("user_id"))
+                        .username(rs.getString("username"))
+                        .password(rs.getString("password"))
+                        .email(rs.getString("email"))
+                        .city(rs.getString("city"))
+                        .province(rs.getString("province"))
+                        .address(rs.getString("address"))
+                        .avatar(rs.getString("avatar"))
+                        .name(rs.getString("avatar"))
+                        .phoneNumber(rs.getString("phone_number"))
+                        .dob(rs.getString("dob"))
+                        .bank_account(rs.getString("bank_account")).build();
+                return userAcc;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
 }
