@@ -30,7 +30,7 @@ public class User {
     private String name;
     private String role;
     private String avatar;
-    private String phone_number;
+    private String phoneNumber;
     private Date dob;
     private String bank_account;
 }
