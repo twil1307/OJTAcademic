@@ -25,7 +25,6 @@ public class Program {
     private int programName;
     private String shortDes;
     private String detailDes;
-    private double raisedAmount;
     private double goalAmount;
     private Date startDate;
     private Date endDate;
