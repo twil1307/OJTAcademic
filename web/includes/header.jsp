@@ -1,8 +1,3 @@
-<%-- 
-    Document   : header
-    Created on : Jan 10, 2023, 2:28:25 PM
-    Author     : LE ANH TUAN
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
@@ -30,6 +25,7 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+        <link href="css/custom.css" rel="stylesheet">
     </head>
     
 

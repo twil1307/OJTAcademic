@@ -22,7 +22,7 @@ import lombok.ToString;
 @ToString
 public class Program {
     private int programId;
-    private int programName;
+    private String programName;
     private String shortDes;
     private String detailDes;
     private double goalAmount;

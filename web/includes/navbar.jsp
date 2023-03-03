@@ -1,8 +1,5 @@
-<%-- 
-    Document   : navbar
-    Created on : Jan 10, 2023, 2:52:15 PM
-    Author     : LE ANH TUAN
---%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 
 <body style="background-color: #dcf9fc">
 
@@ -33,14 +30,31 @@
                     </div>
                     <a href="contact.jsp" class="nav-item nav-link">Contact</a>
                 </div>
-                
+
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-user"></i>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="login.jsp">Log in</a>
-                        <a class="dropdown-item" href="signup.jsp">Sign Up</a>
+
+                        <c:choose>
+                            <c:when test="${sessionScope.user !=null}">
+                                <a class="dropdown-item" href="">${sessionScope.user.role}</a>
+
+                                <c:if test="${sessionScope.user.role=='manager' || sessionScope.user.role=='admin'}">
+                                    <a class="dropdown-item" href="">Manage</a>
+                                </c:if>
+                                    <c:if test="${sessionScope.user.role=='admin'}">
+                                    <a class="dropdown-item" href="">Admin</a>
+                                </c:if>
+                                <a class="dropdown-item" href="">Log out</a>
+
+                            </c:when>
+                            <c:otherwise>
+                                <a class="dropdown-item" href="login.jsp">Log in</a>
+                                <a class="dropdown-item" href="signup.jsp">Sign Up</a>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </div>
             </div>

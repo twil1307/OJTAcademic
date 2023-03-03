@@ -5,9 +5,10 @@
  */
 package User;
 
-import java.util.Date;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -19,6 +20,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
     private int user_id;
     private String username;
@@ -30,7 +33,8 @@ public class User {
     private String name;
     private String role;
     private String avatar;
-    private String phone_number;
-    private Date dob;
+    private String phoneNumber;
+    private String dob;
     private String bank_account;
+    private String salt;
 }
