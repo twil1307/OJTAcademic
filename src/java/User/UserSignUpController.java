@@ -5,6 +5,7 @@
  */
 package User;
 
+import Security.PasswordEncrypt;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -81,15 +82,9 @@ public class UserSignUpController extends HttpServlet {
         Part part = req.getPart("avatar");
         String avatar;
         
-        User userSignUp = new User(0, username, password, email, city, province, address, name, "donor", null, phoneNumber, dob, bankAccount);
+        User userSignUp = new User(0, username, password, email, city, province, address, name, "donor", null, phoneNumber, dob, bankAccount, null);
         
-//        Check password confirm is true
 
-        if(!password.equals(passwordConfirm)) {
-            req.setAttribute("signUpFailMessage", "Please check the password confirmation again!");
-            req.setAttribute(name, dob);
-            req.getRequestDispatcher("signup.jsp").forward(req, resp);
-        }
 
 //        Check avatar is null or not to store an empty string
         if (part == null) {
@@ -101,28 +96,43 @@ public class UserSignUpController extends HttpServlet {
             if (!Files.exists(Paths.get(realPath))) {
                 Files.createDirectories(Paths.get(realPath));
             }
-
-            System.out.println(realPath + "/" + fileName);
-
             part.write(realPath + "/" + fileName);
-
             avatar = "images/" + fileName;
             
             userSignUp.setAvatar(avatar);
+        }
+        
+        //        Check password confirm is true
+
+        if(!password.equals(passwordConfirm)) {
+            req.setAttribute("signUpFailMessage", "Please check the password confirmation again!");
+            req.setAttribute("userSignUp", userSignUp);
+            req.getRequestDispatcher("signup.jsp").forward(req, resp);
         }
 
 //        Check if username is empty or existed
         if (!username.isEmpty() && userDAO.checkExistedUsername(username) == null) {
             try {
+                
+//                Encrypt password
+                String saltValue = PasswordEncrypt.getSaltvalue(20);
+                String encryptedPassword = PasswordEncrypt.generateSecurePassword(userSignUp.getPassword(), saltValue);
+                userSignUp.setPassword(encryptedPassword);
+                userSignUp.setSalt(saltValue);
+                
+//                Sign up user
                 userDAO.signUpUser(userSignUp);
+                
                 req.setAttribute("signUpSuccessMessage", "Create account successfully");
                 req.getRequestDispatcher("login.jsp").forward(req, resp);
             } catch (Exception e) {
                 req.setAttribute("signUpFailMessage", "Create account failed");
+                req.setAttribute("userSignUp", userSignUp);
                 req.getRequestDispatcher("signup.jsp").forward(req, resp);
             }
         } else {
             req.setAttribute("signUpFailMessage", "Username existed");
+            req.setAttribute("userSignUp", userSignUp);
             req.getRequestDispatcher("signup.jsp").forward(req, resp);
         }
 

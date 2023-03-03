@@ -5,7 +5,6 @@
  */
 package User;
 
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,6 +36,8 @@ public class User {
     private String phoneNumber;
     private String dob;
     private String bank_account;
+    private String salt;
+
     
     
 }

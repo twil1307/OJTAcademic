@@ -5,6 +5,7 @@
  */
 package User;
 
+import Security.PasswordEncrypt;
 import context.DBContext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,8 +26,10 @@ public class UserDAO {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
+                
             
-            String query = "INSERT INTO USER_ACCOUNT (USERNAME, PASSWORD, EMAIL, PHONE_NUMBER, CITY, PROVINCE, ADDRESS, AVATAR, NAME, ROLE, DOB, BANK_ACCOUNT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            
+            String query = "INSERT INTO USER_ACCOUNT (USERNAME, PASSWORD, EMAIL, PHONE_NUMBER, CITY, PROVINCE, ADDRESS, AVATAR, NAME, ROLE, DOB, BANK_ACCOUNT, SALT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             conn = new DBContext().getConnection();
 
             ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -42,6 +45,7 @@ public class UserDAO {
             ps.setString(10, acc.getRole());
             ps.setString(11, acc.getDob());
             ps.setString(12, acc.getBank_account());
+            ps.setString(13, acc.getSalt());
             
             ps.executeUpdate();
 
@@ -53,6 +57,46 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    
+    public User login(String username, String password) {
+        
+        try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+            
+            String query = "SELECT * FROM USER_ACCOUNT WHERE USERNAME=?";
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, username);
+
+            rs = ps.executeQuery();
+
+            User ud = null;
+            while (rs.next()) {
+                ud = (new User(rs.getInt("user_id"), rs.getString("username"), rs.getString("password"), rs.getString("email"), rs.getString("city"),
+                        rs.getString("province"), rs.getString("address"), rs.getString("name"), rs.getString("role"), rs.getString("avatar"), rs.getString("phoneNumber"),  rs.getString("dob"), rs.getString("bank_account"), rs.getString("salt")));
+                
+
+                break;
+
+            }
+
+            if (ud != null) {
+                Boolean status = PasswordEncrypt.verifyUserPassword(password, ud.getPassword(), ud.getSalt());
+                if (status == true) {
+                    ud.setPassword(null);
+                    ud.setSalt(null);
+                    return ud;
+                }
+            }
+
+            return null;
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
     
@@ -97,5 +141,7 @@ public class UserDAO {
         }
         return null;
     }
+
+    
 
 }
