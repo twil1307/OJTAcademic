@@ -39,20 +39,21 @@
 
                         <c:choose>
                             <c:when test="${sessionScope.user !=null}">
-                                <a class="dropdown-item" href="">${sessionScope.user.role}</a>
+                                <a class="dropdown-item" href="">${sessionScope.user.getName()}</a>
 
                                 <c:if test="${sessionScope.user.role=='manager' || sessionScope.user.role=='admin'}">
-                                    <a class="dropdown-item" href="">Manage</a>
+                                    <a class="dropdown-item" href="">Create program</a>
+                                    <a class="dropdown-item" href="">Create news</a>
                                 </c:if>
                                     <c:if test="${sessionScope.user.role=='admin'}">
                                     <a class="dropdown-item" href="">Admin</a>
                                 </c:if>
-                                <a class="dropdown-item" href="">Log out</a>
+                                <a class="dropdown-item" href="logout">Log out</a>
 
                             </c:when>
                             <c:otherwise>
-                                <a class="dropdown-item" href="login.jsp">Log in</a>
-                                <a class="dropdown-item" href="signup.jsp">Sign Up</a>
+                                <a class="dropdown-item" href="login">Log in</a>
+                                <a class="dropdown-item" href="signup">Sign Up</a>
                             </c:otherwise>
                         </c:choose>
                     </div>

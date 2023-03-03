@@ -50,25 +50,17 @@ public class UserLoginController extends HttpServlet {
         //        Kiem tra cookie
         Cookie[] cookie = request.getCookies();
         String username = null;
-        String password = null;
         HttpSession session = request.getSession();
         
         for(Cookie c : cookie) {
             if(c.getName().equals("username")) {
                 username = c.getValue();
-            }
-            
-            if(c.getName().equals("password")) {
-                password = c.getValue();
-            }
-            
-            if (username != null && password != null) {
                 break;
             }
         }
         
-        if (username != null && password != null) {
-            User account = new UserDAO().login(username, password);
+        if (username != null) {
+            User account = new UserDAO().checkExistedUsername(username);
             
             
             
@@ -80,15 +72,11 @@ public class UserLoginController extends HttpServlet {
                 if(urlHistory!=null) {
                     response.sendRedirect(urlHistory);
                 } else {
-                    response.sendRedirect("welcome");
+                    response.sendRedirect("home");
                 }
-                
-
                 return;
             }
         }
-        
-        
         
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }
@@ -125,14 +113,10 @@ public class UserLoginController extends HttpServlet {
                 Cookie usernameCookie = new Cookie("username", username);
                 usernameCookie.setMaxAge(60 * 60 * 24 * 2);
                 response.addCookie(usernameCookie);
-
-                Cookie passwordCookie = new Cookie("password", password);
-                passwordCookie.setMaxAge(60 * 60 * 24 * 2);
-                response.addCookie(passwordCookie);
             }
             if(urlHistory==null) {
-//                response.sendRedirect("home");
-                  request.getRequestDispatcher("index.jsp").forward(request, response);
+                response.sendRedirect("home");
+//                  request.getRequestDispatcher("index.jsp").forward(request, response);
             } else {
                 response.sendRedirect(urlHistory);
             } 

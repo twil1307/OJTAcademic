@@ -76,7 +76,7 @@ public class UserDAO {
             User ud = null;
             while (rs.next()) {
                 ud = (new User(rs.getInt("user_id"), rs.getString("username"), rs.getString("password"), rs.getString("email"), rs.getString("city"),
-                        rs.getString("province"), rs.getString("address"), rs.getString("name"), rs.getString("role"), rs.getString("avatar"), rs.getString("phoneNumber"),  rs.getString("dob"), rs.getString("bank_account"), rs.getString("salt")));
+                        rs.getString("province"), rs.getString("address"), rs.getString("name"), rs.getString("role"), rs.getString("avatar"), rs.getString("phone_number"),  rs.getString("dob"), rs.getString("bank_account"), rs.getString("salt")));
                 
 
                 break;
@@ -121,18 +121,21 @@ public class UserDAO {
                 userAcc = User.builder()
                         .user_id(rs.getInt("user_id"))
                         .username(rs.getString("username"))
-                        .password(rs.getString("password"))
+                        .password(null)
                         .email(rs.getString("email"))
+                        .phoneNumber(rs.getString("phone_number"))
                         .city(rs.getString("city"))
                         .province(rs.getString("province"))
                         .address(rs.getString("address"))
                         .avatar(rs.getString("avatar"))
-                        .name(rs.getString("avatar"))
-                        .phoneNumber(rs.getString("phone_number"))
+                        .name(rs.getString("name"))
+                        .role(rs.getString("role"))
                         .dob(rs.getString("dob"))
-                        .bank_account(rs.getString("bank_account")).build();
-                return userAcc;
+                        .bank_account(rs.getString("bank_account"))
+                        .salt(null).build();
+                
             }
+            return userAcc;
 
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
