@@ -12,85 +12,49 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author toten
- */
 @WebServlet(name = "ProgramController", urlPatterns = {"/program"})
 public class ProgramController extends HttpServlet {
-    
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-       
-    }
 
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param req
-     * @param resp
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp); //To change body of generated methods, choose Tools | Templates.
+        
+        System.out.println(req);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param req
-     * @param resp
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp); //To change body of generated methods, choose Tools | Templates.
+        String action = req.getParameter("action");
+        
+        switch(action) {
+            case "register": 
+                handleRegisterProgram(req);
+            default: 
+                
+        }
     }
     
-    
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param req
-     * @param resp
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doPut(req, resp); //To change body of generated methods, choose Tools | Templates.
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param req
-     * @param resp
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doDelete(req, resp); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    private void handleRegisterProgram(HttpServletRequest req) {
+        String programName = req.getParameter("programName");
+        String shortDes = req.getParameter("shortDes");
+        String detailDes = req.getParameter("detailDes");
+        double goalAmount = Double.parseDouble(req.getParameter("goalAmount"));
+//        String programName = req.getParameter("startDate");
+//        String programName = req.getParameter("endDate");
+//        String programName = req.getParameter("city");
+//        String programName = req.getParameter("province");        
+//        String programName = req.getParameter("address");
+//        String programName = req.getParameter("scheStartDate");        
+//        String programName = req.getParameter("scheEndDate");
+
     }
 }

@@ -37,7 +37,4 @@ public class User {
     private String dob;
     private String bank_account;
     private String salt;
-
-    
-    
 }
