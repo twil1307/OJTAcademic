@@ -11,4 +11,7 @@ package Program;
  */
 public class ProgramDAO {
     
+    public void addProgram(Program program) {
+        
+    }
 }

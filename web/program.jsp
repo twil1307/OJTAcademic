@@ -10,7 +10,7 @@
     <body>
        <%@include file="/includes/navbar.jsp"%>
        <main>
-            <form method="POST" action="/OJT_Mock/program?action=register" id="form" class="container">
+            <form method="POST" action="/OJT_Mock/program?action=register" id="form" class="container"  enctype="multipart/form-data">
                <div class="form-group">
                    <label for="programName">Program Name</label>
                     <input 
@@ -47,7 +47,6 @@
                         style="height: 140px; min-height: 36px"
                         name="detailDescription"
                         required
-                    >
                     ></textarea>
                </div>
                <div class="form-group">
@@ -128,32 +127,70 @@
                 </div>
                 <div class="form-row mb-3">
                      <div class="col">
-                         <label for="scheduleStartDate">Schedule Start Date</label>
+                         <label for="scheStartDate">Schedule Start Date</label>
                          <input 
                              type="date" 
                              class="form-control" 
                              id="scheduleStartDate"
-                             aria-describedby="scheduleStartDate" 
+                             aria-describedby="scheStartDate" 
                              placeholder="Enter Start Date"
-                             name="scheduleStartDate"
+                             name="scheStartDate"
                              required
                          >
                      </div>
                      <div class="col">
-                         <label for="scheduleEndDate">Schedule End Date</label>
+                         <label for="scheEndDate">Schedule End Date</label>
                          <input 
                              type="date" 
                              class="form-control" 
                              id="endDate"
-                             aria-describedby="scheduleEndDate" 
+                             aria-describedby="scheEndDate" 
                              placeholder="Enter End Date"
-                             name="scheduleEndDate"
+                             name="scheEndDate"
                              required
                          >
                      </div>
                  </div>
+                <div class="form-group">
+                    <label for="programImgs">Program Images</label>
+                     <input 
+                        type="file" 
+                        class="form-control-file" 
+                        id="programImgs"
+                        aria-describedby="programImgs" 
+                        placeholder="Add Program's Images"
+                        name="programImgs"
+                        accept="image/*"
+                        multiple
+                        required
+                     >
+                </div>
+                <div id="image-preview-section" class="row">
+                    
+                </div>
                <button class="mt-5 btn btn-primary container-fluid">Submit</button>
            </form>
        </main>
     </body>
+    <script>
+        const programImgInputEl = document.getElementById("programImgs");
+        const imagePreviewSectionEl = document.getElementById("image-preview-section");
+        
+        programImgInputEl.onchange = (e) => {
+            const { files } = e.target;
+            
+            for ( const file of files ) {
+                const objectUrl = URL.createObjectURL(file);
+                
+                const imagePreviewEl = document.createElement("img");
+
+                imagePreviewEl.classList.add('col-sm-12', 'col-md-6', 'col-lg-4', 'image-preview');
+                imagePreviewEl.src = objectUrl;
+                
+                imagePreviewSectionEl.append(imagePreviewEl);
+            }  
+        }
+        
+        
+    </script>
 </html>

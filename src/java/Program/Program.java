@@ -34,5 +34,5 @@ public class Program {
     private Date scheStartDate;
     private Date scheEndDate;
     private int userId;
-    private List<String> programImg;
+    private List<String> programImgs;
 }

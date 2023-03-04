@@ -23,3 +23,16 @@ label {
 .mt-10 {
     margin-top: 10rem
 }
+
+
+input[type="file"] {
+    position: initial;
+    z-index: 0;
+    top: initial;
+    left: initial
+}
+
+.image-preview {
+    object-fit: cover;
+    object-position: center
+}
