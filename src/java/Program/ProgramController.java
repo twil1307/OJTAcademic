@@ -5,12 +5,9 @@
  */
 package Program;
 
+import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -61,20 +58,23 @@ public class ProgramController extends HttpServlet {
         String shortDes = req.getParameter("shortDes");
         String detailDes = req.getParameter("detailDes");
         double goalAmount = Double.parseDouble(req.getParameter("goalAmount"));
-        Date startDate = parseStringToDate(req.getParameter("startDate"));
-        Date endDate = parseStringToDate(req.getParameter("endDate"));
+        String startDate = req.getParameter("startDate");
+        String endDate = req.getParameter("endDate");
         String city = req.getParameter("city");
         String province = req.getParameter("province");        
         String address = req.getParameter("address");
-        Date scheStartDate = parseStringToDate(req.getParameter("scheStartDate"));        
-        Date scheEndDate = parseStringToDate(req.getParameter("scheEndDate"));
-        List<String> programImgs = new ArrayList();
+        String scheStartDate = req.getParameter("scheStartDate");        
+        String scheEndDate = req.getParameter("scheEndDate");
+        List<ProgramImage> programImgs = new ArrayList();
         List<Part> programImgParts = new ArrayList();
         
+        String imageUploadPath = req.getServletContext().getRealPath("/img");
         try {
             for (Part part : req.getParts()) {
                 if (part.getName().equals("programImgs")) {
-                    programImgs.add(part.getName());
+                    String fileName = imageUploadPath + File.separator + programName + part.getSubmittedFileName();
+                    ProgramImage programImage = new ProgramImage(0, fileName, 0);
+                    programImgs.add(programImage);
                     programImgParts.add(part);
                 }
             }
@@ -88,19 +88,7 @@ public class ProgramController extends HttpServlet {
                 scheStartDate, scheEndDate, 0, programImgs
         );
         
-        // TODO: insert data into database
-
-        String imageUploadPath = req.getServletContext().getRealPath("/img");
         service.registerProgram(newProgram, programImgParts, imageUploadPath);
     }
-    
-    private Date parseStringToDate(String source) {
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            Date result = df.parse(source);
-            return result;
-        } catch(ParseException e) {
-            return null;
-        }
-    }
+
 }

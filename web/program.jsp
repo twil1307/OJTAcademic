@@ -31,7 +31,7 @@
                         id="detailDescription"
                         aria-describedby="detailDescription" 
                         placeholder="Enter Short Description"
-                        name="detailDescription"
+                        name="shortDes"
                         required
                     >
                     >
@@ -45,7 +45,7 @@
                         aria-describedby="detailDescription" 
                         placeholder="Enter Detail Description"
                         style="height: 140px; min-height: 36px"
-                        name="detailDescription"
+                        name="detailDes"
                         required
                     ></textarea>
                </div>

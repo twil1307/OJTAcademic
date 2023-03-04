@@ -17,7 +17,7 @@ public class ProgramService {
     private ProgramDAO dao = new ProgramDAO();
     
     public void registerProgram(Program program, List<Part> programImageParts, String path) {
-//        dao.addProgram(program);
+        dao.addProgram(program);
 
         FileUploader.uploadImages(programImageParts, program.getProgramName(), path);
     }
