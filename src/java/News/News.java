@@ -24,6 +24,7 @@ public class News {
     private int newsId;
     private String newsTitle;
     private String newsDes;
+    private String shortDes;
     private Date postedDate;
     private int userId;
     private List<String> imgsPath;

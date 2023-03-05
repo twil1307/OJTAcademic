@@ -54,3 +54,10 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.char-count {
+    display: flex; 
+    justify-content: flex-end;
+    align-content: end;
+    color: white;
+}

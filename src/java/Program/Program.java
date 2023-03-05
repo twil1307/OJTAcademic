@@ -26,13 +26,13 @@ public class Program {
     private String shortDes;
     private String detailDes;
     private double goalAmount;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
     private String city;
     private String province;
     private String address;
-    private Date scheStartDate;
-    private Date scheEndDate;
+    private String scheStartDate;
+    private String scheEndDate;
     private int userId;
-    private List<String> programImg;
+    private List<ProgramImage> programImgs;
 }
