@@ -60,7 +60,7 @@ public class UserLoginController extends HttpServlet {
         }
         
         if (username != null) {
-            User account = new UserDAO().checkExistedUsername(username);
+            Account account = new UserDAO().checkExistedUsername(username);
             
             
             
@@ -102,7 +102,7 @@ public class UserLoginController extends HttpServlet {
         String password = request.getParameter("password");
         String remember = request.getParameter("remember");
 
-            User user = new UserDAO().login(username, password);
+            Account user = new UserDAO().login(username, password);
 
 //        Kiem tra username, pass, neu hop le thi luu len session, khong thi tra ve loi
         if (user != null) {
@@ -113,13 +113,15 @@ public class UserLoginController extends HttpServlet {
                 Cookie usernameCookie = new Cookie("username", username);
                 usernameCookie.setMaxAge(60 * 60 * 24 * 2);
                 response.addCookie(usernameCookie);
-            }
-            if(urlHistory==null) {
+            }  
+                
+             if(urlHistory==null) {
                 response.sendRedirect("home");
 //                  request.getRequestDispatcher("index.jsp").forward(request, response);
             } else {
                 response.sendRedirect(urlHistory);
             } 
+            
             
         } else {
             request.setAttribute("error", "Username or password is incorrect");

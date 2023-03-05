@@ -6,6 +6,7 @@
 package News;
 
 import java.util.Date;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,4 +26,5 @@ public class News {
     private String newsDes;
     private Date postedDate;
     private int userId;
+    private List<String> imgsPath;
 }

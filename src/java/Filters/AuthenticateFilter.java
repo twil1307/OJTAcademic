@@ -5,7 +5,7 @@
  */
 package Filters;
 
-import User.User;
+import User.Account;
 import User.UserDAO;
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -17,7 +17,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -57,7 +56,7 @@ public class AuthenticateFilter implements Filter {
         }
 
         if (username != null) {
-            User user = new UserDAO().checkExistedUsername(username);
+            Account user = new UserDAO().checkExistedUsername(username);
 
             session = httpRequest.getSession(true); // create a new session
             session.setAttribute("user", user);

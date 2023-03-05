@@ -10,7 +10,7 @@
     <body>
         <%@include file="/includes/navbar.jsp"%>
         <main>
-            <form method="POST" action="/OJT_Mock/program?action=register" id="form" class="container">
+            <form method="POST" action="/OJT_Mock/news-create" id="form" class="container">
                 <div class="form-group">
                     <label for="programName">Program Name</label>
                     <input 

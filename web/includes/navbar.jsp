@@ -41,11 +41,11 @@
                             <c:when test="${sessionScope.user !=null}">
                                 <a class="dropdown-item" href="">${sessionScope.user.getName()}</a>
 
-                                <c:if test="${sessionScope.user.role=='manager' || sessionScope.user.role=='admin'}">
+                                <c:if test="${sessionScope.user.role=='2' || sessionScope.user.role=='1'}">
                                     <a class="dropdown-item" href="">Create program</a>
-                                    <a class="dropdown-item" href="">Create news</a>
+                                    <a class="dropdown-item" href="/OJT_Mock/news-create">Create news</a>
                                 </c:if>
-                                    <c:if test="${sessionScope.user.role=='admin'}">
+                                    <c:if test="${sessionScope.user.role=='1'}">
                                     <a class="dropdown-item" href="">Admin</a>
                                 </c:if>
                                 <a class="dropdown-item" href="logout">Log out</a>

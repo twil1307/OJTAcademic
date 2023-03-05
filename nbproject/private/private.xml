@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ADMIN/OneDrive/Documents/NetBeansProjects/OJTAcademic/src/java/Program/Program.java</file>
-            <file>file:/C:/Users/ADMIN/OneDrive/Documents/NetBeansProjects/OJTAcademic/web/css/program.css</file>
-            <file>file:/C:/Users/ADMIN/OneDrive/Documents/NetBeansProjects/OJTAcademic/src/java/Program/ProgramController.java</file>
-            <file>file:/C:/Users/ADMIN/OneDrive/Documents/NetBeansProjects/OJTAcademic/web/program.jsp</file>
-            <file>file:/C:/Users/ADMIN/OneDrive/Documents/NetBeansProjects/OJTAcademic/web/index.jsp</file>
-            <file>file:/C:/Users/ADMIN/OneDrive/Documents/NetBeansProjects/OJTAcademic/web/includes/header.jsp</file>
-            <file>file:/C:/Users/ADMIN/OneDrive/Documents/NetBeansProjects/OJTAcademic/web/schedule.jsp</file>
+            <file>file:/D:/java_web/OJTmoc/web/program.jsp</file>
+            <file>file:/D:/java_web/OJTmoc/web/WEB-INF/web.xml</file>
+            <file>file:/D:/java_web/OJTmoc/web/contact.jsp</file>
+            <file>file:/D:/java_web/OJTmoc/src/java/Program/ProgramController.java</file>
         </group>
     </open-files>
 </project-private>

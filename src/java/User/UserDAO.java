@@ -21,35 +21,29 @@ import java.util.logging.Logger;
  */
 public class UserDAO {
 
-    public void signUpUser(User acc) {
+    public int signUpAccount(Account acc) {
         try {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
-                
-            
-            
-            String query = "INSERT INTO USER_ACCOUNT (USERNAME, PASSWORD, EMAIL, PHONE_NUMBER, CITY, PROVINCE, ADDRESS, AVATAR, NAME, ROLE, DOB, BANK_ACCOUNT, SALT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            String query = "INSERT INTO ACCOUNT (USERNAME, PASSWORD, ROLE_ID, SALT) VALUES (?, ?, ?, ?)";
+
             conn = new DBContext().getConnection();
 
             ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1,  acc.getUsername());
+            ps.setString(1, acc.getUsername());
             ps.setString(2, acc.getPassword());
-            ps.setString(3, acc.getEmail());
-            ps.setString(4, acc.getPhoneNumber());
-            ps.setString(5, acc.getCity());
-            ps.setString(6, acc.getProvince());
-            ps.setString(7, acc.getAddress());
-            ps.setString(8, acc.getAvatar());
-            ps.setString(9, acc.getName());
-            ps.setString(10, acc.getRole());
-            ps.setString(11, acc.getDob());
-            ps.setString(12, acc.getBank_account());
-            ps.setString(13, acc.getSalt());
-            
+            ps.setInt(3, acc.getRole());
+            ps.setString(4, acc.getSalt());
+
             ps.executeUpdate();
 
-//            rs = ps.getGeneratedKeys();
+            rs = ps.getGeneratedKeys();
+
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
 
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -57,27 +51,58 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        return 0;
     }
-    
-    public User login(String username, String password) {
-        
+
+    public void signUpDonor(Donor donor) {
         try {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
-            
-            String query = "SELECT * FROM USER_ACCOUNT WHERE USERNAME=?";
+
+            String query = "INSERT INTO DONOR (ACCOUNT_ID, EMAIL, PHONE_NUMBER, CITY, PROVINCE, ADDRESS, AVATAR, NAME, DOB, BANK_ACCOUNT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, donor.getAccountId());
+            ps.setString(2, donor.getEmail());
+            ps.setString(3, donor.getPhoneNumber());
+            ps.setString(4, donor.getCity());
+            ps.setString(5, donor.getProvince());
+            ps.setString(6, donor.getAddress());
+            ps.setString(7, donor.getAvatar());
+            ps.setString(8, donor.getName());
+            ps.setString(9, donor.getDob());
+            ps.setString(10, donor.getBank_account());
+
+            ps.executeUpdate();
+
+//            rs = ps.getGeneratedKeys();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public Account login(String username, String password) {
+
+        try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+
+            String query = "select acc.username, acc.password, acc.role_id, acc.salt, don.* from donor as don, account as acc where acc.account_id=don.account_id and username=?";
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, username);
 
             rs = ps.executeQuery();
 
-            User ud = null;
+            Account ud = null;
             while (rs.next()) {
-                ud = (new User(rs.getInt("user_id"), rs.getString("username"), rs.getString("password"), rs.getString("email"), rs.getString("city"),
-                        rs.getString("province"), rs.getString("address"), rs.getString("name"), rs.getString("role"), rs.getString("avatar"), rs.getString("phone_number"),  rs.getString("dob"), rs.getString("bank_account"), rs.getString("salt")));
-                
+                ud = (new Donor(rs.getInt("account_id"), rs.getString("username"), rs.getString("password"), rs.getInt("role_id"), rs.getString("salt"),
+                        rs.getInt("donor_id"), rs.getString("email"), rs.getString("city"), rs.getString("province"), rs.getString("address"), rs.getString("name"), rs.getString("avatar"), rs.getString("phone_number"), rs.getString("dob"), rs.getString("bank_account")));
 
                 break;
 
@@ -98,16 +123,15 @@ public class UserDAO {
         }
         return null;
     }
-    
-    
+
 //    Check if user is existed or not function
-    public User checkExistedUsername(String username) {
+    public Account checkExistedUsername(String username) {
         try {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
 
-            String query = "SELECT * FROM USER_ACCOUNT WHERE USERNAME=?";
+            String query = "select acc.username, acc.password, acc.role_id, acc.salt, don.* from donor as don, account as acc where acc.account_id=don.account_id and username=?";
 
             conn = new DBContext().getConnection();
 
@@ -116,26 +140,20 @@ public class UserDAO {
 
             rs = ps.executeQuery();
 
-            User userAcc = null;
+            Account userAcc = null;
             while (rs.next()) {
-                userAcc = User.builder()
-                        .user_id(rs.getInt("user_id"))
-                        .username(rs.getString("username"))
-                        .password(null)
-                        .email(rs.getString("email"))
-                        .phoneNumber(rs.getString("phone_number"))
-                        .city(rs.getString("city"))
-                        .province(rs.getString("province"))
-                        .address(rs.getString("address"))
-                        .avatar(rs.getString("avatar"))
-                        .name(rs.getString("name"))
-                        .role(rs.getString("role"))
-                        .dob(rs.getString("dob"))
-                        .bank_account(rs.getString("bank_account"))
-                        .salt(null).build();
-                
+                userAcc = (new Donor(rs.getInt("account_id"), rs.getString("username"), rs.getString("password"), rs.getInt("role_id"), rs.getString("salt"),
+                        rs.getInt("donor_id"), rs.getString("email"), rs.getString("city"), rs.getString("province"), rs.getString("address"), rs.getString("name"), rs.getString("avatar"), rs.getString("phone_number"), rs.getString("dob"), rs.getString("bank_account")));
+
             }
-            return userAcc;
+
+            if (userAcc != null) {
+                userAcc.setPassword(null);
+                userAcc.setSalt(null);
+                return userAcc;
+
+            }
+
 
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -143,5 +161,10 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    public static void main(String[] args) {
+        UserDAO userDAO = new UserDAO();
+        userDAO.login("user", "123456");
     }
 }
