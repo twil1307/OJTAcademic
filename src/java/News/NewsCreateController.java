@@ -5,19 +5,34 @@
  */
 package News;
 
+import Program.ProgramImage;
+import User.Account;
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 /**
  *
  * @author toten
  */
 @WebServlet(name = "NewsCreateController", urlPatterns = {"/news-create"})
+@MultipartConfig(
+    fileSizeThreshold = 1024 * 1024 * 10, // 10 MB
+    maxFileSize = 1024 * 1024 * 50, // 50 MB
+    maxRequestSize = 1024 * 1024 * 100 // 100 MB
+)
 public class NewsCreateController extends HttpServlet {
+    
+    private final NewsService service = new NewsService();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -60,7 +75,34 @@ public class NewsCreateController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp); //To change body of generated methods, choose Tools | Templates.
+        HttpSession session = req.getSession(false);
+        
+        String newsTitle = req.getParameter("newsTitle");
+        String shortDes = req.getParameter("shortDes");
+        String newsDes = req.getParameter("newsDes");
+        List<String> newsImgs = new ArrayList();
+        List<Part> newsParts = new ArrayList();
+        Account account = (Account) session.getAttribute("user");
+        
+//        String titleFormat = newsTitle.trim().replaceAll("\\s+", " ");
+        
+        String imageUploadPath = req.getServletContext().getRealPath("/img");
+        try {
+            for (Part part : req.getParts()) {
+                if (part.getName().equals("newsImgs")) {
+                    String fileName = imageUploadPath + File.separator + newsTitle + part.getSubmittedFileName();
+                    newsImgs.add(fileName);
+                    newsParts.add(part);
+                }
+            }
+        } catch(IOException | ServletException e) {
+            throw new Error("Input images not found");                                                                                      
+        }
+        
+        News news = new News(0, newsTitle, newsDes, shortDes, null, account.getAccountId(), newsImgs);
+        
+        service.createNews(news, newsParts, imageUploadPath);
+        
     }
 
     /**

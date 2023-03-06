@@ -23,7 +23,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="detailDescription">Detail Description</label>
-                                <textarea type="text" class="form-control" id="detailDescription" aria-describedby="detailDescription" placeholder="Enter Detail Description" style="height: 140px; min-height: 36px" name="detailDes" required></textarea>
+                                    <textarea type="text" class="form-control" id="detailDescription" aria-describedby="detailDescription" placeholder="Enter Detail Description" style="height: 140px; min-height: 36px" name="detailDes" required></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="goalAmount">Goal Amount</label>

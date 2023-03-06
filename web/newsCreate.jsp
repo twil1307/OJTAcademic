@@ -10,7 +10,7 @@
     <body>
         <%@include file="/includes/navbar.jsp"%>
         <main>
-            <form method="POST" action="/OJT_Mock/program?action=register" id="form" class="container" enctype="multipart/form-data">
+            <form method="POST" action="/OJT_Mock/news-create?action=register" id="form" class="container" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="newsTitle">News Title</label>
                     <input type="text" class="form-control form-control-lg" id="newsTitle" aria-describedby="newsTitle" name="newsTitle" placeholder="Enter News Title" required>
@@ -26,8 +26,8 @@
                     <div class="char-count"><span id="charCountDetail">0</span>/4000</div>
                 </div>
                 <div class="form-group">
-                    <label for="programImgs">Program Images</label>
-                    <input type="file" class="form-control-file" id="programImgs" aria-describedby="programImgs" placeholder="Add Program's Images" name="programImgs" accept="image/*" multiple required>
+                    <label for="newsImgs">Program Images</label>
+                    <input type="file" class="form-control-file" id="newsImgs" aria-describedby="newsImgs" placeholder="Add News' Images" name="newsImgs" accept="image/*" multiple required>
                 </div>
                 <div id="image-preview-section" class="row">
 
@@ -39,7 +39,7 @@
 
     </body>
     <script>
-        const programImgInputEl = document.getElementById("programImgs");
+        const programImgInputEl = document.getElementById("newsImgs");
         const imagePreviewSectionEl = document.getElementById("image-preview-section");
 
         programImgInputEl.onchange = (e) => {

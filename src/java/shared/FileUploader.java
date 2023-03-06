@@ -7,6 +7,7 @@ package shared;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,5 +35,30 @@ public class FileUploader {
                 Logger.getLogger(FileUploader.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+    }
+    
+    public static List<String> uploadImagesReturnList(List<Part> imageParts, String subName, String path) {
+        List<String> listImgsPath = new ArrayList<>();
+        
+        imageParts.stream().forEach(part -> {
+            String fileName;
+            
+            if (subName != null) {
+                fileName = path + File.separator + subName + part.getSubmittedFileName();
+            } else {
+                fileName = path + File.separator + part.getSubmittedFileName();
+            }
+            
+            System.out.println(fileName);
+            
+            listImgsPath.add(fileName);
+            
+            try {
+                part.write(fileName);
+            } catch (IOException ex) {
+                Logger.getLogger(FileUploader.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        return listImgsPath;
     }
 }
