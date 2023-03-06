@@ -19,6 +19,9 @@ public class ProgramService {
     public void registerProgram(Program program, List<Part> programImageParts, String path) {
         dao.addProgram(program);
 
-        FileUploader.uploadImages(programImageParts, program.getProgramName(), path);
+        List<String> imgList = FileUploader.uploadImages(programImageParts, program.getProgramName(), path, "img");
+    
+       
+        System.out.println(imgList.get(0));
     }
 }

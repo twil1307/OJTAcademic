@@ -39,7 +39,7 @@ public class ProgramController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
+        req.getRequestDispatcher("program.jsp").forward(req, resp);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class ProgramController extends HttpServlet {
         List<LocalDate> datesBetweenSche = getDatesBetween(localScheStartDate, localScheEndDate);
         
         
-        String imageUploadPath = req.getServletContext().getRealPath("/img");
+        String imageUploadPath = req.getServletContext().getRealPath("");
 
         try {
             for (Part part : req.getParts()) {
@@ -95,7 +95,7 @@ public class ProgramController extends HttpServlet {
                 }
             }
         } catch(IOException | ServletException e) {
-            throw new Error("Input images not found");
+            throw new Error("Input images not found");                                                                                      
         }
         
         Program newProgram = new Program(

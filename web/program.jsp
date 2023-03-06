@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<<<<<<< HEAD
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -196,31 +197,7 @@
         }
         
         console.log(startDateEl, endDateEl, scheStartDateEl, scheEndDateEl);
-        
-//        const onDateChange = (startEl, endEl) => {
-//            
-//            return function() {
-//                const startDateValue = startEl.value;
-//                const endDateValue = endEl.value;
-//
-//                if (!startDateValue || !endDateValue) {
-//                    return;
-//                }
-//
-//                const startDate = new Date(startDateValue).toLocaleDateString();
-//                const endDate = new Date(endDateValue).toLocaleDateString();
-//                const compareStartDateToEndDate = startDate.localeCompare(endDate);
-//
-//                if (compareStartDateToEndDate > 0 || compareStartDateToEndDate === 0) {
-//                    startEl.value = '';
-//                } 
-//            }
-//        }
-//        
-//        startDateEl.onchange = onDateChange(startDateEl, endDateEl);
-//        endDateEl.onchange = onDateChange(startDateEl, endDateEl);
-//        scheEndDateEl.onchange = onDateChange(scheStartDateEl, scheEndDateEl);
-//        scheStartDateEl.onchange = onDateChange(scheStartDateEl, scheEndDateEl);
+
         
     </script>
 </html>
