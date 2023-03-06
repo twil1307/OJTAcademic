@@ -1,0 +1,44 @@
+.char-count {
+    display: flex; 
+    justify-content: flex-end;
+    align-content: end;
+    color: white;
+}
+
+main {
+    background: url("../img/carousel-2.jpg")   no-repeat;
+    background-size: cover;
+    background-color: grey;
+    background-blend-mode: multiply;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+#form {
+    margin-top: 10rem;
+    padding: 2em;
+    border-radius: 0.4em;
+}
+
+label {
+    color: white;
+    font-weight: 600; 
+}
+
+.mt-10 {
+    margin-top: 10rem
+}
+
+
+input[type="file"] {
+    position: initial;
+    z-index: 0;
+    top: initial;
+    left: initial
+}
+
+.image-preview {
+    object-fit: cover;
+    object-position: center
+}
