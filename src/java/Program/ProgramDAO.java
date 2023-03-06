@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Program;
 
 import Image.ImageDAO;
+import Program.Program.Destination;
 import User.UserDAO;
 import context.DBContext;
 import java.sql.Connection;
@@ -22,16 +18,16 @@ import java.util.logging.Logger;
  */
 public class ProgramDAO {    
     
-    public void addProgram(Program program) { 
+    public void addProgram(Program program)  { 
+        Connection conn;
+        PreparedStatement ps;
+        ResultSet rs;
+        
         try {
             ImageDAO imageDao = new ImageDAO();
-            Connection conn;
-            PreparedStatement ps;
-            ResultSet rs;
+
             int generatedKey;
-                
-            
-            
+
             String query = "insert into program(program_name, program_short_des,program_detail_des,goal_amount,start_date,end_date,sche_start_date,sche_end_date,account_id) values(?,?,?,?,?,?,?,?,?)";
             conn = new DBContext().getConnection();
 
@@ -59,11 +55,22 @@ public class ProgramDAO {
                 imageDao.addImage(programImg, "program_img");
             });
             
+            // insert destination into db
+            Destination des = program.getDestination();
+            query = "insert into destination(program_id, city, province, address) values(?, ?, ?, ?)";
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, generatedKey);
+            ps.setString(2, des.getCity());
+            ps.setString(3, des.getProvince());
+            ps.setString(4, des.getAddress());
             
-        } catch (SQLException ex) {
+            ps.executeUpdate();
+            
+            // close connection after execute query
+            ps.close();
+            conn.close();
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
     }
 }

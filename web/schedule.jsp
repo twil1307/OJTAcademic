@@ -29,6 +29,9 @@
                     <label for="exampleFormControlFile1">Example file input</label>
                     <input type="file" class="form-control-file" id="exampleFormControlFile1">
                 </div>
+                <p style="white-space: pre;">
+                    ${detailDes}
+                </p>
                 <div>
                     <!-- TOBE: Showing image after upload -->
                 </div>
