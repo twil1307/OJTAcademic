@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <!DOCTYPE html>
         <html>
         <%@include file="/includes/header.jsp"%>
@@ -19,11 +19,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="shortDescription">Short Description</label>
-                                <input type="text" class="form-control" id="detailDescription" aria-describedby="detailDescription" placeholder="Enter Short Description" name="shortDes" required> >
+                                <input type="text" class="form-control" id="shortDescription" aria-describedby="shortDescription" placeholder="Enter Short Description" name="shortDes" required> >
                             </div>
                             <div class="form-group">
                                 <label for="detailDescription">Detail Description</label>
-                                    <textarea type="text" class="form-control" id="detailDescription" aria-describedby="detailDescription" placeholder="Enter Detail Description" style="height: 140px; min-height: 36px" name="detailDes" required></textarea>
+                                <textarea type="text" class="form-control" id="detailDescription" aria-describedby="detailDescription" placeholder="Enter Detail Description" style="height: 140px; min-height: 36px" name="detailDes" required></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="goalAmount">Goal Amount</label>
@@ -32,7 +32,7 @@
                             <div class="form-row mb-3">
                                 <div class="col">
                                     <label for="startDate">Start Date</label>
-                                    <input type="date" class="form-control" id="goalAmount" aria-describedby="startDate" placeholder="Enter Start Date" name="startDate" required>
+                                    <input type="date" class="form-control" id="startDate" aria-describedby="startDate" placeholder="Enter Start Date" name="startDate" required>
                                 </div>
                                 <div class="col">
                                     <label for="endDate">End Date</label>
@@ -56,11 +56,11 @@
                             <div class="form-row mb-3">
                                 <div class="col">
                                     <label for="scheStartDate">Schedule Start Date</label>
-                                    <input type="date" class="form-control" id="scheduleStartDate" aria-describedby="scheStartDate" placeholder="Enter Start Date" name="scheStartDate" required>
+                                    <input type="date" class="form-control" id="scheStartDate" aria-describedby="scheStartDate" placeholder="Enter Start Date" name="scheStartDate" required>
                                 </div>
                                 <div class="col">
                                     <label for="scheEndDate">Schedule End Date</label>
-                                    <input type="date" class="form-control" id="endDate" aria-describedby="scheEndDate" placeholder="Enter End Date" name="scheEndDate" required>
+                                    <input type="date" class="form-control" id="scheEndDate" aria-describedby="scheEndDate" placeholder="Enter End Date" name="scheEndDate" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -77,6 +77,10 @@
             <script>
                 const programImgInputEl = document.getElementById("programImgs");
                 const imagePreviewSectionEl = document.getElementById("image-preview-section");
+                const startDateEl = document.getElementById("startDate");
+                const endDateEl = document.getElementById("endDate");
+                const scheStartDateEl = document.getElementById("scheStartDate");
+                const scheEndDateEl = document.getElementById("scheEndDate");
 
                 programImgInputEl.onchange = (e) => {
                     const {
@@ -94,6 +98,33 @@
                         imagePreviewSectionEl.append(imagePreviewEl);
                     }
                 }
+
+                console.log(startDateEl, endDateEl, scheStartDateEl, scheEndDateEl);
+
+                const onDateChange = (startEl, endEl) => {
+
+                    return function() {
+                        const startDateValue = startEl.value;
+                        const endDateValue = endEl.value;
+
+                        if (!startDateValue || !endDateValue) {
+                            return;
+                        }
+
+                        const startDate = new Date(startDateValue).toLocaleDateString();
+                        const endDate = new Date(endDateValue).toLocaleDateString();
+                        const compareStartDateToEndDate = startDate.localeCompare(endDate);
+
+                        if (compareStartDateToEndDate > 0 || compareStartDateToEndDate === 0) {
+                            startEl.value = '';
+                        }
+                    }
+                }
+
+                startDateEl.onchange = onDateChange(startDateEl, endDateEl);
+                endDateEl.onchange = onDateChange(startDateEl, endDateEl);
+                scheEndDateEl.onchange = onDateChange(scheStartDateEl, scheEndDateEl);
+                scheStartDateEl.onchange = onDateChange(scheStartDateEl, scheEndDateEl);
             </script>
 
         </html>

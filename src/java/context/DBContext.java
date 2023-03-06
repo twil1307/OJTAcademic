@@ -9,10 +9,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 /**
  *
@@ -53,7 +56,7 @@ public class DBContext {
     public static void main(String[] args) {
         try {
             Connection connection = new DBContext().getConnection();
-
+            
             if (connection != null) {
                 System.out.println("Connect successfully to dtb");
             } else {
