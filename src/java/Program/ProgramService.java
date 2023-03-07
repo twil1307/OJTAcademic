@@ -19,7 +19,7 @@ public class ProgramService {
     public int registerProgram(Program program, List<Part> programImageParts, String path) {
         int programId = dao.addProgram(program);
 
-        List<String> imgList = FileUploader.uploadImages(programImageParts, program.getProgramName(), path, "img");
+        List<String> imgList = FileUploader.uploadImages(programImageParts, program.getProgramName(), path);
 
         return programId;
     }

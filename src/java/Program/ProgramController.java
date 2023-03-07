@@ -16,8 +16,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javax.servlet.ServletException;
@@ -35,7 +33,7 @@ import javax.servlet.http.Part;
     maxRequestSize = 1024 * 1024 * 100 // 100 MB
 )
 public class ProgramController extends HttpServlet {
-    private ProgramService service = new ProgramService();
+    private final ProgramService service = new ProgramService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

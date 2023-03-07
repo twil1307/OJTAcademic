@@ -6,6 +6,7 @@
 package Image;
 
 import Program.ProgramImage;
+import Schedule.ScheduleImage;
 import User.UserDAO;
 import context.DBContext;
 import java.sql.Connection;
@@ -22,8 +23,13 @@ import java.util.logging.Logger;
 public class ImageDAO {
     
     public void addImage(List<? extends Image> images, String tableName) {
-        if (tableName.equals("program_img")) {
-            addProgramImage((List<ProgramImage>) images);
+    
+        switch(tableName) {
+            case "program_img": 
+                addProgramImage((List<ProgramImage>) images);
+                break;
+            case "schedule_img":
+                addScheduleImage((List<ScheduleImage>) images);
         }
     }
     
@@ -37,6 +43,30 @@ public class ImageDAO {
 
             for (ProgramImage image : images) {
                 ps.setInt(1, image.getProgramId());
+                ps.setString(2, image.getPath());
+                ps.addBatch();
+            }
+            
+            ps.executeBatch();
+            ps.close();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void addScheduleImage(List<ScheduleImage> images) {
+        try {
+            String sql = "insert into schedule_img(schedule_id, schedule_img_path) values(?, ?)";
+            Connection conn = new DBContext().getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            // TOBE: Implement update based on batch size
+            int BATCH_SIZE = 200;
+
+            for (ScheduleImage image : images) {
+                ps.setInt(1, image.getScheduleId());
                 ps.setString(2, image.getPath());
                 ps.addBatch();
             }

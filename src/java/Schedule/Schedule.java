@@ -11,11 +11,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import Image.Image;
+import lombok.ToString;
 
 
 @Builder
 @Getter
 @Setter
+@ToString
 public class Schedule {
     private int schedule_id;
     private int program_id;
@@ -23,12 +26,4 @@ public class Schedule {
     private String detail_des;
     private List<ScheduleImage> imgPath;
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    class ScheduleImage {
-        private int id;
-        private int scheduleId;
-        private String path;
-    }
 }

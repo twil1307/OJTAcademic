@@ -20,7 +20,7 @@ public class NewsService {
         int newsId = dao.createNews(news);
         news.setNewsId(newsId);
 
-        List<String> imgsPath = FileUploader.uploadImages(newsImgParts, news.getNewsTitle(), path, "img");
+        List<String> imgsPath = FileUploader.uploadImages(newsImgParts, news.getNewsTitle(), path);
         
         news.setImgsPath(imgsPath);
         

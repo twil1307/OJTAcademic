@@ -13,7 +13,7 @@
             <h2 class="text-center text-light mt-10">Program <span class="font-weight-bold">${programName}</span></h2>
 
             <form method="POST" action="/OJT_Mock/schedule?action=register" id="form" class="container my-0" enctype="multipart/form-data">
-                <input type="hidden" value="${dateBetween.size()}" name="scheduleSize" />                 
+                <input type="hidden" value="${dateBetween.size()}" name="scheduleSize" />    
                 <input type="hidden" value="${programId}" name="programId" />
                 <c:forEach 
                 begin="0" 

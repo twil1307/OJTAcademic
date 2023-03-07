@@ -5,7 +5,6 @@
  */
 package Schedule;
 
-import Schedule.Schedule.ScheduleImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,8 @@ import javax.servlet.http.Part;
     maxRequestSize = 1024 * 1024 * 100 // 100 MB
 )
 public class ScheduleController extends HttpServlet  {
-
+    private ScheduleService service = new ScheduleService();
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doGet(req, resp); //To change body of generated methods, choose Tools | Templates.
@@ -77,8 +77,9 @@ public class ScheduleController extends HttpServlet  {
             try {
                 for (Part part : req.getParts()) {
                     if (part.getName().equals("schedule_img_" + i)) {
-                        String imgPath = "img/" + programId + scheduleDate + part.getSubmittedFileName();
-                        scheduleImages.add(schedule.new ScheduleImage(0, 0, imgPath));
+                        String imgPath = "img/" + programId + part.getSubmittedFileName();
+                        ScheduleImage image = new ScheduleImage(0, 0, imgPath);
+                        scheduleImages.add(image);
                     }
                 }
             } catch (IOException | ServletException ex) {
@@ -91,12 +92,11 @@ public class ScheduleController extends HttpServlet  {
           .collect(Collectors.toList()); 
         
         String imageUploadPath = req.getServletContext().getRealPath("");
-        
-        // TODO: insert schedule into db
-        
+
         List<Part> scheduleImageParts = req.getParts().stream()
-                                                .filter(part -> !part.getName().matches("schedule_img_(.*)"))
+                                                .filter(part -> part.getName().matches("schedule_img_(.*)"))
                                                 .collect(Collectors.toList());
         // TODO: upload images into server file system
+        service.registerSchedule(schedules, scheduleImageParts, "" + programId, imageUploadPath);
     }
 }
