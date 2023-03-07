@@ -5,7 +5,10 @@
  */
 package News;
 
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.Part;
 import shared.FileUploader;
 
@@ -21,13 +24,32 @@ public class NewsService {
         news.setNewsId(newsId);
 
         List<String> imgsPath = FileUploader.uploadImages(newsImgParts, news.getNewsTitle(), path, "img");
-        
         news.setImgsPath(imgsPath);
         
-        dao.saveNewsImgs(news);
+        try {
+            dao.saveNewsImgs(news);
+        } catch (SQLException ex) {
+            Logger.getLogger(NewsService.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-//    void saveNewsImgs(List<String> newsImgs) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
+    public News getSingleNews(int newsId) {
+        News news = dao.getSingleNews(newsId);
+        List<String> newsImg = dao.getSingleNewsImgs(newsId);
+        news.setImgsPath(newsImg);
+        
+        return news;
+    }
+    
+    public List<News> getRecentNews(int currentNewsId) {
+        return dao.getListRecentNews(currentNewsId);
+    }
+    
+    public List<News> getListNews(int begin, int end) {
+        return dao.getListNews(begin, end);
+    }
+    
+    public int getTotalNews() {
+        return dao.getTotalNews();
+    }
 }

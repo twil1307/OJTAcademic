@@ -10,5 +10,9 @@ package User;
  * @author toten
  */
 public class UserService {
+    private final UserDAO userDAO = new UserDAO();
     
+    public Account getUserByID(int userID) {
+        return userDAO.getUserByID(userID);
+    }
 }

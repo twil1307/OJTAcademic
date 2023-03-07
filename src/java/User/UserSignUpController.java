@@ -6,6 +6,7 @@
 package User;
 
 import Security.PasswordEncrypt;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -98,7 +99,7 @@ public class UserSignUpController extends HttpServlet {
             if (!Files.exists(Paths.get(realPath))) {
                 Files.createDirectories(Paths.get(realPath));
             }
-            part.write(realPath + "/" + fileName);
+            part.write(realPath + File.separator + fileName);
             avatar = "images/" + fileName;
             
             donorSignUp.setAvatar(avatar);

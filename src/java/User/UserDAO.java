@@ -154,6 +154,38 @@ public class UserDAO {
 
             }
 
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    //    Get user by ID
+    public Account getUserByID(int userID) {
+        try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+
+            String query = "select acc.username, acc.role_id, don.* from donor as don, account as acc where acc.account_id=don.account_id and acc.account_id=?";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, userID);
+
+            rs = ps.executeQuery();
+
+            Account userAcc = null;
+            while (rs.next()) {
+                userAcc = (new Donor(rs.getInt("account_id"), rs.getString("username"), null, rs.getInt("role_id"), null,
+                        rs.getInt("donor_id"), rs.getString("email"), rs.getString("city"), rs.getString("province"), rs.getString("address"), rs.getString("name"), rs.getString("avatar"), rs.getString("phone_number"), rs.getString("dob"), rs.getString("bank_account")));
+
+            }
+
+            return userAcc;
 
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);

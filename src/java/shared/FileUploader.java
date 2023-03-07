@@ -25,7 +25,7 @@ public class FileUploader {
             String fileName;
             
             if (subName != null) {
-                fileName = folder + File.separator + subName + submittedFileName;
+                fileName = folder + File.separator + subName + submittedFileName; 
             } else {
                 fileName = folder + File.separator + submittedFileName;
             }

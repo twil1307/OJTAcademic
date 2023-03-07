@@ -86,7 +86,7 @@ public class NewsCreateController extends HttpServlet {
         
 //        String titleFormat = newsTitle.trim().replaceAll("\\s+", " ");
         
-        String imageUploadPath = req.getServletContext().getRealPath("/img");
+        String imageUploadPath = req.getServletContext().getRealPath("");
         try {
             for (Part part : req.getParts()) {
                 if (part.getName().equals("newsImgs")) {
