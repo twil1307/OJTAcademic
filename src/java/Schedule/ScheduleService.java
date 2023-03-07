@@ -5,10 +5,19 @@
  */
 package Schedule;
 
+import java.util.List;
+
 /**
  *
  * @author toten
  */
 public class ScheduleService {
+ 
+    public void registerSchedule(List<Schedule> schedules) {
+        
+    }
     
+    public void registerSchedule(Schedule schedule) {
+        
+    }
 }

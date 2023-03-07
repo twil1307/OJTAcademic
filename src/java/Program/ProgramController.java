@@ -106,10 +106,12 @@ public class ProgramController extends HttpServlet {
         Program.Destination programDestination = newProgram.new Destination(0, city, province, address);
         newProgram.setDestination(programDestination);
         
-        service.registerProgram(newProgram, programImgParts, imageUploadPath);
+        int programId = service.registerProgram(newProgram, programImgParts, imageUploadPath);
         
         req.setAttribute("dateBetween", datesBetweenSche);
-        req.getRequestDispatcher("schedule.jsp").forward(req, resp);
+        req.setAttribute("programId", programId);
+        req.setAttribute("programName", programName);
+        req.getRequestDispatcher("schedule.jsp?programId=" + programId).forward(req, resp);
     }
     
     private LocalDate toLocalDate(String date) {
