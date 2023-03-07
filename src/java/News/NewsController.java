@@ -61,6 +61,9 @@ public class NewsController extends HttpServlet {
             case "single":
                 getSingleNews(req, resp);
                 break;
+            case "update": 
+                updateNews(req, resp);
+                break;
             default:
 
         }
@@ -109,6 +112,16 @@ public class NewsController extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doDelete(req, resp); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    private void updateNews(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
+        int newsId = Integer.parseInt(req.getParameter("newsId"));
+        
+        News news = newsService.getSingleNews(newsId);
+        
+        req.setAttribute("news", news);
+        req.getRequestDispatcher("newsUpdate.jsp").forward(req, resp);
     }
 
     private void getSingleNews(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

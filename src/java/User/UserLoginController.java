@@ -109,7 +109,7 @@ public class UserLoginController extends HttpServlet {
             session.setAttribute("user", user);
 
 //            remember
-            if (remember.equals("checked")) {
+            if (remember !=null && remember.equals("checked")) {
                 Cookie usernameCookie = new Cookie("username", username);
                 usernameCookie.setMaxAge(60 * 60 * 24 * 2);
                 response.addCookie(usernameCookie);

@@ -47,6 +47,12 @@
                         </div>
                         <div class="blog-meta">
                             <p><i class="fa fa-user"></i><a href="/news?action=single&newsId=${item.newsId}">Watch more</a></p>
+
+                            <c:if test="${sessionScope.user.role=='2' || sessionScope.user.role=='1'}">
+                                <p><i class="fa fa-user"></i><a href="news?action=update&newsId=${item.newsId}">Edit News</a></p>
+                                <p><i class="fa fa-user"></i><a href="news?action=update&newsId=${item.newsId}">Delete News</a></p>
+                            </c:if>
+
                         </div>
                     </div>
                 </div>
@@ -55,14 +61,6 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <!--                <ul class="pagination justify-content-center">
-                                    <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                                </ul> -->
-
                 <div id="pagination">
 
                 </div>
@@ -149,51 +147,58 @@
 <c:if test="${not emptytotalNews}">
     <script>
         let pages = ${pageNumber};
+        let currentPage = ${param.page} + 0;
 
-        document.getElementById('pagination').innerHTML = createPagination(pages, 1);
+        if (!currentPage) {
+            currentPage = 1;
+        }
+
+        document.getElementById('pagination').innerHTML = createPagination(pages, currentPage);
 
         function createPagination(pages, page) {
             let str = '<ul>';
             let active;
             let pageCutLow = page - 1;
             let pageCutHigh = page + 1;
-// Show the Previous button only if you are on a page other than the first
+
+
+            // Show the Previous button only if you are on a page other than the first
             if (page > 1) {
-                str += `<li class="page-item previous no"><a onclick="createPagination(pages, ${(page - 1)})" href="news?action=list&page=${page-1}">Previous</a></li>`;
+                str += '<li class="page-item previous no"><a onclick="createPagination(pages, ' + (page - 1) + ')" href="news?action=list&page=' + (page - 1) + '">Previous</a></li>';
             }
-// Show all the pagination elements if there are less than 6 pages total
+            // Show all the pagination elements if there are less than 6 pages total
             if (pages < 6) {
                 for (let p = 1; p <= pages; p++) {
+
                     active = page == p ? "active" : "no";
-                    str += `<li class="${active}"><a onclick="createPagination(pages, ${p})" href="news?action=list">${p}</a></li>`;
+                    str += '<li class="' + active + '"><a onclick="createPagination(pages, ' + p + ')" href="news?action=list&page=' + p + '">' + p + '</a></li>';
                 }
             }
-// Use "..." to collapse pages outside of a certain range
+            // Use "..." to collapse pages outside of a certain range
             else {
-// Show the very first page followed by a "..." at the beginning of the
-// pagination section (after the Previous button)
+                // Show the very first page followed by a "..." at the beginning of the
+                // pagination section (after the Previous button)
                 if (page > 2) {
                     str += '<li class="no page-item"><a onclick="createPagination(pages, 1)" href="news?action=list&page=1">1</a></li>';
                     if (page > 3) {
-                        str += `<li class="out-of-range"><a onclick="createPagination(pages,${(page - 2)}" href="news?action=list&page=${page - 2}">...</a></li>`;
+                        str += '<li class="out-of-range"><a onclick="createPagination(pages,' + (page - 2) + ')" href="news?action=list&page=' + (page - 2) + '">...</a></li>';
                     }
                 }
-// Determine how many pages to show after the current page index
+                // Determine how many pages to show after the current page index
                 if (page === 1) {
                     pageCutHigh += 2;
                 } else if (page === 2) {
                     pageCutHigh += 1;
                 }
-// Determine how many pages to show before the current page index
+                // Determine how many pages to show before the current page index
                 if (page === pages) {
                     pageCutLow -= 2;
                 } else if (page === pages - 1) {
                     pageCutLow -= 1;
                 }
-// Output the indexes for pages that fall inside the range of pageCutLow
-// and pageCutHigh
+                // Output the indexes for pages that fall inside the range of pageCutLow
+                // and pageCutHigh
                 for (let p = pageCutLow; p <= pageCutHigh; p++) {
-                    console.log("count");
                     if (p === 0) {
                         p += 1;
                     }
@@ -201,26 +206,27 @@
                         continue
                     }
                     active = page == p ? "active" : "no";
-                    str += `<li class="page-item ${active}"><a onclick="createPagination(pages,${p})">${p}</a></li>`;
+                    str += '<li class="page-item ' + active + '"><a onclick="createPagination(pages, ' + p + ')" href="news?action=list&page=' + p + '">' + p + '</a></li>';
                 }
-// Show the very last page preceded by a "..." at the end of the pagination
-// section (before the Next button)
+                // Show the very last page preceded by a "..." at the end of the pagination
+                // section (before the Next button)
                 if (page < pages - 1) {
                     if (page < pages - 2) {
-                        str += `<li class="out-of-range"><a onclick="createPagination(pages, ${page + 2})" href="news?action=list&page=${page + 2}">...</a></li>`;
+                        str += '<li class="out-of-range"><a onclick="createPagination(pages,' + (page + 2) + ')" href="news?action=list&page=' + (page + 2) + '">...</a></li>';
                     }
-                    str += `<li class="page-item no"><a onclick="createPagination(pages, pages)">${pages}</a></li>`;
+                    str += '<li class="page-item no"><a onclick="createPagination(pages, pages)" href="news?action=list&page=' + (pages) + '">' + pages + '</a></li>';
                 }
             }
-// Show the Next button only if you are on a page other than the last
+            // Show the Next button only if you are on a page other than the last
             if (page < pages) {
-                str += `<li class="page-item next no"><a onclick="createPagination(pages, ${page + 1})" href="news?action=list&page=${page +1}">Next</a></li>`;
+                str += '<li class="page-item next no"><a onclick="createPagination(pages, ' + (page + 1) + ')" href="news?action=list&page=' + (page + 1) + '">Next</a></li>';
             }
             str += '</ul>';
-// Return the pagination string to be outputted in the pug templates
+            // Return the pagination string to be outputted in the pug templates
             document.getElementById('pagination').innerHTML = str;
             return str;
         }
+
 
     </script>
 </c:if>
