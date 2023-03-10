@@ -6,6 +6,8 @@
 package Program;
 
 import Program.Program.Destination;
+import Schedule.Schedule;
+import Schedule.ScheduleService;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
@@ -37,7 +39,10 @@ public class ProgramController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("program.jsp").forward(req, resp);
+        String action = req.getParameter("action");
+        
+        // TODO: route base on action
+        getProgramInformation(req, resp);
     }
 
     @Override
@@ -52,16 +57,20 @@ public class ProgramController extends HttpServlet {
         }
     }
     
-    @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp); //To change body of generated methods, choose Tools | Templates.
+    private void getProgramInformation(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int programId = Integer.parseInt(req.getParameter("programId"));
+        Program program = service.getProgramById(programId);
+        List<Schedule> programSchedules = new ScheduleService().getSchedulesByProgramId(programId);
+        
+        System.out.println(req.getMethod() + " at " + this.getServletName());
+        
+        
+        req.setAttribute("program", program);
+        req.setAttribute("schedules", programSchedules);
+        
+        req.getRequestDispatcher("program.jsp").forward(req, resp);
     }
 
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp); //To change body of generated methods, choose Tools | Templates.
-    }
-    
     private void handleRegisterProgram(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String programName = req.getParameter("programName");
         String shortDes = req.getParameter("shortDes");
@@ -79,6 +88,7 @@ public class ProgramController extends HttpServlet {
         LocalDate localScheStartDate = toLocalDate(scheStartDate);
         LocalDate localScheEndDate = toLocalDate(scheEndDate);
         List<LocalDate> datesBetweenSche = getDatesBetween(localScheStartDate, localScheEndDate);
+        datesBetweenSche.add(localScheEndDate);
         
         
         String imageUploadPath = req.getServletContext().getRealPath("");
@@ -86,7 +96,7 @@ public class ProgramController extends HttpServlet {
         try {
             for (Part part : req.getParts()) {
                 if (part.getName().equals("programImgs")) {
-                    String fileName = imageUploadPath + File.separator + programName + part.getSubmittedFileName();
+                    String fileName = "img" + File.separator + programName + part.getSubmittedFileName();
                     ProgramImage programImage = new ProgramImage(0, fileName, 0);
                     programImgs.add(programImage);
                     programImgParts.add(part);

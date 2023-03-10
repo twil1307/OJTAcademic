@@ -15,7 +15,7 @@ import shared.FileUploader;
  * @author toten
  */
 public class ScheduleService {
-    private ScheduleDAO scheduleDao = new ScheduleDAO();
+    private final ScheduleDAO scheduleDao = new ScheduleDAO();
     
     public void registerSchedule(
             List<Schedule> schedules, 
@@ -26,5 +26,9 @@ public class ScheduleService {
         List<Schedule> addedSchedules = scheduleDao.addSchedule(schedules);
         
         FileUploader.uploadImages(scheduleImageParts, subName, path);
+    }
+    
+    public List<Schedule> getSchedulesByProgramId(int programId) {
+        return scheduleDao.getSchedulesByProgramId(programId);
     }
 }
