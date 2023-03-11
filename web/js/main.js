@@ -68,7 +68,7 @@
             '<i class="fa fa-angle-right" aria-hidden="true"></i>'
         ]
     });
-    
+   
     
     // Modal Video
     $(document).ready(function () {

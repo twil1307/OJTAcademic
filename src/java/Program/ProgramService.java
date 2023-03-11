@@ -23,4 +23,8 @@ public class ProgramService {
 
         return programId;
     }
+
+    public Program getProgramById(int programId) {
+        return dao.getProgram(programId);
+    }
 }

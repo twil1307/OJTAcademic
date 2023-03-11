@@ -2,6 +2,7 @@ package Program;
 
 import Image.ImageDAO;
 import Program.Program.Destination;
+import Program.Program.ProgramBuilder;
 import User.UserDAO;
 import context.DBContext;
 import java.sql.Connection;
@@ -9,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -72,5 +74,92 @@ public class ProgramDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         } 
         return 0;
+    }
+    
+    public Program getProgram(int programId) {
+        Connection conn;
+        PreparedStatement ps;
+        ResultSet rs;
+        Program program = null;
+        
+        try {
+            ImageDAO imageDao = new ImageDAO();
+
+            String query = "select * from program where program_id = ?";
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, programId);
+            rs = ps.executeQuery();
+            
+            while(rs.next()) {
+                String programName = rs.getString("program_name");
+                String shortDes = rs.getString("program_short_des");
+                String detailDes = rs.getString("program_detail_des");
+                double goalAmount = rs.getDouble("goal_amount");
+                String startDate = rs.getString("start_date");
+                String endDate = rs.getString("end_date");
+                String scheStartDate = rs.getString("sche_start_date");
+                String scheEndDate = rs.getString("sche_end_date");
+                int accountId = rs.getInt("account_id");
+                
+                program = new ProgramBuilder()
+                        .programId(programId)
+                        .programName(programName)
+                        .shortDes(shortDes)
+                        .detailDes(detailDes)
+                        .goalAmount(goalAmount)
+                        .startDate(startDate)
+                        .endDate(endDate)
+                        .scheEndDate(scheEndDate)
+                        .scheStartDate(scheStartDate)
+                        .userId(accountId)
+                        .build();
+            }
+            
+            Destination destination = getProgramDestination(programId, program);
+            program.setDestination(destination);
+            List<ProgramImage> images = (List<ProgramImage>) imageDao.getImages(programId, "program_img");
+            program.setProgramImgs(images);
+            
+            // close connection after execute query
+            ps.close();
+            conn.close();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        return program;
+    }
+    
+    private Destination getProgramDestination(int programId, Program program) {
+        Connection conn;
+        PreparedStatement ps;
+        ResultSet rs;
+        Destination destination = null;
+        
+        try {
+            String query = "select * from destination where program_id = ?";
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, programId);
+            rs = ps.executeQuery();
+            
+            while(rs.next()) {
+                int destinationId = rs.getInt("destination_id");
+                String city = rs.getString("city");
+                String province = rs.getString("province");
+                String address = rs.getString("address");
+                destination = program.new Destination(destinationId, city, province, address);
+            }
+            
+            // close connection after execute query
+            ps.close();
+            conn.close();
+            
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        return destination;
     }
 }
