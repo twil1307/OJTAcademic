@@ -24,6 +24,6 @@ public class Donate {
     private int user_id;
     private int program_id;
     private double amount;
-    private Date donate_date;
+    private String donate_date;
     private String message;
 }

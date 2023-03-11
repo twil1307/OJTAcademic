@@ -119,3 +119,10 @@ input[type=number] {
     border-radius: 0 5px 5px 0;
     border-right: 2px solid black;
 }
+
+.charity-item {
+    margin: 0 5px;
+    /*overflow: hidden;*/
+    background: #f3f6ff;
+    margin-bottom: 1em;
+}

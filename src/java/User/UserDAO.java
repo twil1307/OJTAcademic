@@ -195,8 +195,34 @@ public class UserDAO {
         return null;
     }
 
-    public static void main(String[] args) {
+
+
+    public String getEmailByAccountID(int id) {
+        try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+
+            String query = "select email from donor where account_id=?";
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, id);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                return rs.getString("email");
+
+            }
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+        public static void main(String[] args) {
         UserDAO userDAO = new UserDAO();
-        userDAO.login("user", "123456");
+            System.out.println(userDAO.getEmailByAccountID(4));
     }
 }

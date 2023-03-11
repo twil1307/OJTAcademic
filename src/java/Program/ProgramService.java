@@ -27,4 +27,16 @@ public class ProgramService {
     public Program getProgramById(int programId) {
         return dao.getProgram(programId);
     }
+
+    int getTotalProgram() {
+        return dao.getTotalProgram();
+    }
+
+    List<Program> getListProgram(int beginElement, int PAGE_SIZE) {
+        return dao.getListProgram(beginElement, PAGE_SIZE);
+    }
+
+    double getProgramRaisedAmount(int programId) {
+        return dao.getProgramRaisedAmount(programId);
+    }
 }

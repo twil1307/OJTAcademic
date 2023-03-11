@@ -55,22 +55,18 @@ public class AuthenticateFilter implements Filter {
                     }
                 }
             }
+            if (username != null) {
+                Account user = new UserDAO().checkExistedUsername(username);
+
+                session = httpRequest.getSession(true); // create a new session
+                session.setAttribute("user", user);
+            }
         } catch (Exception e) {
             System.out.println(e);
-            
         } finally {
-              if (username != null) {
-            Account user = new UserDAO().checkExistedUsername(username);
-
-            session = httpRequest.getSession(true); // create a new session
-            session.setAttribute("user", user);
-
+            chain.doFilter(request, response);
         }
 
-        chain.doFilter(request, response);
-        }
-        
-      
     }
 
     @Override
