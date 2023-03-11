@@ -16,8 +16,9 @@ import javax.servlet.http.Part;
 
 
 public class FileUploader {
+    private static final String IMAGE_FOLDER = "img";
     
-    public static List<String> uploadImages(List<Part> imageParts, String subName, String path, String folder) {
+    public static List<String> uploadImages(List<Part> imageParts, String subName, String path) {
         List<String> imageWithPaths = new ArrayList<>();
         
         imageParts.stream().forEach(part -> {
@@ -25,14 +26,13 @@ public class FileUploader {
             String fileName;
             
             if (subName != null) {
-                fileName = folder + File.separator + subName + submittedFileName; 
+                fileName = IMAGE_FOLDER + File.separator + subName + submittedFileName;
             } else {
-                fileName = folder + File.separator + submittedFileName;
+                fileName = IMAGE_FOLDER + File.separator + submittedFileName;
             }
             
            imageWithPaths.add(fileName);
             
-            System.out.println(fileName);
             try {
                 part.write(path + File.separator + fileName);
             } catch (IOException ex) {

@@ -1,4 +1,6 @@
-dist
-build
-src/java/Properties
-nbproject/private
+dist/
+build/
+src/java/Properties/
+nbproject/private/
+
+*.properties

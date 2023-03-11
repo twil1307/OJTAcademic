@@ -231,4 +231,82 @@ public class NewsDAO {
         }
         return -1;
     }
+    
+    
+    public void updateNews(News news) {
+        try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+            
+            String query = "update news set news_title=?, news_des=?, post_date=GETDATE(), account_id=?, short_des=? where news_id=?";
+
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+
+            System.out.println(news);
+
+            ps.setString(1, news.getNewsTitle());
+            ps.setString(2, news.getNewsDes());
+            ps.setInt(3, news.getUserId());
+            ps.setString(4, news.getShortDes());
+            ps.setInt(5, news.getNewsId());
+            
+
+            ps.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(NewsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(NewsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    public void deleteNewsImages(int newsId) {
+        try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+            
+            String query = "delete from news_img where news_id=?";
+
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+
+            ps.setInt(1, newsId);
+
+            ps.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(NewsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(NewsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    public void deleteNewsById(int newsId) {
+        try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+            
+            String query = "delete from news where news_id=?";
+
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+
+            ps.setInt(1, newsId);
+
+            ps.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(NewsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(NewsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
 }

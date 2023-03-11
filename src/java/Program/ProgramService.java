@@ -16,12 +16,11 @@ import shared.FileUploader;
 public class ProgramService {
     private ProgramDAO dao = new ProgramDAO();
     
-    public void registerProgram(Program program, List<Part> programImageParts, String path) {
-        dao.addProgram(program);
+    public int registerProgram(Program program, List<Part> programImageParts, String path) {
+        int programId = dao.addProgram(program);
 
-        List<String> imgList = FileUploader.uploadImages(programImageParts, program.getProgramName(), path, "img");
-    
-       
-        System.out.println(imgList.get(0));
+        List<String> imgList = FileUploader.uploadImages(programImageParts, program.getProgramName(), path);
+
+        return programId;
     }
 }

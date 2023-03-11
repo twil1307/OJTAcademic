@@ -46,17 +46,20 @@ public class AuthenticateFilter implements Filter {
 
         String username = null;
 
-        for (Cookie c : cookies) {
-            if (c.getName().equals("username")) {
-                username = c.getValue();
-                if (username != null) {
-                    break;
+        try {
+            for (Cookie c : cookies) {
+                if (c.getName().equals("username")) {
+                    username = c.getValue();
+                    if (username != null) {
+                        break;
+                    }
                 }
             }
-
-        }
-
-        if (username != null) {
+        } catch (Exception e) {
+            System.out.println(e);
+            
+        } finally {
+              if (username != null) {
             Account user = new UserDAO().checkExistedUsername(username);
 
             session = httpRequest.getSession(true); // create a new session
@@ -65,6 +68,9 @@ public class AuthenticateFilter implements Filter {
         }
 
         chain.doFilter(request, response);
+        }
+        
+      
     }
 
     @Override

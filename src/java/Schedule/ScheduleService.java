@@ -5,10 +5,26 @@
  */
 package Schedule;
 
+import Image.ImageDAO;
+import java.util.List;
+import javax.servlet.http.Part;
+import shared.FileUploader;
+
 /**
  *
  * @author toten
  */
 public class ScheduleService {
+    private ScheduleDAO scheduleDao = new ScheduleDAO();
     
+    public void registerSchedule(
+            List<Schedule> schedules, 
+            List<Part> scheduleImageParts, 
+            String subName,
+            String path
+    ) {
+        List<Schedule> addedSchedules = scheduleDao.addSchedule(schedules);
+        
+        FileUploader.uploadImages(scheduleImageParts, subName, path);
+    }
 }

@@ -49,8 +49,15 @@
                             <p><i class="fa fa-user"></i><a href="/news?action=single&newsId=${item.newsId}">Watch more</a></p>
 
                             <c:if test="${sessionScope.user.role=='2' || sessionScope.user.role=='1'}">
-                                <p><i class="fa fa-user"></i><a href="news?action=update&newsId=${item.newsId}">Edit News</a></p>
-                                <p><i class="fa fa-user"></i><a href="news?action=update&newsId=${item.newsId}">Delete News</a></p>
+                                <p><i class="fa fa-wrench"></i><a href="news?action=update&newsId=${item.newsId}">Edit News</a></p>
+
+                                <form method="POST" id="delete-news-${item.newsId}" action="news-manage?action=delete&newsId=${item.newsId}" style="padding-left: 2em">
+                                    <p onclick="document.getElementById(`delete-news-${item.newsId}`).submit()">
+                                        <i class="fa fa-times"></i>
+                                        <a onclick="document.getElementById(`delete-news-${item.newsId}`).submit()">Delete News</a>
+                                    </p>
+                                </form>
+
                             </c:if>
 
                         </div>
@@ -59,13 +66,16 @@
             </c:forEach>
 
         </div>
-        <div class="row">
-            <div class="col-12">
-                <div id="pagination">
+        <c:if test="${pageNumber > 1}">
+            <div class="row">
+                <div class="col-12">
+                    <div id="pagination">
 
+                    </div>
                 </div>
             </div>
-        </div>
+        </c:if>
+
     </div>
 </div>
 <!-- Blog End -->

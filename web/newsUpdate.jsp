@@ -10,7 +10,7 @@
     <body>
         <%@include file="/includes/navbar.jsp"%>
         <main>
-            <form method="POST" action="/OJT_Mock/news-create?action=register" id="form" class="container" enctype="multipart/form-data">
+            <form method="POST" action="/OJT_Mock/news-manage?action=update&newsId=${news.newsId}" id="form" class="container" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="newsTitle">News Title</label>
                     <input type="text" class="form-control form-control-lg" id="newsTitle" aria-describedby="newsTitle" value="${news.newsTitle}" name="newsTitle" placeholder="Enter News Title" required>
@@ -27,8 +27,16 @@
                 </div>
                 <div class="form-group">
                     <label for="newsImgs">Program Images</label>
-                    <input type="file" class="form-control-file" id="newsImgs" aria-describedby="newsImgs" placeholder="Add News' Images" name="newsImgs" accept="image/*" multiple required>
+                    <input type="file" class="form-control-file" id="newsImgs" aria-describedby="newsImgs" placeholder="Add News' Images" name="newsImgs" accept="image/*" multiple>
                 </div>
+
+                <div id="image-preview-section-edit" class="row">
+                    <c:forEach var="item" items="${news.imgsPath}">
+                        <img class="col-sm-12 col-md-6 col-lg-4 image-preview" src="${item}">
+                    </c:forEach>
+                    
+                </div>
+
                 <div id="image-preview-section" class="row">
 
                 </div>
@@ -41,8 +49,11 @@
     <script>
         const programImgInputEl = document.getElementById("newsImgs");
         const imagePreviewSectionEl = document.getElementById("image-preview-section");
+        const imageImgSectionElEdit = document.getElementById("image-preview-section-edit");
 
         programImgInputEl.onchange = (e) => {
+            imageImgSectionElEdit.innerHTML="";
+            
             const {
                 files
             } = e.target;
@@ -63,21 +74,21 @@
 //        Count detail des character
         const textareaDetail = document.getElementById("detailDescription");
         const charCountDetail = document.getElementById("charCountDetail");
-        
+
         textareaDetail.addEventListener("keyup", () => {
             const text = textareaDetail.value;
             charCountDetail.innerText = text.length;
         });
-        
-        
+
+
 //        Count short des character 
         const textareaShort = document.getElementById("shortDescription");
         const charCountShort = document.getElementById("charCountShort");
-        
+
         textareaShort.addEventListener("keyup", () => {
             const text = textareaShort.value;
             charCountShort.innerText = text.length;
         });
-        
+
     </script>
 </html>

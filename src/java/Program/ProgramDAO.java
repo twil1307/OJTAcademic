@@ -12,13 +12,10 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author toten
- */
+
 public class ProgramDAO {    
     
-    public void addProgram(Program program)  { 
+    public int addProgram(Program program)  { 
         Connection conn;
         PreparedStatement ps;
         ResultSet rs;
@@ -52,8 +49,9 @@ public class ProgramDAO {
 
             program.getProgramImgs().stream().forEach(programImg -> {
                 programImg.setProgramId(generatedKey);
-                imageDao.addImage(programImg, "program_img");
             });
+            
+            imageDao.addImage(program.getProgramImgs(), "program_img");
             
             // insert destination into db
             Destination des = program.getDestination();
@@ -69,8 +67,10 @@ public class ProgramDAO {
             // close connection after execute query
             ps.close();
             conn.close();
+            return generatedKey;
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         } 
+        return 0;
     }
 }

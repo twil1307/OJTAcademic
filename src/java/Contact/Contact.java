@@ -3,27 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Schedule;
+package Contact;
 
-
-import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import Image.Image;
 import lombok.ToString;
 
-
+/**
+ *
+ * @author toten
+ */
 @Builder
 @Getter
 @Setter
 @ToString
-public class Schedule {
-    private int schedule_id;
-    private int program_id;
-    private String date;
-    private String detail_des;
-    private List<ScheduleImage> imgPath;
-
+public class Contact {
+    private int contactId;
+    private String title;
+    private String messageContent;
+    private int accountId;
 }
