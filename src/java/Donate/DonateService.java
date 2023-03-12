@@ -6,6 +6,7 @@
 package Donate;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,6 +31,14 @@ public class DonateService {
         } catch (SQLException ex) {
             Logger.getLogger(DonateService.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public List<Donate> getListRecentDonateByProgramId(int programId) {
+        return dao.getListRecentDonateByProgramId(programId);
+    }
+    
+    public List<Donate> getDonateHistoryByUserId(int programId) {
+        return dao.getDonateHistoryByUserId(programId);
     }
     
 }

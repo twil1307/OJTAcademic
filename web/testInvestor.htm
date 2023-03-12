@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+
+<html>
+
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS Libraries -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="lib/flaticon/font/flaticon.css" rel="stylesheet">
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+</head>
+
+
+
+<head>
+    <title>Program Register</title>
+    <link href="css/program.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+
+
+
+    <body style="background-color: #dcf9fc">
+
+        <!-- Nav Bar Start -->
+        <div class="navbar navbar-expand-lg bg-dark navbar-dark">
+            <div class="container-fluid">
+                <a href="index.jsp" class="navbar-brand">FANTASTIC5</a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                    <div class="navbar-nav ml-auto">
+                        <a href="home" class="nav-item nav-link">Home</a>
+                        <a href="about.jsp" class="nav-item nav-link">About</a>
+                        <a href="causes.jsp" class="nav-item nav-link">Causes</a>
+                        <a href="event.jsp" class="nav-item nav-link">Events</a>
+                        <a href="news?action=list" class="nav-item nav-link">News</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
+                            <div class="dropdown-menu">
+                                <a href="detail.jsp" class="dropdown-item">Detail Page</a>
+                                <a href="service.jsp" class="dropdown-item">What We Do</a>
+                                <a href="team.jsp" class="dropdown-item">Meet The Team</a>
+                                <a href="donate.jsp" class="dropdown-item">Donate Now</a>
+                                <a href="volunteer.html" class="dropdown-item">Become A Volunteer</a>
+                            </div>
+                        </div>
+
+                        <a href="contact" class="nav-item nav-link">Contact</a>
+
+
+                    </div>
+
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+
+
+                            <a class="dropdown-item" href="">User name</a>
+
+
+                            <a class="dropdown-item" href="">Create program</a>
+                            <a class="dropdown-item" href="/OJT_Mock/news-manage">Create news</a>
+
+
+                            <a class="dropdown-item" href="">Admin</a>
+
+                            <a class="dropdown-item" href="logout">Log out</a>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Nav Bar End -->
+
+        <main>
+            <div data-schedule-date="investor" class="investor-form form-group-invest" style="display: none;">
+                <h4 class="text-light">Investor for Program</h4>
+                <div class="form-group">
+                    <label for="investorName">Investor name</label>
+                    <input type="text" class="form-control form-control-lg" id="investorName" aria-describedby="investorName" placeholder="Enter Program Name" required>
+                    <label for="legalRepresent">Legal Represent</label>
+                    <input type="text" class="form-control form-control-lg" id="legalRepresent" aria-describedby="legalRepresent" placeholder="Enter legal represent" required>
+                    <label for="investorDes">Detail Description</label>
+                    <textarea type="text" class="form-control" Jung id="investorDes" aria-describedby="detailDescription" placeholder="Enter Investor Description" style="height: 140px; min-height: 36px" name="detailDes-1" required></textarea>
+                    <label for="investAvatar">Investor Images</label>
+                    <input type="file" class="form-control-file" id="investAvatar" required accept="image/*">
+                    <label for="qualifyImg">Qualify Images</label>
+                    <input type="file" class="form-control-file" id="qualifyImg" required accept="image/*">
+                </div>
+                <div class="row">
+
+                </div>
+                <input type="hidden" value="${item.toString()}" name="schedule_${counter.index}_date" />
+
+            </div>
+            <form method="POST" action="/OJT_Mock/program?action=register" id="form" class="container" enctype="multipart/form-data">
+                <div data-schedule-date="investor" id="investor-form-1" class="form-group-invest">
+                    <h4 class="text-light">Investor for Program</h4>
+                    <div class="form-group">
+                        <label for="investorName">Investor name</label>
+                        <input type="text" class="form-control form-control-lg" id="investorName" aria-describedby="investorName" name="investorName-1" placeholder="Enter Program Name" required>
+                        <label for="legalRepresent">Legal Represent</label>
+                        <input type="text" class="form-control form-control-lg" id="legalRepresent" aria-describedby="legalRepresent" name="legalRepresent-1" placeholder="Enter legal represent" required>
+                        <label for="investorDes">Detail Description</label>
+                        <textarea type="text" class="form-control" Jung id="investorDes" name="investorDes-1" aria-describedby="detailDescription" placeholder="Enter Investor Description" style="height: 140px; min-height: 36px" name="detailDes-1" required></textarea>
+                        <label for="investAvatar">Investor Images</label>
+                        <input type="file" class="form-control-file" id="investAvatar" name="investAvatar-1" required accept="image/*">
+                        <label for="qualifyImg">Qualify Images</label>
+                        <input type="file" class="form-control-file" id="qualifyImg" name="qualifyImg-1" required accept="image/*">
+                    </div>
+                    <div class="row">
+
+                    </div>
+                    <input type="hidden" value="${item.toString()}" name="schedule_${counter.index}_date" />
+
+                </div>
+
+                <input type="hidden" id="investor-number" value="1">
+                <button type="button" class="mt-5 btn btn-primary" onclick="addRow()">Add investor</button>
+                <button type="button" class="mt-5 btn btn-danger" onclick="deleteRow()">Delete investor</button>
+                <button type="submit" class="mt-5 btn btn-primary container-fluid">Submit</button>
+            </form>
+        </main>
+    </body>
+    <script>
+        let i = 1;
+        const programImgInputEl = document.getElementById("programImgs");
+        const imagePreviewSectionEl = document.getElementById("image-preview-section");
+        const startDateEl = document.getElementById("startDate");
+        const endDateEl = document.getElementById("endDate");
+        const scheStartDateEl = document.getElementById("scheStartDate");
+        const scheEndDateEl = document.getElementById("scheEndDate");
+
+        programImgInputEl.onchange = (e) => {
+            const {
+                files
+            } = e.target;
+
+            for (const file of files) {
+                const objectUrl = URL.createObjectURL(file);
+
+                const imagePreviewEl = document.createElement("img");
+
+                imagePreviewEl.classList.add('col-sm-12', 'col-md-6', 'col-lg-4', 'image-preview');
+                imagePreviewEl.src = objectUrl;
+
+                imagePreviewSectionEl.append(imagePreviewEl);
+            }
+        }
+
+        $(document).ready(function() {
+            console.log("ready!");
+        });
+
+        function addRow() {
+            var investorForm = $('.investor-form').clone();
+            investorForm.css('display', 'block');
+            investorForm.removeClass('investor-form');
+            investorForm.find('#investorName').attr('name', 'investorName-' + (i + 1));
+            investorForm.find('#legalRepresent').attr('name', 'legalRepresent-' + (i + 1));
+            investorForm.find('#investorDes').attr('name', 'investorDes-' + (i + 1));
+            investorForm.find('#investAvatar').attr('name', 'investAvatar-' + (i + 1));
+            investorForm.find('#qualifyImg').attr('name', 'qualifyImg-' + (i + 1));
+
+            $('#investor-form-1').after(investorForm);
+            i++;
+            $('#investor-number').val(i);
+        }
+
+        function deleteRow() {
+            var investFormGroup = $('#form').find('.form-group-invest');
+            if (investFormGroup.length > 1) {
+                investFormGroup.last().remove();
+                i--;
+                $('#investor-number').val(i);
+            }
+        }
+    </script>
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/parallax/parallax.min.js"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="mail/jqBootstrapValidation.min.js"></script>
+    <script src="mail/contact.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+    <script src="js/program.js"></script>
+
+</html>

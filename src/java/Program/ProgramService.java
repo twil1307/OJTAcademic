@@ -39,4 +39,8 @@ public class ProgramService {
     double getProgramRaisedAmount(int programId) {
         return dao.getProgramRaisedAmount(programId);
     }
+    
+    public void autoUpdate() {
+        dao.autoUpdate();
+    }
 }

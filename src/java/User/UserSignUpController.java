@@ -130,7 +130,7 @@ public class UserSignUpController extends HttpServlet {
 //                Sign up donor
                 userDAO.signUpDonor(donorSignUp);
                 
-                req.setAttribute("signUpSuccessMessage", "Create account successfully");
+                req.setAttribute("message", "Create account successfully");
                 req.getRequestDispatcher("login.jsp").forward(req, resp);
             } catch (Exception e) {
                 req.setAttribute("signUpFailMessage", "Create account failed");

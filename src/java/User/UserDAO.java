@@ -223,6 +223,6 @@ public class UserDAO {
     
         public static void main(String[] args) {
         UserDAO userDAO = new UserDAO();
-            System.out.println(userDAO.getEmailByAccountID(4));
+            System.out.println(userDAO.getUserByID(4));
     }
 }

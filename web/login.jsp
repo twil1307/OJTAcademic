@@ -27,6 +27,12 @@
             <div class="row align-items-center">
                 <div class="col-lg-5">
                     <div class="donate-form">
+                        <c:if test="${error!=null}">
+                            <div class="alert alert-danger">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <strong>${error}</strong>
+                            </div>
+                        </c:if>
                         <form method="POST" action="login">
                             <div class="control-group">
                                 <input type="text" name="username" class="form-control" placeholder="Username" required="required" />
@@ -67,7 +73,7 @@
     </div>
     <!-- Donate End -->
 
-<!-- Footer Start -->
+    <!-- Footer Start -->
     <div class="footer">
         <div class="container">
             <div class="row">
@@ -139,18 +145,18 @@
         <div class="loader"></div>
     </div>
 
-    
-        
-    <c:if test="${not empty signUpSuccessMessage}">
+
+
+    <c:if test="${not empty message}">
         <script>
             window.addEventListener("load", function () {
-                alert("${signUpSuccessMessage}");
+                alert("${message}");
             })
         </script>
     </c:if>
 
-        
-        
+
+
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>

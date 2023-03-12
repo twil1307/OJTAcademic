@@ -42,5 +42,21 @@ public class FileUploader {
         return imageWithPaths;
     }
     
-    
+    public static String uploadSingleImage(Part imgPart, String subName, String path) {
+        String submittedFileName = imgPart.getSubmittedFileName();
+            String fileName;
+            
+            if (subName != null) {
+                fileName = IMAGE_FOLDER + File.separator + subName + submittedFileName;
+            } else {
+                fileName = IMAGE_FOLDER + File.separator + submittedFileName;
+            }
+            
+            try {
+                imgPart.write(path + File.separator + fileName);
+            } catch (IOException ex) {
+                Logger.getLogger(FileUploader.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return fileName;
+    }
 }

@@ -5,10 +5,15 @@
  */
 package Program;
 
+import Donate.Donate;
+import Donate.DonateService;
+import Investor.Investor;
+import Investor.InvestorService;
 import Program.Program.Destination;
 import Schedule.Schedule;
 import Schedule.ScheduleService;
 import User.Account;
+import User.UserService;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
@@ -39,6 +44,9 @@ import javax.servlet.http.Part;
 public class ProgramController extends HttpServlet {
 
     private final ProgramService service = new ProgramService();
+    private final UserService userService = new UserService();
+    private final DonateService donateService = new DonateService();
+    private final InvestorService investorService = new InvestorService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -115,13 +123,20 @@ public class ProgramController extends HttpServlet {
         int programId = Integer.parseInt(req.getParameter("programId"));
         Program program = service.getProgramById(programId);
         List<Schedule> programSchedules = new ScheduleService().getSchedulesByProgramId(programId);
+        List<Donate> listDonate = donateService.getListRecentDonateByProgramId(programId);
+        List<Investor> investors = investorService.getListInvestorsByProgramId(programId);
+        Account acc = userService.getUserByID(program.getUserId());
         double raisedAmount = service.getProgramRaisedAmount(programId);
+        
         session = req.getSession(true);
         session.setAttribute("urlHistory", "program?action=detail&programId=" + programId);
-
+        
+        req.setAttribute("investors", investors);
         req.setAttribute("program", program);
         req.setAttribute("schedules", programSchedules);
         req.setAttribute("raisedAmount", raisedAmount);
+        req.setAttribute("author", acc);
+        req.setAttribute("listDonate", listDonate);
 
         req.getRequestDispatcher("program.jsp").forward(req, resp);
     }
@@ -175,7 +190,7 @@ public class ProgramController extends HttpServlet {
         req.setAttribute("dateBetween", datesBetweenSche);
         req.setAttribute("programId", programId);
         req.setAttribute("programName", programName);
-        resp.sendRedirect("schedule.jsp?programId=" + programId);
+        req.getRequestDispatcher("schedule.jsp?programId=" + programId).forward(req, resp);
     }
 
     private LocalDate toLocalDate(String date) {

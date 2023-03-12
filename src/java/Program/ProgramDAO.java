@@ -258,4 +258,27 @@ public class ProgramDAO {
         }
         return -1;
     }
+    
+    public void autoUpdate()  { 
+        Connection conn;
+        PreparedStatement ps;
+        
+        try {
+
+            String query = "update program set is_closed = 'TRUE' where end_date<getdate()";
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+            
+            
+            ps.executeUpdate();
+
+            
+            ps.close();
+            conn.close();
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(ProgramDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    } 
 }

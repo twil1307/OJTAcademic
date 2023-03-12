@@ -126,3 +126,22 @@ input[type=number] {
     background: #f3f6ff;
     margin-bottom: 1em;
 }
+
+.nav-tabs {
+    padding: 1em 0;
+
+}
+
+.nav-tabs li {
+        /*background: yellow;*/
+        margin-right: 0.2em;
+        padding: 1em;
+        border: 1px solid black;
+        border-radius: 5px;
+}
+
+.nav-tabs li a {
+        /*background: yellow;*/
+        margin-right: 0.2em;
+        padding: 1em;
+}

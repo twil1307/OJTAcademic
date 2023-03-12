@@ -4,6 +4,21 @@
 <head>
     <title>FantasticV - Charity Website</title>
     <link rel="stylesheet" href="css/program.css">
+
+    <style>
+        .table-responsive{
+            height:400px;  
+            overflow:scroll;
+            overflow-x:hidden;
+            background: white;
+        }
+        thead tr:nth-child(1) th{
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+    </style>
 </head>
 
 <%@include file="/includes/navbar.jsp"%>
@@ -260,11 +275,11 @@
             <div class="col-lg-3 col-md-6">
                 <div class="team-item">
                     <div class="team-img">
-                        <img src="img/team-1.jpg" alt="Team Image">
+                        <img src="${author.avatar}" alt="Team Image">
                     </div>
                     <div class="team-text">
-                        <h2>Donald John</h2>
-                        <p>Founder & CEO</p>
+                        <h2>${author.name}</h2>
+                        <p>${author.role == 1 ? 'Admin' : 'Manager'} of Fantastic V</p>
                         <div class="team-social">
                             <a href=""><i class="fab fa-twitter"></i></a>
                             <a href=""><i class="fab fa-facebook-f"></i></a>
@@ -287,178 +302,67 @@
             <h2>What people are talking about our charity activities</h2>
         </div>
         <div class="owl-carousel testimonials-carousel">
-            <div class="testimonial-item">
-                <div class="testimonial-profile">
-                    <img src="img/testimonial-1.jpg" alt="Image">
-                    <div class="testimonial-name">
-                        <h3>Person Name</h3>
-                        <p>Profession</p>
+            <c:forEach var="item" items="${investors}">
+                <div class="testimonial-item">
+                    <div class="testimonial-profile">
+                        <img src="${item.investorImg}" alt="Image">
+                        <div class="testimonial-name">
+                            <h3>${item.investorName}</h3>
+                            <p>Represent: ${item.legalRepresent}</p>
+                            <p>Contact: ${item.contact}</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        <p>
+                            ${item.investorDes}
+                        </p>
                     </div>
                 </div>
-                <div class="testimonial-text">
-                    <p>
-                        Lorem ipsum dolor sit amet elit. Phasel preti mi facilis ornare velit non vulputa. Aliqu
-                        metus tortor, auctor id gravid vivera quis
-                    </p>
-                </div>
-            </div>
-            <div class="testimonial-item">
-                <div class="testimonial-profile">
-                    <img src="img/testimonial-2.jpg" alt="Image">
-                    <div class="testimonial-name">
-                        <h3>Person Name</h3>
-                        <p>Profession</p>
-                    </div>
-                </div>
-                <div class="testimonial-text">
-                    <p>
-                        Lorem ipsum dolor sit amet elit. Phasel preti mi facilis ornare velit non vulputa. Aliqu
-                        metus tortor, auctor id gravid vivera quis
-                    </p>
-                </div>
-            </div>
-            <div class="testimonial-item">
-                <div class="testimonial-profile">
-                    <img src="img/testimonial-3.jpg" alt="Image">
-                    <div class="testimonial-name">
-                        <h3>Person Name</h3>
-                        <p>Profession</p>
-                    </div>
-                </div>
-                <div class="testimonial-text">
-                    <p>
-                        Lorem ipsum dolor sit amet elit. Phasel preti mi facilis ornare velit non vulputa. Aliqu
-                        metus tortor, auctor id gravid vivera quis
-                    </p>
-                </div>
-            </div>
-            <div class="testimonial-item">
-                <div class="testimonial-profile">
-                    <img src="img/testimonial-4.jpg" alt="Image">
-                    <div class="testimonial-name">
-                        <h3>Person Name</h3>
-                        <p>Profession</p>
-                    </div>
-                </div>
-                <div class="testimonial-text">
-                    <p>
-                        Lorem ipsum dolor sit amet elit. Phasel preti mi facilis ornare velit non vulputa. Aliqu
-                        metus tortor, auctor id gravid vivera quis
-                    </p>
-                </div>
-            </div>
+            </c:forEach>
+
         </div>
     </div>
 </div>
 <!-- Testimonial End -->
 
-
-<!-- Contact Start -->
-<div class="contact">
-    <div class="container">
-        <div class="section-header text-center">
-            <p>Get In Touch</p>
-            <h2>Contact for any query</h2>
-        </div>
-        <div class="contact-img">
-            <img src="img/contact.jpg" alt="Image">
-        </div>
-        <div class="contact-form">
-            <div id="success"></div>
-            <form name="sentMessage" id="contactForm" novalidate="novalidate">
-                <div class="control-group">
-                    <input type="text" class="form-control" id="name" placeholder="Your Name" required="required"
-                           data-validation-required-message="Please enter your name" />
-                    <p class="help-block text-danger"></p>
-                </div>
-                <div class="control-group">
-                    <input type="email" class="form-control" id="email" placeholder="Your Email" required="required"
-                           data-validation-required-message="Please enter your email" />
-                    <p class="help-block text-danger"></p>
-                </div>
-                <div class="control-group">
-                    <input type="text" class="form-control" id="subject" placeholder="Subject" required="required"
-                           data-validation-required-message="Please enter a subject" />
-                    <p class="help-block text-danger"></p>
-                </div>
-                <div class="control-group">
-                    <textarea class="form-control" id="message" placeholder="Message" required="required"
-                              data-validation-required-message="Please enter your message"></textarea>
-                    <p class="help-block text-danger"></p>
-                </div>
-                <div>
-                    <button class="btn btn-custom" type="submit" id="sendMessageButton">Send Message</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- Contact End -->
-
-
 <!-- Blog Start -->
-<div class="blog">
-    <div class="container">
-        <div class="section-header text-center">
-            <p>Our Blog</p>
-            <h2>Latest news & articles directly from our blog</h2>
-        </div>
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="blog-item">
-                    <div class="blog-img">
-                        <img src="img/blog-1.jpg" alt="Image">
-                    </div>
-                    <div class="blog-text">
-                        <h3><a href="#">Lorem ipsum dolor sit</a></h3>
-                        <p>
-                            Lorem ipsum dolor sit amet elit. Neca pretim miura bitur facili ornare velit non vulpte
-                            liqum metus tortor
-                        </p>
-                    </div>
-                    <div class="blog-meta">
-                        <p><i class="fa fa-user"></i><a href="">Admin</a></p>
-                        <p><i class="fa fa-comments"></i><a href="">15 Comments</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="blog-item">
-                    <div class="blog-img">
-                        <img src="img/blog-2.jpg" alt="Image">
-                    </div>
-                    <div class="blog-text">
-                        <h3><a href="#">Lorem ipsum dolor sit</a></h3>
-                        <p>
-                            Lorem ipsum dolor sit amet elit. Neca pretim miura bitur facili ornare velit non vulpte
-                            liqum metus tortor
-                        </p>
-                    </div>
-                    <div class="blog-meta">
-                        <p><i class="fa fa-user"></i><a href="">Admin</a></p>
-                        <p><i class="fa fa-comments"></i><a href="">15 Comments</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="blog-item">
-                    <div class="blog-img">
-                        <img src="img/blog-3.jpg" alt="Image">
-                    </div>
-                    <div class="blog-text">
-                        <h3><a href="#">Lorem ipsum dolor sit</a></h3>
-                        <p>
-                            Lorem ipsum dolor sit amet elit. Neca pretim miura bitur facili ornare velit non vulpte
-                            liqum metus tortor
-                        </p>
-                    </div>
-                    <div class="blog-meta">
-                        <p><i class="fa fa-user"></i><a href="">Admin</a></p>
-                        <p><i class="fa fa-comments"></i><a href="">15 Comments</a></p>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="container">
+    <div class="section-header text-center">
+        <p>Donation</p>
+        <h2>Recently donate</h2>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover" id="job-table">
+            <thead>
+                <tr class="text-center">
+                    <th scope="col">No.</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col-2" colspan="3">Message</th>
+
+                    <th scope="col">At</th>
+
+                </tr>
+            </thead>
+
+            <c:set var = "donateNo" value="${1}" />
+            <tbody class="text-center tableBody">
+                <c:forEach var="item" items="${listDonate}">
+                    <tr key={key}>
+                        <td class="font-weight-bold">${donateNo}</td>
+                        <td class="font-weight-bold">${item.name}</td>
+                        <td>${item.amount}$</td>
+                        <td class="font-weight-bold" colspan="3">${item.message}</td>
+                        <td>${item.donate_date}</td>
+
+                    </tr>
+                    <c:set var = "donateNo" value="${donateNo+1}" />
+                </c:forEach>
+
+
+
+            </tbody>
+        </table>
     </div>
 </div>
 <!-- Blog End -->    
