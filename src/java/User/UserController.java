@@ -5,19 +5,25 @@
  */
 package User;
 
+import Donate.Donate;
+import Donate.DonateService;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author toten
  */
-@WebServlet(name = "DonateController", urlPatterns = {"/donate"})
+@WebServlet(name = "UserController", urlPatterns = {"/user"})
 public class UserController extends HttpServlet {
+    
+    private final DonateService donateService = new DonateService();
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,7 +51,23 @@ public class UserController extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp); //To change body of generated methods, choose Tools | Templates.
+         HttpSession session = req.getSession(false);
+        Account account = (Account) session.getAttribute("user");
+        List<Donate> donateHistory = donateService.getDonateHistoryByUserId(account.getAccountId());
+        
+        System.out.println(account.getAccountId());
+        
+        if(account==null) {
+            req.setAttribute("signUpFailMessage", "Username existed");
+            req.getRequestDispatcher("login.jsp").forward(req, resp);
+        }
+        
+        req.setAttribute("account", account);
+        req.setAttribute("donateHistory", donateHistory);
+        
+        
+        
+        req.getRequestDispatcher("profilePage.jsp").forward(req, resp);
     }
 
     /**

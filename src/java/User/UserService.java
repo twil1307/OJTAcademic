@@ -10,5 +10,13 @@ package User;
  * @author toten
  */
 public class UserService {
+    private final UserDAO userDAO = new UserDAO();
     
+    public Account getUserByID(int userID) {
+        return userDAO.getUserByID(userID);
+    }
+    
+    public String getEmailByAccountID(int id) {
+        return userDAO.getEmailByAccountID(id);
+    }
 }

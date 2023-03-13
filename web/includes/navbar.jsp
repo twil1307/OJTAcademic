@@ -13,11 +13,11 @@
 
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav ml-auto">
-                    <a href="index.jsp" class="nav-item nav-link">Home</a>
+                    <a href="home" class="nav-item nav-link">Home</a>
                     <a href="about.jsp" class="nav-item nav-link">About</a>
                     <a href="causes.jsp" class="nav-item nav-link">Causes</a>
                     <a href="event.jsp" class="nav-item nav-link">Events</a>
-                    <a href="blog.jsp" class="nav-item nav-link">Blog</a>
+                    <a href="news?action=list" class="nav-item nav-link">News</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                         <div class="dropdown-menu">
@@ -28,7 +28,10 @@
                             <a href="volunteer.html" class="dropdown-item">Become A Volunteer</a>
                         </div>
                     </div>
-                    <a href="contact.jsp" class="nav-item nav-link">Contact</a>
+                    <c:if test="${sessionScope.user !=null}">
+                        <a href="contact" class="nav-item nav-link">Contact</a>
+
+                    </c:if>
                 </div>
 
                 <div class="nav-item dropdown">
@@ -43,9 +46,9 @@
 
                                 <c:if test="${sessionScope.user.role=='2' || sessionScope.user.role=='1'}">
                                     <a class="dropdown-item" href="">Create program</a>
-                                    <a class="dropdown-item" href="/OJT_Mock/news-create">Create news</a>
+                                    <a class="dropdown-item" href="/OJT_Mock/news-manage">Create news</a>
                                 </c:if>
-                                    <c:if test="${sessionScope.user.role=='1'}">
+                                <c:if test="${sessionScope.user.role=='1'}">
                                     <a class="dropdown-item" href="">Admin</a>
                                 </c:if>
                                 <a class="dropdown-item" href="logout">Log out</a>

@@ -47,25 +47,27 @@ public class AuthenticateFilter implements Filter {
 
         String username = null;
 
-        for (Cookie c : cookies) {
-            if (c.getName().equals("username")) {
-                username = c.getValue();
-                if (username != null) {
-                    break;
+        try {
+            for (Cookie c : cookies) {
+                if (c.getName().equals("username")) {
+                    username = c.getValue();
+                    if (username != null) {
+                        break;
+                    }
                 }
             }
+            if (username != null) {
+                Account user = new UserDAO().checkExistedUsername(username);
 
+                session = httpRequest.getSession(true); // create a new session
+                session.setAttribute("user", user);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            chain.doFilter(request, response);
         }
 
-        if (username != null) {
-            Account user = new UserDAO().checkExistedUsername(username);
-
-            session = httpRequest.getSession(true); // create a new session
-            session.setAttribute("user", user);
-
-        }
-
-        chain.doFilter(request, response);
     }
 
     @Override

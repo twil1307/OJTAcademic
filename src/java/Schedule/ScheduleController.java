@@ -26,31 +26,30 @@ import javax.servlet.http.Part;
  */
 @WebServlet(name = "ScheduleController", urlPatterns = {"/schedule"})
 @MultipartConfig(
-    fileSizeThreshold = 1024 * 1024 * 10, // 10 MB
-    maxFileSize = 1024 * 1024 * 50, // 50 MB
-    maxRequestSize = 1024 * 1024 * 100 // 100 MB
+        fileSizeThreshold = 1024 * 1024 * 10, // 10 MB
+        maxFileSize = 1024 * 1024 * 50, // 50 MB
+        maxRequestSize = 1024 * 1024 * 100 // 100 MB
 )
-public class ScheduleController extends HttpServlet  {
+public class ScheduleController extends HttpServlet {
+
     private ScheduleService service = new ScheduleService();
-    
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doGet(req, resp); //To change body of generated methods, choose Tools | Templates.
     }
 
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
-        
-        switch(action) {
-            case "register": 
+
+        switch (action) {
+            case "register":
                 handleRegisterSchedule(req, resp);
-            default: 
-                
+            default:
+
         }
     }
-
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -61,42 +60,45 @@ public class ScheduleController extends HttpServlet  {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doDelete(req, resp); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     private void handleRegisterSchedule(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int scheduleSize = Integer.parseInt(req.getParameter("scheduleSize"));
         int programId = Integer.parseInt(req.getParameter("programId"));
-        
-        List<Schedule> schedules = IntStream.iterate(0, i -> i + 1)
-          .limit(scheduleSize)
-          .mapToObj(i -> {
-            String scheduleDate = req.getParameter("schedule_" + i + "_date");
-            String detailDes = req.getParameter("detail_des_" + i);
-            Schedule schedule = new Schedule(0, programId, scheduleDate, detailDes, null);
-            List<ScheduleImage> scheduleImages = new ArrayList();
 
-            try {
-                for (Part part : req.getParts()) {
-                    if (part.getName().equals("schedule_img_" + i)) {
-                        String imgPath = "img/" + programId + part.getSubmittedFileName();
-                        ScheduleImage image = new ScheduleImage(0, 0, imgPath);
-                        scheduleImages.add(image);
+        List<Schedule> schedules = IntStream.iterate(0, i -> i + 1)
+                .limit(scheduleSize)
+                .mapToObj(i -> {
+                    String scheduleDate = req.getParameter("schedule_" + i + "_date");
+                    String detailDes = req.getParameter("detail_des_" + i);
+                    Schedule schedule = new Schedule(0, programId, scheduleDate, detailDes, null);
+                    List<ScheduleImage> scheduleImages = new ArrayList();
+
+                    try {
+                        for (Part part : req.getParts()) {
+                            if (part.getName().equals("schedule_img_" + i)) {
+                                String imgPath = "img/" + programId + part.getSubmittedFileName();
+                                ScheduleImage image = new ScheduleImage(0, 0, imgPath);
+                                scheduleImages.add(image);
+                            }
+                        }
+                    } catch (IOException | ServletException ex) {
+                        Logger.getLogger(ScheduleController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }
-            } catch (IOException | ServletException ex) {
-                Logger.getLogger(ScheduleController.class.getName()).log(Level.SEVERE, null, ex);
-            } 
-              
-            schedule.setImgPath(scheduleImages);
-            return schedule;
-          })
-          .collect(Collectors.toList()); 
-        
+
+                    schedule.setImgPath(scheduleImages);
+                    return schedule;
+                })
+                .collect(Collectors.toList());
+
         String imageUploadPath = req.getServletContext().getRealPath("");
 
         List<Part> scheduleImageParts = req.getParts().stream()
-                                                .filter(part -> part.getName().matches("schedule_img_(.*)"))
-                                                .collect(Collectors.toList());
+                .filter(part -> part.getName().matches("schedule_img_(.*)"))
+                .collect(Collectors.toList());
         // TODO: upload images into server file system
         service.registerSchedule(schedules, scheduleImageParts, "" + programId, imageUploadPath);
+
+        req.getRequestDispatcher("investor.jsp?programId=" + programId).forward(req, resp);
+
     }
 }

@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +28,7 @@ public class ProgramDAO {
 
             int generatedKey;
 
-            String query = "insert into program(program_name, program_short_des,program_detail_des,goal_amount,start_date,end_date,sche_start_date,sche_end_date,account_id) values(?,?,?,?,?,?,?,?,?)";
+            String query = "insert into program(program_name, program_short_des,program_detail_des,goal_amount,start_date,end_date,sche_start_date,sche_end_date,account_id, is_closed) values(?,?,?,?,?,?,?,?,?, default)";
             conn = new DBContext().getConnection();
 
             ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -39,7 +40,7 @@ public class ProgramDAO {
             ps.setString(6, program.getEndDate());
             ps.setString(7, program.getScheStartDate());
             ps.setString(8, program.getScheEndDate());
-            ps.setInt(9, 2);
+            ps.setInt(9, program.getUserId());
             
             ps.executeUpdate();
 
@@ -71,7 +72,7 @@ public class ProgramDAO {
             conn.close();
             return generatedKey;
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProgramDAO.class.getName()).log(Level.SEVERE, null, ex);
         } 
         return 0;
     }
@@ -126,7 +127,7 @@ public class ProgramDAO {
             ps.close();
             conn.close();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProgramDAO.class.getName()).log(Level.SEVERE, null, ex);
         } 
         return program;
     }
@@ -158,8 +159,126 @@ public class ProgramDAO {
             conn.close();
             
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProgramDAO.class.getName()).log(Level.SEVERE, null, ex);
         } 
         return destination;
     }
+    
+    
+    int getTotalProgram() {
+        try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+
+            String query = "select count(1) as total_program from program";
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+
+            rs = ps.executeQuery();
+
+            int a = -1;
+            while (rs.next()) {
+                a=rs.getInt("total_program");
+            }
+
+            return a;
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(ProgramDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
+    public List<Program> getListProgram(int beginElement, int size) {
+        try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+
+            String query = "select *, (select top 1 program_img_path from program_img where program_id=pr.program_id) as display_img, (SELECT ISNULL((select sum(amount) from donate where program_id=pr.program_id), 0)) as raised_amount \n" +
+                                        "from program as pr order by pr.start_date\n" +
+                                        "offset ? rows fetch next ? rows only";
+//            OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+            
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, beginElement);
+            ps.setInt(2, size);
+            
+            
+            rs = ps.executeQuery();
+
+            List<Program> programs = new ArrayList<>();
+            while (rs.next()) {
+                Program newsAdd = new  ProgramVO(rs.getInt("program_id"), rs.getString("program_name"), rs.getString("program_short_des"), 
+                                                                null, rs.getDouble("goal_amount"), rs.getString("start_date"), rs.getString("end_date"), null, null, null, rs.getInt("account_id"), 
+                                                                null, rs.getString("display_img"), rs.getDouble("raised_amount"));
+                                                                
+                programs.add(newsAdd);
+            }
+
+            return programs;
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(ProgramDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+//    public static void main(String[] args) {
+//        List<Program> listProgram = ProgramDAO.getListProgram(0, 6);
+//        System.out.println(listProgram.size());
+//    }
+
+    double getProgramRaisedAmount(int programId) {
+       try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+
+            String query = "select isnull((select sum(amount) from donate where program_id=?), 0) as raised_amount";
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, programId);
+            rs = ps.executeQuery();
+
+            int a = -1;
+            while (rs.next()) {
+                a=rs.getInt("raised_amount");
+            }
+
+            return a;
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(ProgramDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+    
+    public void autoUpdate()  { 
+        Connection conn;
+        PreparedStatement ps;
+        
+        try {
+
+            String query = "update program set is_closed = 'TRUE' where end_date<getdate()";
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+            
+            
+            ps.executeUpdate();
+
+            
+            ps.close();
+            conn.close();
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(ProgramDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    } 
 }
