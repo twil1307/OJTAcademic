@@ -16,8 +16,8 @@
                 <h2>Popular Causes</h2>
             </div>
             <div class="col-12">
-                <a href="">Home</a>
-                <a href="">Causes</a>
+                <a href="home">Home</a>
+                <a href="">Program List</a>
             </div>
         </div>
     </div>
@@ -111,10 +111,55 @@
             <p>Popular Causes</p>
             <h2>Let's know about charity causes around the world</h2>
         </div>
+        <div class="row d-flex justify-content-center mb-5">
+            <div class="col-md-12">
+                <div class="card p-3  py-4">
+                    <h5>An Easier way to find program</h5>
+                    <form method="GET" action="program?action=list">
+                        <div class="row g-3 mt-2">
+
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" name="condition_programName" value="${param.condition_programName}" placeholder="Enter program name" style="height: 100%">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-custom btn-block">Search Results</button>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+                               aria-controls="collapseExample" class="advanced">
+                                Advance Search With Filters <i class="fa fa-angle-down"></i>
+                            </a>
+                            <div class="collapse" id="collapseExample">
+                                <div class="card card-body">
+                                    <div class="row">
+                                        <input type="hidden" name="action" value="${param.action}">
+
+                                        <div class="col-md-4">
+                                            <input type="text" placeholder="Search by place" name="condition_placeName" value="${param.condition_placeName}" class="form-control">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" name="condition_investorName" value="${param.condition_investorName}" placeholder="Search by Investor">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" name="condition_authorName" value="${param.condition_authorName}" placeholder="Search by Author">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+
+
 
         <div class="row">
             <c:forEach var="item" items="${listProgram}">
-                <div class="col-lg-4" style="margin-bottom:2em; ">
+                <div class="col-lg-4" style="margin-bottom:2em; width: 100%">
                     <div class="chairy-item" style="background-color: white">
                         <div class="blog-img">
                             <img src="${item.programDisplayImg}" alt="Image"  style="height: 20em; width: 100%; object-fit: cover;">
@@ -130,30 +175,33 @@
                                 <p><strong>Goal:</strong> $${(item.goalAmount)}</p>
                             </div>
                         </div>
-                        <div class="causes-text">
+                        <div class="causes-text" style="height: 6em">
                             <h3>${item.programName}</h3>
                             <p>${item.shortDes}</p>
                         </div>
                         <div class="causes-btn" style="padding: 10px">
                             <a href="program?action=detail&programId=${item.programId}" class="btn btn-custom">Learn More</a>
-                            <a class="btn btn-custom">Donate Now</a>
+                            <c:if test="${sessionScope.user.role=='2' || sessionScope.user.role=='1'}">
+                                <a class="btn btn-custom" href="operator?programId=${item.programId}">Update Operator</a>
+                            </c:if>
+
                         </div>
                     </div>
                 </div>
 
             </c:forEach>
 
-            
-        </div>
-        <c:if test="${pageNumber > 1}">
-                <div class="row">
-                    <div class="col-12">
-                        <div id="pagination">
 
-                        </div>
+        </div>
+        
+            <div class="row">
+                <div class="col-12">
+                    <div id="pagination">
+
                     </div>
                 </div>
-            </c:if>
+            </div>
+       
     </div>
 </div>
 <!-- Causes End -->
@@ -252,14 +300,14 @@
 
             // Show the Previous button only if you are on a page other than the first
             if (page > 1) {
-                str += '<li class="page-item previous no"><a onclick="createPagination(pages, ' + (page - 1) + ')" href="program?action=list&page=' + (page - 1) + '">Previous</a></li>';
+                str += '<li class="page-item previous no"><a onclick="createPagination(pages, ' + (page - 1) + ')" href="program?action=list&page=' + (page - 1) + '&condition_programName=' + `${condition_programName}` +  '&condition_placeName=' + `${condition_placeName}` + '&condition_investorName=' + `${condition_investorName}` + '&condition_authorName=' + `${condition_authorName}` + '">Previous</a></li>';
             }
             // Show all the pagination elements if there are less than 6 pages total
             if (pages < 6) {
                 for (let p = 1; p <= pages; p++) {
 
                     active = page == p ? "active" : "no";
-                    str += '<li class="' + active + '"><a onclick="createPagination(pages, ' + p + ')" href="program?action=list&page=' + p + '">' + p + '</a></li>';
+                    str += '<li class="' + active + '"><a onclick="createPagination(pages, ' + p + ')" href="program?action=list&page=' + p + '&condition_programName=' + `${condition_programName}` +  '&condition_placeName=' + `${condition_placeName}` + '&condition_investorName=' + `${condition_investorName}` + '&condition_authorName=' + `${condition_authorName}` + '">' + p + '</a></li>';
                 }
             }
             // Use "..." to collapse pages outside of a certain range
@@ -267,9 +315,9 @@
                 // Show the very first page followed by a "..." at the beginning of the
                 // pagination section (after the Previous button)
                 if (page > 2) {
-                    str += '<li class="no page-item"><a onclick="createPagination(pages, 1)" href="program?action=list&page=1">1</a></li>';
+                    str += '<li class="no page-item"><a onclick="createPagination(pages, 1)" href="program?action=list&page=1&condition_programName=' + `${condition_programName}` +  '&condition_placeName=' + `${condition_placeName}` + '&condition_investorName=' + `${condition_investorName}` + '&condition_authorName=' + `${condition_authorName}` + '">1</a></li>';
                     if (page > 3) {
-                        str += '<li class="out-of-range"><a onclick="createPagination(pages,' + (page - 2) + ')" href="program?action=list&page=' + (page - 2) + '">...</a></li>';
+                        str += '<li class="out-of-range"><a onclick="createPagination(pages,' + (page - 2) + ')" href="program?action=list&page=' + (page - 2) + '&condition_programName=' + `${condition_programName}` +  '&condition_placeName=' + `${condition_placeName}` + '&condition_investorName=' + `${condition_investorName}` + '&condition_authorName=' + `${condition_authorName}` + '">...</a></li>';
                     }
                 }
                 // Determine how many pages to show after the current page index
@@ -294,20 +342,20 @@
                         continue
                     }
                     active = page == p ? "active" : "no";
-                    str += '<li class="page-item ' + active + '"><a onclick="createPagination(pages, ' + p + ')" href="program?action=list&page=' + p + '">' + p + '</a></li>';
+                    str += '<li class="page-item ' + active + '"><a onclick="createPagination(pages, ' + p + ')" href="program?action=list&page=' + p + '&condition_programName=' + `${condition_programName}` +  '&condition_placeName=' + `${condition_placeName}` + '&condition_investorName=' + `${condition_investorName}` + '&condition_authorName=' + `${condition_authorName}` + '">' + p + '</a></li>';
                 }
                 // Show the very last page preceded by a "..." at the end of the pagination
                 // section (before the Next button)
                 if (page < pages - 1) {
                     if (page < pages - 2) {
-                        str += '<li class="out-of-range"><a onclick="createPagination(pages,' + (page + 2) + ')" href="program?action=list&page=' + (page + 2) + '">...</a></li>';
+                        str += '<li class="out-of-range"><a onclick="createPagination(pages,' + (page + 2) + ')" href="program?action=list&page=' + (page + 2) + '&condition_programName=' + `${condition_programName}` +  '&condition_placeName=' + `${condition_placeName}` + '&condition_investorName=' + `${condition_investorName}` + '&condition_authorName=' + `${condition_authorName}` + '">...</a></li>';
                     }
-                    str += '<li class="page-item no"><a onclick="createPagination(pages, pages)" href="program?action=list&page=' + (pages) + '">' + pages + '</a></li>';
+                    str += '<li class="page-item no"><a onclick="createPagination(pages, pages)" href="program?action=list&page=' + (pages) + '&condition_programName=' + `${condition_programName}` +  '&condition_placeName=' + `${condition_placeName}` + '&condition_investorName=' + `${condition_investorName}` + '&condition_authorName=' + `${condition_authorName}` + '">' + pages + '</a></li>';
                 }
             }
             // Show the Next button only if you are on a page other than the last
             if (page < pages) {
-                str += '<li class="page-item next no"><a onclick="createPagination(pages, ' + (page + 1) + ')" href="program?action=list&page=' + (page + 1) + '">Next</a></li>';
+                str += '<li class="page-item next no"><a onclick="createPagination(pages, ' + (page + 1) + ')" href="program?action=list&page=' + (page + 1) + '&condition_programName=' + `${condition_programName}` +  '&condition_placeName=' + `${condition_placeName}` + '&condition_investorName=' + `${condition_investorName}` + '&condition_authorName=' + `${condition_authorName}` + '">Next</a></li>';
             }
             str += '</ul>';
             // Return the pagination string to be outputted in the pug templates

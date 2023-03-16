@@ -37,7 +37,7 @@ public class Program {
     @Getter
     @Setter
     @ToString
-    class Destination {
+    public class Destination {
         private int id;
         private String city;
         private String province;

@@ -204,5 +204,6 @@ public class NewsManageController extends HttpServlet {
         
         service.createNews(news, newsParts, imageUploadPath);
         
+        resp.sendRedirect("news?action=list");
     }
 }

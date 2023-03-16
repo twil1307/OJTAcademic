@@ -13,9 +13,9 @@ import java.util.Properties;
 public class SendMail {
 
     static Session loginGetSession() {
-        final String username = "duclqde160552@fpt.edu.vn";
+        final String username = "lanhtuan200@gmail.com";
 //        final String password = "xpdtqogzdwvfopez";        
-        final String password = "pjutsgksrztpdwuf";
+        final String password = "thedjvfoamdtazkr";
 
 
         Properties props = new Properties();
@@ -241,7 +241,7 @@ public class SendMail {
 //        String status, String email, String subject, String emailTitle, String emailContent, String otp
 //We received a request to reset the password for the Klub4 account associated"
 //                    + "                                            with this e-mail address. Please ignore this email if you have not requested. Your OTP here:"
-        SendMail.sendConfirmEmail("success","totenduc13072002@gmail.com", "CONFIRM DONATING", "We receive a request that you donate 9999 dollars for the project xxx pllease confirm it by the OTP", "Thanks for being part of us", null);
+        SendMail.sendConfirmEmail("success","totenduc1307@gmail.com", "CONFIRM DONATING", "We receive a request that you donate 9999 dollars for the project xxx pllease confirm it by the OTP", "Thanks for being part of us", OTPGenerate.generateOTP());
 //            SendMail.sendSuccessEmail("totenduc1307@gmail.com");
     }
 

@@ -754,7 +754,7 @@
             <h1 class="error-title">
                 Woops! <br>Something went wrong :(
             </h1>
-            <a href="home" class="error-subtitle">
+            <a href="${sessionScope.urlHistory !=null ? sessionScope.urlHistory : 'home'}" class="error-subtitle">
                 Back Home?
             </a>
 

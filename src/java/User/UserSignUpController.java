@@ -86,7 +86,7 @@ public class UserSignUpController extends HttpServlet {
 //        
 //        User userSignUp = new User(0, username, password, email, city, province, address, name, "donor", null, phoneNumber, dob, bankAccount, null);
         
-        Account accountSignUp = new Account(0, username, password, 1, null);
+        Account accountSignUp = new Account(0, username, password, 3, null);
         Donor donorSignUp = new Donor(0, username, password, 3, null, email, city, province, address, name, null, phoneNumber, dob, bankAccount);
         
 //        Check avatar is null or not to store an empty string

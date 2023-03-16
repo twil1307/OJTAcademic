@@ -1,6 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@include file="/includes/header.jsp"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <head>
     <title>FantasticV - Charity Website</title>
     <link rel="stylesheet" href="css/program.css">
@@ -185,23 +187,37 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-5">
-                <div class="donate-form">
-                    <form method="POST" action="donate?action=request&programId=${program.programId}">
-                        <div class="control-group">
-                            <input type="number" class="form-control" name="amount" placeholder="Donate amount" required="required" />
-                            <input type="hidden" class="form-control" name="programName" value="${program.programName}"  required="required" />
+            <div class="col-lg-5 text-center">
 
+                <c:choose>
+                    <c:when test="${sessionScope.user !=null}">
+                        <div class="donate-form">
+                            <form method="POST" action="donate?action=request&programId=${program.programId}">
+                                <div class="control-group">
+                                    <input type="number" class="form-control" name="amount" placeholder="Donate amount" required="required" />
+                                    <input type="hidden" class="form-control" name="programName" value="${program.programName}"  required="required" />
+                                </div>
+                                <div class="control-group">
+                                    <textarea class="form-control" id="message" style="height: auto" rows="7" placeholder="Message" name="message" required="required" data-validation-required-message="Please enter your message"></textarea>
+                                    <p class="help-block text-danger"></p>
+                                </div>
+                                <div>
+                                    <button class="btn btn-custom" type="submit">Donate Now</button>
+                                </div>
+                            </form>
                         </div>
-                        <div class="control-group">
-                            <textarea class="form-control" id="message" style="height: auto" rows="7" placeholder="Message" name="message" required="required" data-validation-required-message="Please enter your message"></textarea>
-                            <p class="help-block text-danger"></p>
-                        </div>
-                        <div>
-                            <button class="btn btn-custom" type="submit">Donate Now</button>
-                        </div>
-                    </form>
-                </div>
+                    </c:when>
+                    <c:otherwise>
+                        <button style="color: white; padding: 0; height: 3em" class="btn btn-custom" type="submit">
+                            <a style="width: 100%; height: 100%; color: white; padding: 5em 1em" href="login">
+                                Login now to donate
+
+                            </a>
+                        </button>
+                    </c:otherwise>
+                </c:choose>
+
+
             </div>
         </div>
     </div>
@@ -210,56 +226,93 @@
 
 
 <!-- Event Start -->
-<div class="event">
-    <div class="container">
-        <div class="section-header text-center">
-            <p>Upcoming Events</p>
-            <h2>Be ready for our upcoming charity events</h2>
-        </div>
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="event-item">
-                    <img src="img/event-1.jpg" alt="Image">
-                    <div class="event-content">
-                        <div class="event-meta">
-                            <p><i class="fa fa-calendar-alt"></i>01-Jan-45</p>
-                            <p><i class="far fa-clock"></i>8:00 - 10:00</p>
-                            <p><i class="fa fa-map-marker-alt"></i>New York</p>
-                        </div>
-                        <div class="event-text">
-                            <h3>Lorem ipsum dolor sit</h3>
-                            <p>
-                                Lorem ipsum dolor sit amet elit. Neca pretim miura bitur facili ornare velit non
-                                vulpte liqum metus tortor
-                            </p>
-                            <a class="btn btn-custom" href="">Join Now</a>
-                        </div>
-                    </div>
-                </div>
+<c:if test="${not empty operators}">
+    <div class="event">
+        <div class="container">
+            <div class="section-header text-center">
+                <p>Upcoming Events</p>
+                <h2>Be ready for our upcoming charity events</h2>
             </div>
-            <div class="col-lg-6">
-                <div class="event-item">
-                    <img src="img/event-2.jpg" alt="Image">
-                    <div class="event-content">
-                        <div class="event-meta">
-                            <p><i class="fa fa-calendar-alt"></i>01-Jan-45</p>
-                            <p><i class="far fa-clock"></i>8:00 - 10:00</p>
-                            <p><i class="fa fa-map-marker-alt"></i>New York</p>
-                        </div>
-                        <div class="event-text">
-                            <h3>Lorem ipsum dolor sit</h3>
-                            <p>
-                                Lorem ipsum dolor sit amet elit. Neca pretim miura bitur facili ornare velit non
-                                vulpte liqum metus tortor
-                            </p>
-                            <a class="btn btn-custom" href="">Join Now</a>
+            <div class="row">
+                <c:forEach var="item" items="${operators}">
+                    <div class="section-header text-center">
+                        <p>Operator</p>
+                        <h5>${item.operatorDate}</h5>
+                    </div>
+                    <div class="col-lg-6" style="margin-bottom: 5em">
+                        <div class="event-item" style="height: 100% !important">
+                            <div class="carousel" style="margin-bottom: 0">
+                                <div class="container-fluid">
+                                    <div class="owl-carousel">
+                                        <!-- News images -->
+                                        <c:forEach items="${item.activiesImgs}" var="activity">
+                                            <div class="owl-carousel-item"> 
+                                                <div class="carousel-img">
+                                                    <img src="${activity.path}" alt="Image" style="height: 360px; width: 100%">
+                                                    <!--<img src="img/event-1.jpg" alt="Image">-->
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="event-content">
+                                <div class="event-meta">
+                                    <p><i class="fa fa-calendar-alt"></i>${item.operatorDate}</p>
+                                    <p><i class="fa fa-map-marker-alt"></i>${destination.city}</p>
+                                    <p><i class="fa fa-map-marker-alt"></i>${destination.province}</p>
+                                    <p><i class="fa fa-map-marker-alt"></i>${destination.address}</p>
+                                </div>
+                                <div class="event-text">
+                                    <h3>Activities</h3>
+                                    <p class="description">
+                                        ${item.operatorDetailDes.replaceAll("\\r\\n", "<br>")}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <div class="col-lg-6" style="margin-bottom: 5em">
+                        <div class="event-item" style="height: 100% !important">
+                            <div class="carousel" style="margin-bottom: 0">
+                                <div class="container-fluid">
+                                    <div class="owl-carousel">
+                                        <!-- News images -->
+                                        <c:forEach items="${item.billImgs}" var="bill">
+                                            <div class="owl-carousel-item"> 
+                                                <div class="carousel-img">
+                                                    <img src="${bill.path}" alt="Image" style="height: 360px; width: 100%">
+                                                    <!--<img src="img/event-1.jpg" alt="Image">-->
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="event-content">
+                                <div class="event-meta">
+                                    <p><i class="fa fa-money-bill"></i>${item.actualExpense}</p>
+                                    <p><i class="fa fa-map-marker-alt"></i>${destination.city}</p>
+                                    <p><i class="fa fa-map-marker-alt"></i>${destination.province}</p>
+                                    <p><i class="fa fa-map-marker-alt"></i>${destination.address}</p>
+                                </div>
+                                <div class="event-text">
+                                    <h3>Bills</h3>
+                                    <p>
+                                        Total actual Expense here is: 
+                                        <span style="font-size: 5em">${item.actualExpense}$</span>
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
             </div>
         </div>
     </div>
-</div>
+</c:if>
+
 <!-- Event End -->
 
 
@@ -319,7 +372,6 @@
                     </div>
                 </div>
             </c:forEach>
-
         </div>
     </div>
 </div>
@@ -339,9 +391,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Amount</th>
                     <th scope="col-2" colspan="3">Message</th>
-
                     <th scope="col">At</th>
-
                 </tr>
             </thead>
 
@@ -354,13 +404,9 @@
                         <td>${item.amount}$</td>
                         <td class="font-weight-bold" colspan="3">${item.message}</td>
                         <td>${item.donate_date}</td>
-
                     </tr>
                     <c:set var = "donateNo" value="${donateNo+1}" />
                 </c:forEach>
-
-
-
             </tbody>
         </table>
     </div>

@@ -46,7 +46,7 @@
                             </p>
                         </div>
                         <div class="blog-meta">
-                            <p><i class="fa fa-user"></i><a href="/news?action=single&newsId=${item.newsId}">Watch more</a></p>
+                            <p><i class="fa fa-user"></i><a href="news?action=single&newsId=${item.newsId}">Watch more</a></p>
 
                             <c:if test="${sessionScope.user.role=='2' || sessionScope.user.role=='1'}">
                                 <p><i class="fa fa-wrench"></i><a href="news?action=update&newsId=${item.newsId}">Edit News</a></p>

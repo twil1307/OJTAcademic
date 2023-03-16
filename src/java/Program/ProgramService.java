@@ -6,6 +6,7 @@
 package Program;
 
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.Part;
 import shared.FileUploader;
 
@@ -28,12 +29,20 @@ public class ProgramService {
         return dao.getProgram(programId);
     }
 
-    int getTotalProgram() {
-        return dao.getTotalProgram();
+    int getTotalProgram(Map<String, String> conditions) {
+        return dao.getTotalProgram(conditions);
     }
 
     List<Program> getListProgram(int beginElement, int PAGE_SIZE) {
         return dao.getListProgram(beginElement, PAGE_SIZE);
+    }
+    
+        public List<Program> getListProgramWithCondition(int beginElement, int size, Map<String, String> conditions) {
+        return dao.getListProgramWithCondition(beginElement, size, conditions);
+    }
+    
+    public List<Program> getListProgramAllAvaiable() {
+        return dao.getListProgramAllAvaiable();
     }
 
     double getProgramRaisedAmount(int programId) {
@@ -42,5 +51,21 @@ public class ProgramService {
     
     public void autoUpdate() {
         dao.autoUpdate();
+    }
+    
+    public void closeProgram(int programId) {
+        dao.closeProgram(programId);
+    }
+    
+    public void openProgram(int programId) {
+        dao.openProgram(programId);
+    }
+    
+    public double getGoalAmountAll(String statusCase) {
+        return dao.getGoalAmountAll(statusCase);
+    }
+    
+    public double getActutalAmountAll(String statusCase) {
+        return dao.getActutalAmountAll(statusCase);
     }
 }

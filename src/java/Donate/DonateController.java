@@ -136,7 +136,7 @@ public class DonateController extends HttpServlet {
         session.setAttribute("otp", otp);
         
         try {
-            SendMail.sendConfirmEmail("success", emailAccount, "CONFIRM DONATING", "We receive a request that you donate " + amount + " dollars for the project " + programName + " pllease confirm it by the OTP", "Thanks for being part of us", otp);
+            SendMail.sendConfirmEmail("success", emailAccount, "CONFIRM DONATING", "We receive a request that you donate " + amount + " dollars for the project " + programName + " pllease confirm it by the OTP", "Thanks for being a part of us", otp);
 
         } catch (Exception e) {
             System.out.println(e);

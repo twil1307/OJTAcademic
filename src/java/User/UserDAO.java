@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -60,7 +62,7 @@ public class UserDAO {
             PreparedStatement ps;
             ResultSet rs;
 
-            String query = "INSERT INTO DONOR (ACCOUNT_ID, EMAIL, PHONE_NUMBER, CITY, PROVINCE, ADDRESS, AVATAR, NAME, DOB, BANK_ACCOUNT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO DONOR (ACCOUNT_ID, EMAIL, PHONE_NUMBER, CITY, PROVINCE, ADDRESS, AVATAR, NAME, DOB, BANK_ACCOUNT, BANK_MONNEY_AMOUNT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 50000)";
             conn = new DBContext().getConnection();
 
             ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -195,7 +197,37 @@ public class UserDAO {
         return null;
     }
 
+    public List<Account> listUser() {
+         try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
 
+            String query = "select acc.username, acc.password, acc.role_id, acc.salt, don.* from donor as don, account as acc where acc.account_id=don.account_id and acc.role_id!=3 order by don.donor_id desc";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+
+
+            rs = ps.executeQuery();
+
+            List<Account> listUser = new ArrayList<>();
+            while (rs.next()) {
+                Account userAcc = (new Donor(rs.getInt("account_id"), rs.getString("username"), rs.getString("password"), rs.getInt("role_id"), rs.getString("salt"),
+                        rs.getInt("donor_id"), rs.getString("email"), rs.getString("city"), rs.getString("province"), rs.getString("address"), rs.getString("name"), rs.getString("avatar"), rs.getString("phone_number"), rs.getString("dob"), rs.getString("bank_account")));
+                listUser.add(userAcc);
+            }
+
+            return listUser;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 
     public String getEmailByAccountID(int id) {
         try {
@@ -219,6 +251,62 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    public void changeRole(int accountId, String roleCase) {
+         try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+
+            String query = null;
+            
+            switch(roleCase) {
+                case "user":
+                    query = "update account set role_id=1 where account_id=?";
+                    break;
+                case "manager":
+                    query = "update account set role_id=2 where account_id=?";
+                    break;
+            }
+            
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, accountId);
+            
+
+            ps.executeUpdate();
+
+//            rs = ps.getGeneratedKeys();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public int getManagerNumber() {
+        try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+
+            String query = "select count(1) as manager_count from account where role_id=2";
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                return rs.getInt("manager_count");
+
+            }
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
     }
     
         public static void main(String[] args) {

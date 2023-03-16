@@ -37,6 +37,10 @@ public class DonateService {
         return dao.getListRecentDonateByProgramId(programId);
     }
     
+    public List<Donate> getListDonation() {
+        return dao.getListDonation();
+    }
+    
     public List<Donate> getDonateHistoryByUserId(int programId) {
         return dao.getDonateHistoryByUserId(programId);
     }

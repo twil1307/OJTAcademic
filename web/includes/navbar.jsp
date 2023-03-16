@@ -15,7 +15,7 @@
                 <div class="navbar-nav ml-auto">
                     <a href="home" class="nav-item nav-link">Home</a>
                     <a href="about.jsp" class="nav-item nav-link">About</a>
-                    <a href="causes.jsp" class="nav-item nav-link">Causes</a>
+                    <a href="program?action=list" class="nav-item nav-link">Program</a>
                     <a href="event.jsp" class="nav-item nav-link">Events</a>
                     <a href="news?action=list" class="nav-item nav-link">News</a>
                     <div class="nav-item dropdown">
@@ -45,11 +45,11 @@
                                 <a class="dropdown-item" href="">${sessionScope.user.getName()}</a>
 
                                 <c:if test="${sessionScope.user.role=='2' || sessionScope.user.role=='1'}">
-                                    <a class="dropdown-item" href="">Create program</a>
+                                    <a class="dropdown-item" href="program_register.jsp">Create program</a>
                                     <a class="dropdown-item" href="/OJT_Mock/news-manage">Create news</a>
                                 </c:if>
                                 <c:if test="${sessionScope.user.role=='1'}">
-                                    <a class="dropdown-item" href="">Admin</a>
+                                    <a class="dropdown-item" href="dashboard">Dashboard</a>
                                 </c:if>
                                 <a class="dropdown-item" href="logout">Log out</a>
 

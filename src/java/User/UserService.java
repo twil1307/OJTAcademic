@@ -5,6 +5,8 @@
  */
 package User;
 
+import java.util.List;
+
 /**
  *
  * @author toten
@@ -18,5 +20,17 @@ public class UserService {
     
     public String getEmailByAccountID(int id) {
         return userDAO.getEmailByAccountID(id);
+    }
+    
+    public List<Account> listUser() {
+        return userDAO.listUser();
+    }
+    
+    public int getManagerNumber() {
+        return userDAO.getManagerNumber();
+    }
+    
+    public void changeRole(int accountId, String roleCase) {
+        userDAO.changeRole(accountId, roleCase);
     }
 }

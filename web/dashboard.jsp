@@ -1,548 +1,382 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%-- 
-    Document   : dashboard
-    Created on : May 3, 2022, 11:45:23 AM
-    Author     : toten
---%>
-
 <!DOCTYPE html>
 <html lang="en">
 
     <head>
 
+        <title>Flash Able - Most Trusted Admin Template</title>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="Flash Able Bootstrap admin template made using Bootstrap 4 and it has huge amount of ready made feature, UI components, pages which completely fulfills any dashboard needs." />
+        <meta name="keywords" content="admin templates, bootstrap admin templates, bootstrap 4, dashboard, dashboard templets, sass admin templets, html admin templates, responsive, bootstrap admin templates free download,premium bootstrap admin templates, Flash Able, Flash Able bootstrap admin template">
+        <meta name="author" content="Codedthemes" />
 
-        <title>Dashboard</title>
+        <!-- Favicon icon -->
+        <link rel="icon" href="./assets/images/favicon.ico" type="image/x-icon">
+        <!-- fontawesome icon -->
+        <link rel="stylesheet" href="./assets/fonts/fontawesome/css/fontawesome-all.min.css">
+        <!-- animation css -->
+        <link rel="stylesheet" href="./assets/plugins/animation/css/animate.min.css">
 
-        <!-- Custom fonts for this template-->
-        <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-        <link
-            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-            rel="stylesheet">
-
-        <!-- Custom styles for this template-->
-        <link href="assets/css/sb-admin-2.min.css" rel="stylesheet">
-
+        <!-- vendor css -->
+        <link rel="stylesheet" href="./assets/css/dashboard-style.css">
     </head>
 
-    <body id="page-top">
+    <body class="">
+        <!-- [ Pre-loader ] start -->
+        <div class="loader-bg">
+            <div class="loader-track">
+                <div class="loader-fill"></div>
+            </div>
+        </div>
+        <!-- [ Pre-loader ] End -->
 
-        <!-- Page Wrapper -->
-        <div id="wrapper">
-
-            <!-- Sidebar -->
-            <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar"  style="background: linear-gradient(90deg, #ffba00 0%, #ff6c00 100%)">
-
-                <!-- Sidebar - Brand -->
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="dashboard">
-                    <div class="sidebar-brand-icon rotate-n-15">
-                        <i class="fas fa-laugh-wink"></i>
-                    </div>
-                    <div class="sidebar-brand-text mx-3">Dashboard</div>
-                </a>
-
-                <!-- Divider -->
-                <hr class="sidebar-divider my-0">
-
-                <!-- Nav Item - Dashboard -->
-                <li class="nav-item active">
-                    <a class="nav-link" href="dashboard">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Dashboard</span></a>
-                 </li>
-                 
-                 
-
-                <!-- Divider -->
-                <hr class="sidebar-divider">
-
-                <!-- Heading -->
-                <div class="sidebar-heading">
-                    Detail
+        <!-- [ navigation menu ] start -->
+      <nav class="pcoded-navbar menupos-fixed menu-light brand-blue ">
+            <div class="navbar-wrapper ">
+                <div class="navbar-brand header-logo">
+                    <a href="home" class="b-brand" style="color: white">
+                        FANTASTIC V
+                    </a>
+                    <!--                    <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>-->
                 </div>
+                <div class="navbar-content scroll-div">
+                    <ul class="nav pcoded-inner-navbar">
+                        <li class="nav-item pcoded-menu-caption">
+                            <label>Navigation</label>
+                        </li>
+                        <li class="nav-item">
+                            <a href="dashboard?action=donation" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Donation</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="dashboard?action=user" class="nav-link"><span class="pcoded-micon"><i class="feather icon-user"></i></span><span class="pcoded-mtext">User</span></a>
+                        </li>
+                        
 
-                <!-- Nav Item - Tables -->
-                <li class="nav-item">
-                    <a class="nav-link" href="table">
-                        <i class="fas fa-fw fa-table"></i>
-                        <span>Tables</span></a>
-                </li>
-                
-                <li class="nav-item">
-                    <a class="nav-link" href="home">
-                        <i class="fas fa-fw fa-home"></i>
-                        <span>Home</span></a>
-                </li>
-                
-                <li class="nav-item">
-                    <a class="nav-link" href="sign-up-admin">
-                        <i class="fas fa-fw fa-plus"></i>
-                        <span>Admin Account</span></a>
-                </li>
+                    </ul>
 
-                <!-- Divider -->
-                <hr class="sidebar-divider d-none d-md-block">
-
-                <!-- Sidebar Toggler (Sidebar) -->
-                <div class="text-center d-none d-md-inline">
-                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
                 </div>
+            </div>
+        </nav>
+        <!-- [ navigation menu ] end -->
 
+        <!-- [ Header ] start -->
+        <header class="navbar pcoded-header navbar-expand-lg navbar-light headerpos-fixed">
 
+        </header>
+        <!-- [ Header ] end -->
 
-            </ul>
-            <!-- End of Sidebar -->
-
-            <!-- Content Wrapper -->
-            <div id="content-wrapper" class="d-flex flex-column">
-
-                <!-- Main Content -->
-                <div id="content">
-
-                    <!-- Topbar -->
-                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-                        <!-- Sidebar Toggle (Topbar) -->
-                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                            <i class="fa fa-bars"></i>
-                        </button>
-
-                        <!-- Topbar Search -->
-<!--                        <form
-                            class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                            <div class="input-group">
-                                <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                       aria-label="Search" aria-describedby="basic-addon2">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button">
-                                        <i class="fas fa-search fa-sm"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>-->
-
-                        <!-- Topbar Navbar -->
-                        <ul class="navbar-nav ml-auto">
-
-                            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                            <li class="nav-item dropdown no-arrow d-sm-none">
-                                <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-search fa-fw"></i>
-                                </a>
-                                <!-- Dropdown - Messages -->
-                                <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                     aria-labelledby="searchDropdown">
-                                    <form class="form-inline mr-auto w-100 navbar-search">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control bg-light border-0 small"
-                                                   placeholder="Search for..." aria-label="Search"
-                                                   aria-describedby="basic-addon2">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-primary" type="button">
-                                                    <i class="fas fa-search fa-sm"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </li>
-
-
-
-
-
-                            <div class="topbar-divider d-none d-sm-block"></div>
-
-                            <!-- Nav Item - User Information -->
-                            <li class="nav-item dropdown no-arrow">
-                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" style="background: orange; border: orange" data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="dropdown" aria-expanded="false">
-                                    ${sessionScope.account.displayName}
-                                </button>
-<!--                                    <img class="img-profile rounded-circle"
-                                         src="img/undraw_profile.svg">-->
-                                </a>
-                                <!-- Dropdown - User Information -->
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                     aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Profile
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Settings
-                                    </a>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Activity Log
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Logout
-                                    </a>
-                                </div>
-                            </li>
-
-                        </ul>
-
-                    </nav>
-                    <!-- End of Topbar -->
-
-                    <!-- Begin Page Content -->
-                    <div class="container-fluid">
-
-                        <!-- Page Heading -->
-                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-     
-                        </div>
-
-                        <!-- Content Row -->
-                        <div class="row">
-
-                            <!-- Earnings (Monthly) Card Example -->
-                            <div class="col-xl-3 col-md-6 mb-4">
-                                <div class="card border-left-primary shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                    Earnings (Monthly)</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">$${currentMonthTotal}</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Earnings (Monthly) Card Example -->
-                            <div class="col-xl-3 col-md-6 mb-4">
-                                <div class="card border-left-success shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                    Earnings (Annual)</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">$${totalPrice}</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Earnings (Monthly) Card Example -->
-                            <div class="col-xl-3 col-md-6 mb-4">
-                                <div class="card border-left-info shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Current total products
+        <!-- [ Main Content ] start -->
+        <div class="pcoded-main-container">
+            <div class="pcoded-wrapper">
+                <div class="pcoded-content">
+                    <div class="pcoded-inner-content">
+                        <div class="main-body">
+                            <div class="page-wrapper">
+                                <!-- [ breadcrumb ] start -->
+                                <div class="page-header">
+                                    <div class="page-block">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12">
+                                                <div class="page-header-title">
+                                                    <h5>Home</h5>
                                                 </div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">${listProductSize}</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                                <ul class="breadcrumb">
+                                                    <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
+                                                    <li class="breadcrumb-item"><a href="#!">Analytics Dashboard</a></li>
+                                                </ul>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                <!-- [ breadcrumb ] end -->
+                                <!-- [ Main Content ] start -->
+                                <div class="row">
 
-                            <!-- Shipping Requests Card Example -->
-                            <div class="col-xl-3 col-md-6 mb-4">
-                                <div class="card border-left-warning shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                    Shipping Requests</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">${shippingRequest}</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                    <!-- product profit start -->
+                                    <div class="col-xl-3 col-md-6">
+                                        <div class="card prod-p-card bg-c-red">
+                                            <div class="card-body">
+                                                <div class="row align-items-center m-b-25">
+                                                    <div class="col">
+                                                        <h6 class="m-b-5 text-white">Total donate today</h6>
+                                                        <h3 class="m-b-0 text-white">$${totalToday}</h3>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class="fas fa-money-bill-alt text-c-red f-18"></i>
+                                                    </div>
+                                                </div>
+                                                <!--                                                <p class="m-b-0 text-white"><span class="label label-danger m-r-10">+11%</span>From Previous Month</p>-->
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-xl-3 col-md-6">
+                                        <div class="card prod-p-card bg-c-blue">
+                                            <div class="card-body">
+                                                <div class="row align-items-center m-b-25">
+                                                    <div class="col">
+                                                        <h6 class="m-b-5 text-white">Total donate this month</h6>
+                                                        <h3 class="m-b-0 text-white">$${totalThisMonth}</h3>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class="fas fa-database text-c-blue f-18"></i>
+                                                    </div>
+                                                </div>
+                                                <!--<p class="m-b-0 text-white"><span class="label label-primary m-r-10">+12%</span>From Previous Month</p>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-md-6">
+                                        <div class="card prod-p-card bg-c-green">
+                                            <div class="card-body">
+                                                <div class="row align-items-center m-b-25">
+                                                    <div class="col">
+                                                        <h6 class="m-b-5 text-white">Total donate</h6>
+                                                        <h3 class="m-b-0 text-white">$${totalAll}</h3>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class="fas fa-dollar-sign text-c-green f-18"></i>
+                                                    </div>
+                                                </div>
+                                                <!--<p class="m-b-0 text-white"><span class="label label-success m-r-10">+52%</span>From Previous Month</p>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-md-6">
+                                        <div class="card prod-p-card bg-c-yellow">
+                                            <div class="card-body">
+                                                <div class="row align-items-center m-b-25">
+                                                    <div class="col">
+                                                        <h6 class="m-b-5 text-white">Number of program in process</h6>
+                                                        <h3 class="m-b-0 text-white">${avaiablePrograms}</h3>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class="fas fa-tags text-c-yellow f-18"></i>
+                                                    </div>
+                                                </div>
+                                                <!--<p class="m-b-0 text-white"><span class="label label-warning m-r-10">+52%</span>From Previous Month</p>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- product profit end -->
+                                    <div class="col-md-12 col-xl-6">
+                                        <div class="card card-social">
+                                            <div class="card-block border-bottom">
+                                                <div class="row align-items-center justify-content-center">
+                                                    <div class="col-auto">
+                                                        <span style="display: flex; flex-direction: row">
+                                                            <i class="fas fa-money-bill-alt text f-18" style="margin: 2px 5px 0 0"></i>
+                                                            <h4>Total calling amount of closed program</h4>
+                                                        </span>
+
+                                                    </div>
+                                                    <div class="col text-right">
+                                                        <h3>${totalCalledAmountClose}$</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-block">
+                                                <div class="row align-items-center justify-content-center card-active">
+                                                    <div class="col-12">
+                                                        <h6 class="text-center m-b-10"><span class="text-muted m-r-5">Target:</span>${totalActualAmountClose}$</h6>
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-c-blue" role="progressbar" style="${(totalCalledAmountClose/totalActualAmountClose) * 100}%;height:6px;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-xl-6">
+                                        <div class="card card-social">
+                                            <div class="card-block border-bottom">
+                                                <div class="row align-items-center justify-content-center">
+                                                    <div class="col-auto">
+                                                        <span style="display: flex; flex-direction: row">
+                                                            <i class="fas fa-money-bill-alt text f-18" style="margin: 2px 5px 0 0"></i>
+                                                            <h4>Total calling amount of processing program</h4>
+                                                        </span>
+
+                                                    </div>
+                                                    <div class="col text-right">
+                                                        <h3>${totalCalledAmountOpen}$</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-block">
+                                                <div class="row align-items-center justify-content-center card-active">
+
+                                                    <div class="col-12">
+                                                        <h6 class="text-center  m-b-10"><span class="text-muted m-r-5">Target:</span>${totalActualAmountOpen}$</h6>
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-c-green" role="progressbar" style="width:${totalActualAmountOpen == 0 ? 0 : (totalCalledAmountOpen/totalActualAmountOpen)*100}%;height:6px;" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- sessions-section start -->
+                                    <div class="col-xl-12 col-md-6">
+                                        <div class="card table-card">
+                                            <div class="card-header">
+                                                <h5>Programs Status</h5>
+                                            </div>
+                                            <div class="card-body px-0 py-0">
+                                                <div class="table-responsive">
+                                                    <div class="session-scroll" style="height:478px;position:relative;">
+                                                        <table class="table table-hover m-b-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th><span>NO</span></th>
+                                                                    <th><span>PROGRAM NAME</span></th>
+                                                                    <th><span>CITY </span></th>
+                                                                    <th><span>PROVINCE</span></th>
+                                                                    <th><span>ADDRESS</span></th>
+
+                                                                    <th><span>SCHEDULE</span></th>
+                                                                    <th><span>GOAL AMOUNT </span></th>
+                                                                    <th><span>RAISED</span></th>
+                                                                    <th><span>PROCESS</span></th>
+                                                                    <th><span>STATUS<a class="help" data-toggle="popover" title="Popover title" data-content="When you reopen the closed program, It will just be opened until 00:00AM the next day!!"><i
+                                                                                    class="feather icon-help-circle f-16"></i></a></span></th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <c:choose>
+                                                                    <c:when test="${not empty programs}">
+                                                                        <c:set var = "programNo" value="${1}" />
+                                                                        <c:forEach var="item" items="${programs}">
+                                                                            <tr>
+                                                                                <td>${programNo}</td>
+                                                                                <td>${item.programName}</td>
+                                                                                <td>${item.destination.city}</td>
+                                                                                <td>${item.destination.province}</td>
+                                                                                <td>${item.destination.address} </td>
+                                                                                <td>${item.startDate} - ${item.endDate}</td>
+                                                                                <td>${item.goalAmount}$</td>
+                                                                                <td>${item.raisedAmount}$</td>
+                                                                                <td>${(item.raisedAmount / item.goalAmount) * 100}%
+                                                                                    <div class="progress mt-1" style="height:4px;">
+                                                                                        <div class="progress-bar bg-warning rounded" role="progressbar" style="width: ${(item.raisedAmount / item.goalAmount) * 100}%;" aria-valuenow="${(item.raisedAmount / item.goalAmount) * 100}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td style="padding-top: 0.6em">
+                                                                                    <div class="mt-1" >
+                                                                                        <c:if test="${item.isClosed == 'FALSE'}">
+                                                                                            <form method="POST" action="/OJT_Mock/program?action=close">
+                                                                                                <input  type="hidden" class="form-control"  name="programId"  value="${item.programId}" >
+                                                                                                <button class="btn btn-danger btn-sm text-white m-0" type="submit">CLOSE</button>
+                                                                                            </form>
+                                                                                        </c:if>
+                                                                                        <c:if test="${item.isClosed == 'TRUE'}">
+                                                                                            <form method="POST" action="/OJT_Mock/program?action=open">
+                                                                                                <input  type="hidden" class="form-control"  name="programId"  value="${item.programId}" >
+                                                                                                <button class="btn btn-success btn-sm text-white m-0" type="submit">OPEN</button>
+                                                                                            </form>
+                                                                                        </c:if>
+
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <c:set var = "donateNo" value="${donateNo+1}" />
+                                                                        </c:forEach>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <tr>There is no program yet</tr>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+
+
+
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- sessions-section end -->
+
+                                    <!-- sessions-section start -->
+                                    <div class="col-xl-12 col-md-6">
+                                        <div class="card table-card">
+                                            <div class="card-header">
+                                                <h5>Donation Log</h5>
+                                            </div>
+                                            <div class="card-body px-0 py-0">
+                                                <div class="table-responsive">
+                                                    <div class="session-scroll" style="height:478px;position:relative;">
+                                                        <table class="table table-hover m-b-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th><span>NO</span></th>
+                                                                    <th><span>NAME </span></th>
+                                                                    <th><span>AMOUNT <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i
+                                                                                    class="feather icon-help-circle f-16"></i></a></span></th>
+                                                                    <th><span>PROGRAM <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i
+                                                                                    class="feather icon-help-circle f-16"></i></a></span></th>
+                                                                    <th style="text-align: center"><span>MESSAGE <a class="help" data-toggle="popover" title="Popover title" data-content="When you reopen the closed program, It will just be opened until 00:00AM the next day!!"><i
+                                                                                    class="feather icon-help-circle f-16"></i></a></span></th>
+                                                                    <th style="text-align: center"><span >AT <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i
+                                                                                    class="feather icon-help-circle f-16"></i></a></span></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                                <c:choose>
+                                                                    <c:when test="${not empty donations}">
+                                                                        <c:set var = "donateNo" value="${1}" />
+                                                                        <c:forEach var="item" items="${donations}">
+                                                                            <tr>
+                                                                                <td>${donateNo}</td>
+                                                                                <td>${item.name}</td>
+                                                                                <td>${item.amount}$</td>
+                                                                                <td>${item.programName}</td>
+                                                                                <td style="text-align: center">${item.message}</td>
+                                                                                <td style="text-align: center">${item.donate_date}</td>
+                                                                            </tr>
+
+                                                                            <c:set var = "donateNo" value="${donateNo+1}" />
+                                                                        </c:forEach>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <tr>
+                                                                            <td colspan="5">Number is less than or equal to 10.</td>
+                                                                        </tr>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+
+
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- sessions-section end -->
                                 </div>
+
+                                <!-- [ Main Content ] end -->
                             </div>
                         </div>
-
-                        <!-- Content Row -->
-
-                        <div class="row">
-
-                            <!-- Area Chart -->
-                            <div class="col-xl-8 col-lg-7">
-                                <div class="card shadow mb-4">  
-                                    <!-- Card Header - Dropdown -->
-                                    <div
-                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                        <h6 class="m-0 font-weight-bold" style="color: orange">Earnings Overview</h6>
-                                        <div class="dropdown no-arrow">
-                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                                 aria-labelledby="dropdownMenuLink">
-                                                <div class="dropdown-header">Dropdown Header:</div>
-                                                <a class="dropdown-item" href="#">Action</a>
-                                                <a class="dropdown-item" href="#">Another action</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#">Something else here</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Card Body -->
-                                    <div class="card-body">
-                                        <div class="chart-area">
-                                            <div id="chartContainer" style="height: 100%; width: 100%;">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Pie Chart -->
-                            <div class="col-xl-4 col-lg-5">
-                                <div class="card shadow mb-4">
-                                    <!-- Card Header - Dropdown -->
-                                    <div
-                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                        <h6 class="m-0 font-weight-bold" style="color: orange">Revenue Sources</h6>
-                                        <div class="dropdown no-arrow">
-                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                                 aria-labelledby="dropdownMenuLink">
-                                                <div class="dropdown-header">Dropdown Header:</div>
-                                                <a class="dropdown-item" href="#">Action</a>
-                                                <a class="dropdown-item" href="#">Another action</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#">Something else here</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Card Body -->
-                                    <div class="card-body">
-                                        <div class="chart-pie pt-4 pb-2">
-                                            <!--<canvas id="myPieChart"></canvas>-->
-                                            <div id="myPieChart" style="height: 300px; width: 100%;"></div>
-                                        </div>
-                                        <div class="mt-4 text-center small">
-                                            <span class="mr-2">
-                                                <!--                                                <i class="fas fa-circle text-primary"></i> Direct-->
-                                            </span>
-                                            <span class="mr-2">
-                                                <!--<i class="fas fa-circle text-success"></i> Social-->
-                                            </span>
-                                            <span class="mr-2">
-                                                <!--<i class="fas fa-circle text-info"></i> Referral-->
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Content Row -->
-                
-
-                    </div>
-                    <!-- /.container-fluid -->
-
-                </div>
-                <!-- End of Main Content -->
-
-                <!-- Footer -->
-               
-                <!-- End of Footer -->
-
-            </div>
-            <!-- End of Content Wrapper -->
-
-        </div>
-        <!-- End of Page Wrapper -->
-
-        <!-- Scroll to Top Button-->
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
-
-        <!-- Logout Modal-->
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" href="logout">Logout</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <input type="hidden" name="" id="abcId" value="${currentMonthTotal}" />
+        <script src="./assets/js/vendor-all.min.js"></script>
+        <script src="./assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+        <script src="./assets/js/pcoded.min.js"></script>
 
-        <!--Values each month-->
-        <c:forEach var="D" items="${monthlyEarning}">
-            <input type="hidden" name="" id="${D.key}" value="${D.value}" />
-        </c:forEach>
-
-        <!-- Number each type -->
-        <c:forEach var="D" items="${categoryType}">
-            <input type="hidden"class="categoryType" name="${D.key}" value="${D.value}" />
-        </c:forEach>
-
-        <!-- Bootstrap core JavaScript-->
-        <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-        <!-- Core plugin JavaScript-->
-        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-        <!-- Custom scripts for all pages-->
-        <script src="vendor/js/sb-admin-2.min.js"></script>
-
-        <!-- Page level plugins -->
-        <script src="vendor/chart.js/Chart.min.js"></script>
-
-        <!-- Page level custom scripts -->
-        <script src="vendor/js/demo/chart-area-demo.js"></script>
-        <script src="vendor/js/demo/chart-pie-demo.js"></script>
-
-        <!-- Basic chart -->
-        <script type="text/javascript">
-
-//            Basic chart  setup --------------------------------------------------
-            var total = parseInt(document.getElementById('abcId').value);
-            var months = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
-            const d = new Date();
-            let myMap = new Map();
-            let monthsValue = [];
-            let overviewArray = [];
-            let categoryType = document.querySelectorAll(".categoryType");
-            let categoryTypeMap = new Map();
-            let RevenueSources = [];
-            let typesCate = [];
-            
-            for(var i=0; i<categoryType.length; i++) {
-                categoryTypeMap.set(categoryType[i].name, parseInt(categoryType[i].value));
-            }
-            
-            for(var i=0; i<categoryType.length; i++) {
-                typesCate.push(categoryType[i].name);
-            }
-            
-//            {y: 4181563, indexLabel: "PlayStation 3"}
-            
-            for(var i=0; i<typesCate.length; i++) {
-                RevenueSources.push({y: parseInt(categoryTypeMap.get(typesCate[i])), indexLabel: typesCate[i]});
-            }
-            
-            console.log(RevenueSources);
-
-            for (var i = 0; i < months.length; i++) {
-                monthsValue.push(document.getElementById(months[i]).value);
-            }
-
-            for (var i = 0; i <= d.getMonth(); i++) {
-                myMap.set(months[i], monthsValue[i]);
-            }
-
-
-            for (var i = 0; i <= 11; i++) {
-                if (i <= d.getMonth()) {
-                    overviewArray.push({x: new Date(2022, i, 1), y: parseFloat(myMap.get(months[i]))});
-                } else {
-                    overviewArray.push({x: new Date(2022, i, 1), y: null});
-                }
-            }
-
-            console.log(overviewArray);
-
-
-//            Pie chart set up -----------------------------------
-
-
-
-            window.onload = function () {
-                var chart = new CanvasJS.Chart("chartContainer",
-                        {
-                            title: {
-                                text: "Earnings Overview",
-                                fontSize: 25
-                            },
-                            axisX: {
-                                valueFormatString: "MMM",
-                                interval: 1,
-                                intervalType: "month"
-
-                            },
-                            axisY: {
-                                title: "Overview"
-                            },
-
-                            data: [
-                                {
-                                    indexLabelFontColor: "green",
-                                    type: "area",
-                                    dataPoints: overviewArray
-                                }
-                            ]
-                        });
-                var pieChart = new CanvasJS.Chart("myPieChart",
-                        {
-                            title: {
-                                text: "Revenue Sources"
-                            },
-                            legend: {
-                                maxWidth: 350,
-                                itemWidth: 120
-                            },
-                            data: [
-                                {
-                                    type: "pie",
-                                    showInLegend: true,
-                                    legendText: "{indexLabel}",
-                                    dataPoints: RevenueSources
-                                }
-                            ]
-                        });
-                pieChart.render();
-                chart.render();
-            }
-
-
-        </script>
-
-        <!-- Pie chart -->
-
-    </script>
-    <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-</body>
+    </body>
 
 </html>

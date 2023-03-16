@@ -47,14 +47,17 @@ public class AuthenticateFilter implements Filter {
         String username = null;
 
         try {
-            for (Cookie c : cookies) {
-                if (c.getName().equals("username")) {
-                    username = c.getValue();
-                    if (username != null) {
-                        break;
+            if (cookies != null && cookies.length > 0) {
+                for (Cookie c : cookies) {
+                    if (c.getName().equals("username")) {
+                        username = c.getValue();
+                        if (username != null) {
+                            break;
+                        }
                     }
                 }
             }
+
             if (username != null) {
                 Account user = new UserDAO().checkExistedUsername(username);
 

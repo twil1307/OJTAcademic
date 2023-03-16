@@ -9,6 +9,8 @@ import Donate.Donate;
 import Donate.DonateService;
 import Investor.Investor;
 import Investor.InvestorService;
+import Operator.Operator;
+import Operator.OperatorService;
 import Program.Program.Destination;
 import Schedule.Schedule;
 import Schedule.ScheduleService;
@@ -23,7 +25,10 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javax.servlet.ServletException;
@@ -47,6 +52,7 @@ public class ProgramController extends HttpServlet {
     private final UserService userService = new UserService();
     private final DonateService donateService = new DonateService();
     private final InvestorService investorService = new InvestorService();
+    private final OperatorService operatorService = new OperatorService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -66,7 +72,6 @@ public class ProgramController extends HttpServlet {
         }
 
         // TODO: route base on action
-        
     }
 
     @Override
@@ -76,38 +81,71 @@ public class ProgramController extends HttpServlet {
         switch (action) {
             case "register":
                 handleRegisterProgram(req, resp);
+                break;
+            case "close":
+                closeProgram(req, resp);
+                break;
+            case "open":
+                openProgram(req, resp);
+                break;
             default:
 
         }
     }
-    
+
+    private void closeProgram(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int programId = Integer.parseInt(req.getParameter("programId"));
+
+        try {
+            service.closeProgram(programId);
+
+        } catch (Exception e) {
+            req.getRequestDispatcher("failedPage.jsp").forward(req, resp);
+        }
+
+        resp.sendRedirect("dashboard?action=donation");
+
+    }
+
+    private void openProgram(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int programId = Integer.parseInt(req.getParameter("programId"));
+
+        try {
+            service.openProgram(programId);
+
+        } catch (Exception e) {
+            req.getRequestDispatcher("failedPage.jsp").forward(req, resp);
+        }
+
+        resp.sendRedirect("dashboard?action=donation");
+
+    }
+
     private void getListPrograms(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-         final int PAGE_SIZE = 6;
-        
+        final int PAGE_SIZE = 6;
+
         HttpSession session = req.getSession(false);
         String pageStr = req.getParameter("page");
+        Map<String, String> conditions = getParametterCondition(req, resp);
         
-        List<Program> listProgram= null;
-        int totalProgram = service.getTotalProgram();
-        int pageNumber = (int) Math.floor(totalProgram/PAGE_SIZE) + (totalProgram%PAGE_SIZE > 0 ? 1 : 0);
         
-        System.out.println("Page number " + pageNumber);
 
-        
-        if (pageStr != null ) {
+        List<Program> listProgram = null;
+        int totalProgram = service.getTotalProgram(conditions);
+        int pageNumber = (int) Math.floor(totalProgram / PAGE_SIZE) + (totalProgram % PAGE_SIZE > 0 ? 1 : 0);
+
+        if (pageStr != null) {
             int page = Integer.parseInt(pageStr);
             int beginElement = (page - 1) * PAGE_SIZE;
-            listProgram = service.getListProgram(beginElement, PAGE_SIZE);
-            
+            listProgram = service.getListProgramWithCondition(beginElement, PAGE_SIZE, conditions);
+
         } else {
-            pageStr="1";
+            pageStr = "1";
             int beginElement = (Integer.parseInt(pageStr) - 1) * PAGE_SIZE;
-            listProgram = service.getListProgram(beginElement, PAGE_SIZE);
+            listProgram = service.getListProgramWithCondition(beginElement, PAGE_SIZE, conditions);
         }
-        
-        System.out.println(listProgram.size());
-       
-        String urlHistory = "program?action=list&page="+pageStr;
+
+        String urlHistory = "program?action=list&page=" + pageStr;
 
         session = req.getSession(true);
         session.setAttribute("urlHistory", urlHistory);
@@ -125,20 +163,45 @@ public class ProgramController extends HttpServlet {
         List<Schedule> programSchedules = new ScheduleService().getSchedulesByProgramId(programId);
         List<Donate> listDonate = donateService.getListRecentDonateByProgramId(programId);
         List<Investor> investors = investorService.getListInvestorsByProgramId(programId);
+        List<Operator> operators = operatorService.getOperatorsByProgramId(programId);
         Account acc = userService.getUserByID(program.getUserId());
         double raisedAmount = service.getProgramRaisedAmount(programId);
-        
+
         session = req.getSession(true);
         session.setAttribute("urlHistory", "program?action=detail&programId=" + programId);
-        
+
+//        for(int i =0; i<operators.get(0).getActiviesImgs().size(); i++) {
+//            System.out.println(operators.get(0).getActiviesImgs().get(i).getPath());
+//        }
+        req.setAttribute("operators", operators);
         req.setAttribute("investors", investors);
         req.setAttribute("program", program);
         req.setAttribute("schedules", programSchedules);
         req.setAttribute("raisedAmount", raisedAmount);
         req.setAttribute("author", acc);
         req.setAttribute("listDonate", listDonate);
+        req.setAttribute("destination", program.getDestination());
 
         req.getRequestDispatcher("program.jsp").forward(req, resp);
+    }
+
+    private Map<String, String> getParametterCondition(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Enumeration en = req.getParameterNames();
+        Map<String, String> conditionMap = new HashMap<>();
+        while (en.hasMoreElements()) {
+            Object objOri = en.nextElement();
+            String param = (String) objOri;
+            if(param.matches("^condition_(.*)$")) {
+                String value = req.getParameter(param);
+                conditionMap.put(param, value);
+                
+                if(value!=null) {
+                    req.setAttribute(param, value);
+                }
+            }
+            
+        }
+        return conditionMap;
     }
 
     private void handleRegisterProgram(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

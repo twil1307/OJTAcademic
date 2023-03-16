@@ -36,7 +36,6 @@ public class DBContext {
         String userID = props.getProperty("app.property.userID");
         String password = props.getProperty("app.property.password");
         
-
         String url = "jdbc:sqlserver://" + serverName + ":" + portNumber + ";databaseName=" + dbName;
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
