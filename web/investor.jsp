@@ -83,15 +83,14 @@
     <script src="mail/jqBootstrapValidation.min.js"></script>
     <script src="mail/contact.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
-    <script defer>
+    <script>
         let i = 1;
         const investAvatarEl = document.getElementById("investAvatar-1");
         const qualifyImgEl = document.getElementById("qualifyImg-1");
         const investAvatarPreviewEl = document.getElementById("investAvatar-preview-section");
         const qualifyImgPreviewEl = document.getElementById("qualifyImg-preview-section");
-        
+        const formEl = document.getElementById("form");
+
         const onFileInputChange = (previewElement) => {
             return (e) => {
                 const { files } = e.target;
@@ -117,15 +116,36 @@
         function addRow() {
             var investorForm = $('.investor-form').clone();
             investorForm.css('display', 'block');
+            investorForm.attr("id", "investor-form-" + (i + 1));
             investorForm.removeClass('investor-form');
             investorForm.find('#investorName').attr('name', 'investorName-' + (i + 1));
             investorForm.find('#legalRepresent').attr('name', 'legalRepresent-' + (i + 1));
             investorForm.find('#investorDes').attr('name', 'investorDes-' + (i + 1));
-            investorForm.find('#investAvatar').attr('name', 'investAvatar-' + (i + 1));
-            investorForm.find('#qualifyImg').attr('name', 'qualifyImg-' + (i + 1));
+            investorForm.find('#investAvatar').attr({
+                name: 'investAvatar-' + (i + 1),
+                id: 'investAvatar-' + (i + 1)
+            });
+            investorForm.find('#qualifyImg').attr({
+                name: 'qualifyImg-' + (i + 1),
+                id: `qualifyImg-` + (i + 1)
+            });
             investorForm.find('#contact').attr('name', 'contact-' + (i + 1));
-
-            $('#investor-form-1').after(investorForm);
+            const newImageAvatarPreviewEl = document.createElement('div');
+            newImageAvatarPreviewEl.classList.add('row');
+            newImageAvatarPreviewEl.id = `investAvatar-preview-section-${i + 2}`;
+            
+            const newQualifyImgPreviewEl = document.createElement('div');
+            newQualifyImgPreviewEl.classList.add('row');
+            newQualifyImgPreviewEl.id = `qualifyImg-preview-section-${i + 2}`;
+            
+            $('#investor-form-' + i).after(investorForm);
+                        
+            investorForm.find(`#investAvatar-` + (i + 1)).after(newImageAvatarPreviewEl);
+            investorForm.find(`#qualifyImg-` + (i + 1)).after(newQualifyImgPreviewEl);
+            
+            investorForm.find(`#investAvatar-` + (i + 1)).on('change', onFileInputChange(newImageAvatarPreviewEl));
+            investorForm.find(`#qualifyImg-` + (i + 1)).on('change', onFileInputChange(newQualifyImgPreviewEl));
+            
             i++;
             $('#investor-number').val(i);
         }
@@ -138,5 +158,7 @@
                 $('#investor-number').val(i);
             }
         }
+        
+        
     </script>
 </html>
