@@ -69,7 +69,7 @@ public class OperatorDAO {
             ps.close();
             conn.close();
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OperatorDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return operators;
@@ -115,9 +115,31 @@ public class OperatorDAO {
             conn.close();
 
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OperatorDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return operators;
+    }
+    
+    public void deleteOperatorById(int programId) {
+        Connection conn;
+        PreparedStatement ps;
+
+        try {
+
+            String query = "delete from operator where program_id=?";
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, programId);
+
+            ps.executeUpdate();
+
+            ps.close();
+            conn.close();
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(OperatorDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public static void main(String[] args) {

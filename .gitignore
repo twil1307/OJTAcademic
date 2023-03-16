@@ -1,6 +1,6 @@
 dist/
 build/
-src/java/Properties/
-nbproject/private/
+src/java/Properties/*
+nbproject/private/private.*
 
 *.properties

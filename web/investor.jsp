@@ -44,11 +44,16 @@
                         <textarea type="text" class="form-control" Jung id="investorDes" name="investorDes-1" aria-describedby="detailDescription" placeholder="Enter Investor Description" style="height: 140px; min-height: 36px" name="detailDes-1" required></textarea>
                         <label for="contact">Contact</label>
                         <input type="number" class="form-control form-control-lg" id="contact" name="contact-1" maxlength="10" placeholder="Enter Contact" pattern="[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" required>
-                        <label for="investAvatar">Investor Images</label>
-                        <input type="file" class="form-control-file" id="investAvatar" name="investAvatar-1" required accept="image/*">
-                        <label for="qualifyImg">Qualify Images</label>
-                        <input type="file" class="form-control-file" id="qualifyImg" name="qualifyImg-1" required accept="image/*">
-
+                        <label for="investAvatar-1">Investor Images</label>
+                        <input type="file" class="form-control-file" id="investAvatar-1" name="investAvatar-1" required accept="image/*">
+                        <div id="investAvatar-preview-section" class="row">
+                    
+                        </div>
+                        <label for="qualifyImg-1">Qualify Images</label>
+                        <input type="file" class="form-control-file" id="qualifyImg-1" name="qualifyImg-1" required accept="image/*">
+                        <div id="qualifyImg-preview-section" class="row">
+                    
+                        </div>
                     </div>
                     <div class="row">
 
@@ -65,30 +70,49 @@
             </form>
         </main>
     </body>
-    <script>
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/parallax/parallax.min.js"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="mail/jqBootstrapValidation.min.js"></script>
+    <script src="mail/contact.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+    <script defer>
         let i = 1;
-        const programImgInputEl = document.getElementById("programImgs");
-        const imagePreviewSectionEl = document.getElementById("image-preview-section");
-        const startDateEl = document.getElementById("startDate");
-        const endDateEl = document.getElementById("endDate");
-        const scheStartDateEl = document.getElementById("scheStartDate");
-        const scheEndDateEl = document.getElementById("scheEndDate");
+        const investAvatarEl = document.getElementById("investAvatar-1");
+        const qualifyImgEl = document.getElementById("qualifyImg-1");
+        const investAvatarPreviewEl = document.getElementById("investAvatar-preview-section");
+        const qualifyImgPreviewEl = document.getElementById("qualifyImg-preview-section");
+        
+        const onFileInputChange = (previewElement) => {
+            return (e) => {
+                const { files } = e.target;
+                previewElement.innerHTML = ``;
 
-        programImgInputEl.onchange = (e) => {
-            const {
-                files
-            } = e.target;
+                for ( const file of files ) {
+                    const objectUrl = URL.createObjectURL(file);
 
-            for (const file of files) {
-                const objectUrl = URL.createObjectURL(file);
-                const imagePreviewEl = document.createElement("img");
+                    const imagePreviewEl = document.createElement("img");
 
-                imagePreviewEl.classList.add('col-sm-12', 'col-md-6', 'col-lg-4', 'image-preview');
-                imagePreviewEl.src = objectUrl;
+                    imagePreviewEl.classList.add('col-sm-12', 'col-md-6', 'col-lg-4', 'image-preview');
+                    imagePreviewEl.src = objectUrl;
 
-                imagePreviewSectionEl.append(imagePreviewEl);
+                    previewElement.append(imagePreviewEl);
+                }  
             }
         }
+
+        investAvatarEl.onchange = onFileInputChange(investAvatarPreviewEl);
+        qualifyImgEl.onchange = onFileInputChange(qualifyImgPreviewEl);
+
 
         function addRow() {
             var investorForm = $('.investor-form').clone();
@@ -115,20 +139,4 @@
             }
         }
     </script>
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/counterup/counterup.min.js"></script>
-    <script src="lib/parallax/parallax.min.js"></script>
-
-    <!-- Contact Javascript File -->
-    <script src="mail/jqBootstrapValidation.min.js"></script>
-    <script src="mail/contact.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
-    <script src="js/program.js"></script>
 </html>

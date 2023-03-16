@@ -122,7 +122,7 @@
                                 <input type="text" class="form-control" name="condition_programName" value="${param.condition_programName}" placeholder="Enter program name" style="height: 100%">
                             </div>
                             <div class="col-md-2">
-                                <button type="submit" class="btn btn-custom btn-block">Search Results</button>
+                                <button type="submit" class="btn btn-custom btn-block">Search</button>
                             </div>
                         </div>
                         <div class="mt-3">
@@ -134,7 +134,6 @@
                                 <div class="card card-body">
                                     <div class="row">
                                         <input type="hidden" name="action" value="${param.action}">
-
                                         <div class="col-md-4">
                                             <input type="text" placeholder="Search by place" name="condition_placeName" value="${param.condition_placeName}" class="form-control">
                                         </div>
@@ -149,14 +148,9 @@
                             </div>
                         </div>
                     </form>
-
-
                 </div>
             </div>
         </div>
-
-
-
         <div class="row">
             <c:forEach var="item" items="${listProgram}">
                 <div class="col-lg-4" style="margin-bottom:2em; width: 100%">
@@ -184,24 +178,17 @@
                             <c:if test="${sessionScope.user.role=='2' || sessionScope.user.role=='1'}">
                                 <a class="btn btn-custom" href="operator?programId=${item.programId}">Update Operator</a>
                             </c:if>
-
                         </div>
                     </div>
                 </div>
-
             </c:forEach>
-
-
         </div>
-        
             <div class="row">
                 <div class="col-12">
                     <div id="pagination">
-
                     </div>
                 </div>
             </div>
-       
     </div>
 </div>
 <!-- Causes End -->
@@ -214,6 +201,7 @@
             <div class="col-lg-3 col-md-6">
                 <div class="footer-contact">
                     <h2>Our Head Office</h2>
+                    
                     <p><i class="fa fa-map-marker-alt"></i>123 Street, New York, USA</p>
                     <p><i class="fa fa-phone-alt"></i>+012 345 67890</p>
                     <p><i class="fa fa-envelope"></i>info@example.com</p>

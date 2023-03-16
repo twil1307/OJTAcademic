@@ -24,7 +24,9 @@ public class OperatorService {
             List<Part> billParts,
             String subName,
             String path
-    ) {
+    ) 
+    {
+        dao.deleteOperatorById(operator.get(0).getProgramId());
         List<Operator> addedOperators = dao.addOperator(operator);
         FileUploader.uploadImages(activitiesParts, subName, path);
         FileUploader.uploadImages(billParts, subName, path);

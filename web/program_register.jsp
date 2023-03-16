@@ -182,6 +182,7 @@
         
         programImgInputEl.onchange = (e) => {
             const { files } = e.target;
+            imagePreviewSectionEl.innerHTML = ``;
             
             for ( const file of files ) {
                 const objectUrl = URL.createObjectURL(file);

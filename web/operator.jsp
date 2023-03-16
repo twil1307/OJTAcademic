@@ -37,7 +37,7 @@
                     <c:when test="${not empty operators}">
                         <c:forEach var="item" items="${operators}" varStatus="itemStatus">
                             <div data-schedule-date="investor" id="operator-form-1" class="form-group-invest">
-                                <h4 class="text-light">Investor for Program</h4>
+                                <h4 class="text-light">Operator for Program</h4>
                                 <div class="form-group">
                                     <label for="operatorDate">Operator Date</label>
                                     <input type="date" class="form-control form-control-lg" id="operatorDate" aria-describedby="operatorDate"value="${item.operatorDate}" name="operatorDate-${itemStatus.index+1}" required>
@@ -45,13 +45,24 @@
                                     <textarea type="text" class="form-control" Jung id="operatorDetailDes" name="operatorDetailDes-${itemStatus.index+1}" aria-describedby="operatorDetailDes" placeholder="Enter Investor Description" style="height: 140px; min-height: 36px" name="operatorDetailDes-${itemStatus.index+1}" required>${item.operatorDetailDes}</textarea>
 
                                     <label for="activities">Activities Images</label>
-                                    <input type="file" class="form-control-file" id="activities" name="activities-${itemStatus.index+1}" required accept="image/*" multiple>
+                                    <input type="file" class="form-control-file" id="activities" onchange="activitiesImgChange(${itemStatus.index+1})" name="activities-${itemStatus.index+1}" required accept="image/*" multiple>
+                                    <div id="investAvatar-preview-section" class="row">
+                                        <c:forEach var="actImg" items="${item.activiesImgs}">
+                                             <img class="col-sm-12 col-md-6 col-lg-4 image-preview" src="${actImg.path}">
+                                             <input type="hidden" value="${actImg.id}" name="actImgId" id="actImgId-${itemStatus.index+1}" />
+                                        </c:forEach>
+                                       
+                                    </div>
                                     <label for="actualExpense">Actual total Expense</label>
                                     <input type="number" class="form-control form-control-lg" id="actualExpense" value="${item.actualExpense}" name="actualExpense-${itemStatus.index+1}" maxlength="10" placeholder="Enter total expense" required>
-
                                     <label for="billImg">Bill Images</label>
-                                    <input type="file" class="form-control-file" id="billImg" name="billImg-${itemStatus.index+1}" required accept="image/*" multiple>
-
+                                    <input type="file" class="form-control-file" id="billImg" onchange="billImgChange(${itemStatus.index+1})" name="billImg-${itemStatus.index+1}" required accept="image/*" multiple>
+                                    <div id="qualifyImg-preview-section" class="row">
+                                        <c:forEach var="billImg" items="${item.billImgs}">
+                                             <img class="col-sm-12 col-md-6 col-lg-4 image-preview" src="${billImg.path}">
+                                            <input type="hidden" value="${billImg.id}" name="billImgId" id="actImgId-${itemStatus.index+1}" />
+                                        </c:forEach>
+                                    </div>
                                 </div>
                                 <div class="row">
 
@@ -62,7 +73,7 @@
                     </c:when>
                     <c:otherwise>
                         <div data-schedule-date="investor" id="operator-form-1" class="form-group-invest">
-                            <h4 class="text-light">Investor for Program</h4>
+                            <h4 class="text-light">Operator for Program</h4>
                             <div class="form-group">
                                 <label for="operatorDate">Operator Date</label>
                                 <input type="date" class="form-control form-control-lg" id="operatorDate" aria-describedby="operatorDate" name="operatorDate-1" required>
@@ -89,7 +100,7 @@
 
 
 
-                <input type="hidden" id="operator-days" name="operator-days" value="${operators.size() > 0 ? operators.size()  : 1 }">
+                <input type="hidden" id="operator-days" id="operator-days" name="operator-days" value="${operators.size() > 0 ? operators.size()  : 1 }">
                 <input type="hidden" value="${programId}" name="programId" />
                 <button type="button" class="mt-5 btn btn-primary" onclick="addRow()">Add investor</button>
                 <button type="button" class="mt-5 btn btn-danger" onclick="deleteRow()">Delete investor</button>
@@ -98,7 +109,8 @@
         </main>
     </body>
     <script>
-        let i = 1;
+        let currentSizeForm = ${operators.size()};
+        let i = (currentSizeForm===0 ? 1 :  currentSizeForm);
         const programImgInputEl = document.getElementById("programImgs");
         const imagePreviewSectionEl = document.getElementById("image-preview-section");
         const startDateEl = document.getElementById("startDate");
@@ -134,7 +146,8 @@
             investorForm.find('#qualifyImg').attr('name', 'qualifyImg-' + (i + 1));
             investorForm.find('#billImg').attr('name', 'billImg-' + (i + 1));
 
-            $('#operator-form-' + i).after(investorForm);
+//            $('#operator-form-' + i).after(investorForm);
+            $('#operator-days').before(investorForm);
             i++;
             $('#operator-days').val(i);
         }
@@ -146,6 +159,14 @@
                 i--;
                 $('#investor-number').val(i);
             }
+        }
+        
+        function activitiesImgChange(index) {
+            
+        }
+        
+        function billImgChange(index) {
+            
         }
     </script>
     <!-- JavaScript Libraries -->
