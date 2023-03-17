@@ -42,26 +42,26 @@ public class AuthenticateFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
         HttpSession session = httpRequest.getSession(false);
-        String urlHistory = (String) session.getAttribute("urlHistory");
+//        String urlHistory = (String) session.getAttribute("urlHistory");
         Cookie[] cookies = httpRequest.getCookies();
 
         String username = null;
 
         try {
-            for (Cookie c : cookies) {
-                if (c.getName().equals("username")) {
-                    username = c.getValue();
-                    if (username != null) {
-                        break;
-                    }
-                }
-            }
-            if (username != null) {
-                Account user = new UserDAO().checkExistedUsername(username);
-
-                session = httpRequest.getSession(true); // create a new session
-                session.setAttribute("user", user);
-            }
+//            for (Cookie c : cookies) {
+//                if (c.getName().equals("username")) {
+//                    username = c.getValue();
+//                    if (username != null) {
+//                        break;
+//                    }
+//                }
+//            }
+//            if (username != null) {
+//                Account user = new UserDAO().checkExistedUsername(username);
+//
+//                session = httpRequest.getSession(true); // create a new session
+//                session.setAttribute("user", user);
+//            }
         } catch (Exception e) {
             System.out.println(e);
         } finally {

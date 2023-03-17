@@ -5,7 +5,6 @@
  */
 package Schedule;
 
-import Image.ImageDAO;
 import java.util.List;
 import javax.servlet.http.Part;
 import shared.FileUploader;
@@ -18,14 +17,28 @@ public class ScheduleService {
     private final ScheduleDAO scheduleDao = new ScheduleDAO();
     
     public void registerSchedule(
-            List<Schedule> schedules, 
-            List<Part> scheduleImageParts, 
-            String subName,
-            String path
+        List<Schedule> schedules, 
+        List<Part> scheduleImageParts, 
+        String subName,
+        String path
     ) {
         List<Schedule> addedSchedules = scheduleDao.addSchedule(schedules);
         
         FileUploader.uploadImages(scheduleImageParts, subName, path);
+    }
+    
+    public void updateSchedule(
+        List<Schedule> schedules, 
+        List<Part> scheduleImageParts, 
+        String subName,
+        String path,
+        boolean isNewlyAdded
+    ) {
+        scheduleDao.updateSchedule(schedules, isNewlyAdded);
+        
+        if (scheduleImageParts.size() > 0) {
+            FileUploader.uploadImages(scheduleImageParts, subName, path);
+        }
     }
     
     public List<Schedule> getSchedulesByProgramId(int programId) {

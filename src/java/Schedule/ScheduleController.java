@@ -46,9 +46,30 @@ public class ScheduleController extends HttpServlet {
         switch (action) {
             case "register":
                 handleRegisterSchedule(req, resp);
+                break;
+            case "update":
+                handleUpdateSchedule(req, resp);
+                break;
             default:
 
         }
+    }
+    
+    private void handleUpdateSchedule(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int programId = Integer.parseInt(req.getParameter("programId"));
+        List<Object> results = getScheduleFromForm(req, resp);
+        List<Schedule> schedules = (List<Schedule>) results.get(0);
+        List<Part> scheduleImageParts = (List<Part>) results.get(1);
+        boolean isNewlyAdded = !req.getParameter("state").equals("false");
+
+        String imageUploadPath = req.getServletContext().getRealPath("");
+        
+        //TODO: fixing repository not updating
+        service.updateSchedule(schedules, scheduleImageParts, "" + programId, imageUploadPath, isNewlyAdded);
+        
+        // Testing purpose only
+//        req.getRequestDispatcher("investor.jsp?programId=" + programId).forward(req, resp);
+        
     }
 
     @Override
@@ -60,8 +81,8 @@ public class ScheduleController extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doDelete(req, resp); //To change body of generated methods, choose Tools | Templates.
     }
-
-    private void handleRegisterSchedule(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    
+    private List<Object> getScheduleFromForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int scheduleSize = Integer.parseInt(req.getParameter("scheduleSize"));
         int programId = Integer.parseInt(req.getParameter("programId"));
 
@@ -70,14 +91,20 @@ public class ScheduleController extends HttpServlet {
                 .mapToObj(i -> {
                     String scheduleDate = req.getParameter("schedule_" + i + "_date");
                     String detailDes = req.getParameter("detail_des_" + i);
-                    Schedule schedule = new Schedule(0, programId, scheduleDate, detailDes, null);
+                    int scheduleId = req.getParameter("schedule_id_" + i) == null || 
+                                    req.getParameter("schedule_id_" + i).isEmpty()
+                                    ? 0 : 
+                                    Integer.parseInt(req.getParameter("schedule_id_" + i));
+                    Schedule schedule = new Schedule(scheduleId, programId, scheduleDate, detailDes, null);
                     List<ScheduleImage> scheduleImages = new ArrayList();
-
+                    
+                    System.out.println("Schedule Id: " + scheduleId);
                     try {
                         for (Part part : req.getParts()) {
-                            if (part.getName().equals("schedule_img_" + i)) {
+                            if (part.getName().equals("schedule_img_" + i) && !part.getSubmittedFileName().isEmpty()) {
                                 String imgPath = "img/" + programId + part.getSubmittedFileName();
-                                ScheduleImage image = new ScheduleImage(0, 0, imgPath);
+                                ScheduleImage image = new ScheduleImage(0, scheduleId, imgPath);
+                                System.out.println(image.getScheduleId());
                                 scheduleImages.add(image);
                             }
                         }
@@ -89,16 +116,33 @@ public class ScheduleController extends HttpServlet {
                     return schedule;
                 })
                 .collect(Collectors.toList());
+        
+        List<Part> scheduleImageParts = req.getParts().stream()
+                .filter(part -> part.getName().matches("schedule_img_(.*)") && !part.getSubmittedFileName().isEmpty())
+                .collect(Collectors.toList());
+        
+        List<Object> results = new ArrayList();
+        results.add(schedules);
+        results.add(scheduleImageParts);
+        
+        return results;
+    }
+
+    private void handleRegisterSchedule(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int programId = Integer.parseInt(req.getParameter("programId"));
+        List<Object> results = getScheduleFromForm(req, resp);
+        List<Schedule> schedules = (List<Schedule>) results.get(0);
+        List<Part> scheduleImageParts = (List<Part>) results.get(1);
 
         String imageUploadPath = req.getServletContext().getRealPath("");
-
-        List<Part> scheduleImageParts = req.getParts().stream()
-                .filter(part -> part.getName().matches("schedule_img_(.*)"))
-                .collect(Collectors.toList());
+        
+        schedules.forEach(x -> System.out.println(x.getProgram_id()));
         // TODO: upload images into server file system
         service.registerSchedule(schedules, scheduleImageParts, "" + programId, imageUploadPath);
-
-        req.getRequestDispatcher("investor.jsp?programId=" + programId).forward(req, resp);
+        
+//        Testing purpose only
+//        req.setAttribute("action", "register");
+//        req.getRequestDispatcher("investor.jsp?programId=" + programId).forward(req, resp);
 
     }
 }

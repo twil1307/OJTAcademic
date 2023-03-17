@@ -23,6 +23,15 @@ public class ProgramService {
 
         return programId;
     }
+    
+    public int updateProgram(Program program, List<Part> programImageParts, String path) {
+        int result = dao.updateProgram(program);
+        if (program.getProgramImgs().size() > 0) {
+            FileUploader.uploadImages(programImageParts, program.getProgramName(), path);
+        }
+        
+        return result;
+    }
 
     public Program getProgramById(int programId) {
         return dao.getProgram(programId);
