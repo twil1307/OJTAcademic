@@ -198,17 +198,16 @@ public class UserDAO {
     }
 
     public List<Account> listUser() {
-         try {
+        try {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
 
-            String query = "select acc.username, acc.password, acc.role_id, acc.salt, don.* from donor as don, account as acc where acc.account_id=don.account_id and acc.role_id!=3 order by don.donor_id desc";
+            String query = "select acc.username, acc.password, acc.role_id, acc.salt, don.* from donor as don, account as acc where acc.account_id=don.account_id and acc.role_id!=1 order by don.donor_id desc";
 
             conn = new DBContext().getConnection();
 
             ps = conn.prepareStatement(query);
-
 
             rs = ps.executeQuery();
 
@@ -252,29 +251,28 @@ public class UserDAO {
         }
         return null;
     }
-    
+
     public void changeRole(int accountId, String roleCase) {
-         try {
+        try {
             Connection conn;
             PreparedStatement ps;
             ResultSet rs;
 
             String query = null;
-            
-            switch(roleCase) {
+
+            switch (roleCase) {
                 case "user":
-                    query = "update account set role_id=1 where account_id=?";
+                    query = "update account set role_id=3 where account_id=?";
                     break;
                 case "manager":
                     query = "update account set role_id=2 where account_id=?";
                     break;
             }
-            
+
             conn = new DBContext().getConnection();
 
             ps = conn.prepareStatement(query);
             ps.setInt(1, accountId);
-            
 
             ps.executeUpdate();
 
@@ -285,7 +283,7 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public int getManagerNumber() {
         try {
             Connection conn;
@@ -308,9 +306,81 @@ public class UserDAO {
         }
         return -1;
     }
-    
-        public static void main(String[] args) {
+
+    public double getUserDonateTotal(int accountId) {
+        try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+
+            String query = "select sum(amount) as total_amount from donate where donor_id = (select donor_id from donor where account_id=?)";
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, accountId);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                return rs.getInt("total_amount");
+
+            }
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
         UserDAO userDAO = new UserDAO();
-            System.out.println(userDAO.getUserByID(4));
+        System.out.println(userDAO.getUserByID(4));
+    }
+
+    public int getUserContributeProgramNum(int accountId) {
+        try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+
+            String query = "select count(distinct(program_id)) as total_program from donate where donor_id = (select donor_id from donor where account_id=?)";
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, accountId);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                return rs.getInt("total_program");
+
+            }
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
+    double getContributeThisMonth(int accountId) {
+        try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+
+            String query = "select sum(amount) as total_amount_month from donate where donor_id = (select donor_id from donor where account_id=?) and MONTH(donate_date) = MONTH(GETDATE())";
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, accountId);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                return rs.getInt("total_amount_month");
+
+            }
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
     }
 }

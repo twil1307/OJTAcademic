@@ -67,6 +67,16 @@ public class UserSignUpController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        
+        String action = req.getParameter("action");
+        
+        switch (action) {
+            case "request": 
+                break;
+            case "confirm":
+                break;
+        }
+        
         UserDAO userDAO = new UserDAO();
 
         String username = req.getParameter("username");
@@ -144,6 +154,8 @@ public class UserSignUpController extends HttpServlet {
         }
 
     }
+    
+//    protected void confirmRegisUser() 
 
     /**
      * Handles the HTTP <code>POST</code> method.

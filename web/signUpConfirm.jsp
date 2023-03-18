@@ -13,7 +13,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <h2>Donate Now</h2>
+                        <h2>Confirmation</h2>
                     </div>
                     <div class="col-12">
                         <a href="home">Home</a>
@@ -33,7 +33,7 @@
                         <div class="donate-content">
                             <div class="section-header">
                                 <p>Confirm your OTP</p>
-                                <h2>Thank you for being part of our project</h2>
+                                <h2>Confirm your OTP to make sure that your email and your bank account is legal</h2>
                             </div>
                             <div class="donate-text">
                                 <p>

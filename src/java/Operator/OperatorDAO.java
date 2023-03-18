@@ -26,7 +26,7 @@ public class OperatorDAO {
 
     private final ImageDAO imageDao = new ImageDAO();
 
-    public List<Operator> addOperator(List<Operator> operators) {
+    public List<Operator> addOperator(List<Operator> operators, String[] unchangeOperatorId) {
         Connection conn;
         PreparedStatement ps;
         ResultSet rs;
@@ -47,9 +47,19 @@ public class OperatorDAO {
             }
 
             ps.executeBatch();
-            query = "select operator_id from operator where program_id=? order by operator_date asc";
+            if (unchangeOperatorId == null) {
+                query = "select operator_id from operator where program_id=? order by operator_date asc";
+            } else {
+                query = getQueryNotIn(unchangeOperatorId);
+            }
             ps = conn.prepareStatement(query);
             ps.setInt(1, operators.get(index).getProgramId());
+
+            if (unchangeOperatorId != null) {
+                for (int i = 0; i < unchangeOperatorId.length; i++) {
+                    ps.setInt(i + 2, Integer.parseInt(unchangeOperatorId[i]));
+                }
+            }
 
             rs = ps.executeQuery();
 
@@ -83,7 +93,7 @@ public class OperatorDAO {
         ImageDAO imageDao = new ImageDAO();
 
         try {
-            String query = "select * from operator where program_id=?";
+            String query = "select * from operator where program_id=? order by operator_date asc";
             conn = new DBContext().getConnection();
 
             ps = conn.prepareStatement(query);
@@ -120,6 +130,7 @@ public class OperatorDAO {
         return operators;
     }
     
+ 
     public void deleteOperatorById(int programId) {
         Connection conn;
         PreparedStatement ps;
@@ -142,6 +153,56 @@ public class OperatorDAO {
         }
     }
 
+    public void deleteOperatorByIds(List<Operator> operators) {
+        Connection conn;
+        PreparedStatement ps;
+
+        try {
+
+            String query = "delete from operator where operator_id=?";
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+
+            for (Operator operator : operators) {
+                ps.setInt(1, operator.getOperatorId());
+                ps.addBatch();
+            }
+
+            ps.executeBatch();
+
+            ps.close();
+            conn.close();
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(OperatorDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public String getQueryNotIn(String[] unChangedOperator) {
+        String query = "select operator_id from operator where program_id=? ";
+
+        if (unChangedOperator != null) {
+            query += "and operator_id not in (";
+
+            for (int i = 0; i < unChangedOperator.length; i++) {
+
+                if (i == unChangedOperator.length - 1) {
+                    query += " ?";
+                } else {
+                    query += " ?,";
+
+                }
+
+            }
+
+            query += ")";
+        }
+
+        return query + " order by operator_date asc";
+
+    }
+
     public static void main(String[] args) {
         OperatorDAO dao = new OperatorDAO();
         List<Operator> operators = new ArrayList<>();
@@ -149,8 +210,35 @@ public class OperatorDAO {
 //        operators.add(new Operator(0, 2143, "2023-11-11", "Desadwjoawidj awijd aow", 2000, null, null));
 //        operators.add(new Operator(0, 2143, "2023-11-12", "Desadwjoawidj awijd aow", 2000, null, null));
 //        operators.add(new Operator(0, 2143, "2023-11-13", "Desadwjoawidj awijd aow", 2000, null, null));
+        String[] id = {"123", "125", "126"};
 
-        System.out.println(dao.getOperatorsByProgramId(2143));
-        
+        System.out.println(dao.getQueryNotIn(id));
+
+    }
+
+    void deleteMultipleOperator(String[] operatorIdDels) {
+        Connection conn;
+        PreparedStatement ps;
+
+        try {
+
+            String query = "delete from operator where operator_id=?";
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+
+            for (String id : operatorIdDels) {
+                ps.setInt(1, Integer.parseInt(id));
+                ps.addBatch();
+            }
+
+            ps.executeBatch();
+
+            ps.close();
+            conn.close();
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(OperatorDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

@@ -75,7 +75,7 @@ public class ContactController extends HttpServlet {
             service.createMessage(contact);
 
             session = req.getSession(true);
-            session.setAttribute("urlHistory", contact);
+            session.setAttribute("urlHistory", "contact");
             
             req.setAttribute("successMessage", "Send message successfully!!");
             

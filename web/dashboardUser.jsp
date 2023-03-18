@@ -171,7 +171,7 @@
                                                                                 <td>${item.bank_account}</td>
                                                                                 <td style="padding-top: 0.6em">
                                                                                     <div class="mt-1" >
-                                                                                        <c:if test="${item.role == 1}">
+                                                                                        <c:if test="${item.role == 3}">
                                                                                             <form method="POST" action="/OJT_Mock/user-manage?action=manager">
                                                                                                 <input  type="hidden" class="form-control"  name="accountId"  value="${item.accountId}" >
                                                                                                 <button class="btn btn-success btn-sm text-white m-0" type="submit">ENABLE MANAGER</button>

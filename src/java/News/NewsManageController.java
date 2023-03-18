@@ -173,6 +173,7 @@ public class NewsManageController extends HttpServlet {
 
         service.updateNews(news, newsParts, imageUploadPath);
         
+        req.getRequestDispatcher("successPage.jsp").forward(req, resp);
     }
     
     private void regisNews(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

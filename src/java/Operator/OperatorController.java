@@ -10,7 +10,9 @@ import Schedule.ScheduleController;
 import User.UserService;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -69,7 +71,7 @@ public class OperatorController extends HttpServlet {
         List<Operator> operators = operatorService.getOperatorsByProgramId(programId);
 
         System.out.println(operators.size());
-        
+
         req.setAttribute("operators", operators);
         req.setAttribute("programId", programId);
         req.getRequestDispatcher("operator.jsp").forward(req, resp);
@@ -87,55 +89,100 @@ public class OperatorController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String[] unChangedActivitiesProgram = req.getParameterValues("actImgId");
+        String[] unChangedBillProgram = req.getParameterValues("billImgId");
+        String[] unChangeOperatorId = req.getParameterValues("operatorId-unchange");
+        String[] operatorIdDels = req.getParameterValues("operatorIdDel");
+        String[] deletedIndex = req.getParameterValues("operatorDelIndex");
         
+        
+        if(deletedIndex!=null) {
+            for(String i : deletedIndex) {
+                System.out.println(i);
+            }
+        }
+
         int investorNumber = Integer.parseInt(req.getParameter("operator-days"));
-        
+
         int programId = Integer.parseInt(req.getParameter("programId"));
         List<Operator> listOperator = new ArrayList<>();
         String imageUploadPath = req.getServletContext().getRealPath("");
 
         for (int i = 0; i < investorNumber; i++) {
+            
+            if(deletedIndex!=null && Arrays.asList(deletedIndex).contains(String.valueOf(i + 1))) {
+                continue;
+            }
+
             String operatorDate = req.getParameter("operatorDate-" + (i + 1));
             String operatorDetailDes = req.getParameter("operatorDetailDes-" + (i + 1));
-            double actualExpense =Double.parseDouble(req.getParameter("actualExpense-" + (i + 1)));
+            String operatorId = req.getParameter("operatorId-" + (i + 1));
+            double actualExpense = Double.parseDouble(req.getParameter("actualExpense-" + (i + 1)));
             List<OperatorImage> activitiesImage = new ArrayList();
             List<OperatorImage> bilImage = new ArrayList();
-           
-            
-            
-             try {
-                        for (Part part : req.getParts()) {
-                            if (part.getName().equals("activities-" + (i + 1))) {
-                                String imgPath = "img/" + programId + part.getSubmittedFileName();
-                                OperatorImage image = new OperatorImage(0, programId, imgPath);
-                                activitiesImage.add(image);
-                            }
-                            
-                            if (part.getName().equals("billImg-" + (i + 1))) {
-                                String imgPath = "img/" + programId + part.getSubmittedFileName();
-                                OperatorImage image = new OperatorImage(0, programId, imgPath);
-                                bilImage.add(image);
-                            }
-                        }
-                    } catch (IOException | ServletException ex) {
-                        Logger.getLogger(ScheduleController.class.getName()).log(Level.SEVERE, null, ex);
+
+            try {
+                for (Part part : req.getParts()) {
+                    if (part.getName().equals("activities-" + (i + 1)) && !part.getSubmittedFileName().isEmpty()) {
+                        String imgPath = "img/" + programId + part.getSubmittedFileName();
+                        OperatorImage image = new OperatorImage(0, programId, imgPath);
+                        activitiesImage.add(image);
                     }
+
+                    if (part.getName().equals("billImg-" + (i + 1)) && !part.getSubmittedFileName().isEmpty()) {
+                        String imgPath = "img/" + programId + part.getSubmittedFileName();
+                        OperatorImage image = new OperatorImage(0, programId, imgPath);
+                        bilImage.add(image);
+                    }
+                }
+            } catch (IOException | ServletException ex) {
+                Logger.getLogger(ScheduleController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
-            listOperator.add(new Operator(0, programId, operatorDate, operatorDetailDes, actualExpense, activitiesImage, bilImage));
-   
+            if(activitiesImage.isEmpty() && operatorId!=null) {
+                activitiesImage = operatorService.getActivitiesImage(Integer.parseInt(operatorId));
+            }
+            
+            if(bilImage.isEmpty() && operatorId!=null) {
+                bilImage = operatorService.getBillsImage(Integer.parseInt(operatorId));
+            }
+ 
+            listOperator.add(new Operator((operatorId != null ? Integer.parseInt(operatorId) : 0), programId, operatorDate, operatorDetailDes, actualExpense, activitiesImage, bilImage));
+
+        }
+
+        List<Part> activitiesParts = req.getParts().stream()
+                .filter(part -> part.getName().matches("activities-(.*)") && !part.getSubmittedFileName().isEmpty())
+                .collect(Collectors.toList());
+
+        List<Part> bilParts = req.getParts().stream()
+                .filter(part -> part.getName().matches("billImg-(.*)") && !part.getSubmittedFileName().isEmpty())
+                .collect(Collectors.toList());
+
+        List<Operator> listOperatorClone = deepClone(listOperator);
+
+        for (Operator operator : listOperatorClone) {
+            if (unChangeOperatorId != null) {
+                for (String id : unChangeOperatorId) {
+                    if (operator.getOperatorId() == Integer.parseInt(id)) {
+                        listOperator.remove(operator);
+                    }
+                }
+            }
+        }
+
+        if (operatorIdDels != null) {
+            operatorService.deleteMultipleOperator(operatorIdDels);
         }
         
-        List<Part> activitiesParts = req.getParts().stream()
-                .filter(part -> part.getName().matches("activities-(.*)"))
-                .collect(Collectors.toList());
-        
-        List<Part> bilParts = req.getParts().stream()
-                .filter(part -> part.getName().matches("billImg-(.*)"))
-                .collect(Collectors.toList());
-        
-        operatorService.registerOperator(listOperator, activitiesParts, bilParts, ""+programId, imageUploadPath);
-        
+        operatorService.registerOperator(listOperator, activitiesParts, bilParts, "" + programId, imageUploadPath, unChangedActivitiesProgram, unChangedBillProgram, unChangeOperatorId);
+
         req.getRequestDispatcher("successPage.jsp").forward(req, resp);
+
+    }
+
+    public void getOperator() {
 
     }
 
@@ -168,15 +215,24 @@ public class OperatorController extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doDelete(req, resp); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     private void getUpdateNews(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
         int newsId = Integer.parseInt(req.getParameter("newsId"));
-        
+
         News news = newsService.getSingleNews(newsId);
-        
+
         req.setAttribute("news", news);
         req.getRequestDispatcher("newsUpdate.jsp").forward(req, resp);
     }
 
+    public List<Operator> deepClone(List<Operator> listOperator) {
+        List<Operator> listOperatorClone = new ArrayList<>();
+
+        for (Operator operator : listOperator) {
+            listOperatorClone.add(operator);
+        }
+
+        return listOperatorClone;
+    }
 }

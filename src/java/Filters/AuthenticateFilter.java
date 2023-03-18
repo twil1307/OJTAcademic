@@ -42,7 +42,7 @@ public class AuthenticateFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
         HttpSession session = httpRequest.getSession();
-        String urlHistory = (String) session.getAttribute("urlHistory");
+//        String urlHistory = (String) session.getAttribute("urlHistory");
         Cookie[] cookies = httpRequest.getCookies();
 
         String username = null;

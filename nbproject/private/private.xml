@@ -12,8 +12,8 @@
             <file>file:/D:/java_web/OJTmoc/src/java/Program/ProgramVO.java</file>
             <file>file:/D:/java_web/OJTmoc/src/java/Operator/OperatorController.java</file>
             <file>file:/D:/java_web/OJTmoc/src/java/News/NewsService.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Dashboard/DashBoardController.java</file>
             <file>file:/D:/java_web/OJTmoc/src/java/Donate/DonateService.java</file>
+            <file>file:/D:/java_web/OJTmoc/src/java/Dashboard/DashBoardController.java</file>
             <file>file:/D:/java_web/OJTmoc/src/java/Operator/OperatorDAO.java</file>
             <file>file:/D:/java_web/OJTmoc/src/java/User/UserManage.java</file>
             <file>file:/D:/java_web/OJTmoc/src/java/Image/ImageDAO.java</file>
@@ -56,7 +56,6 @@
             <file>file:/D:/java_web/OJTmoc/src/java/News/News.java</file>
             <file>file:/D:/java_web/OJTmoc/src/java/User/Donor.java</file>
             <file>file:/D:/java_web/OJTmoc/src/java/News/NewsManageController.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Investor/InvestorController.java</file>
             <file>file:/D:/java_web/OJTmoc/src/java/User/Account.java</file>
             <file>file:/D:/java_web/OJTmoc/web/operator.jsp</file>
             <file>file:/D:/java_web/OJTmoc/src/java/Schedule/ScheduleDAO.java</file>

@@ -14,11 +14,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h2>Donate Now</h2>
+                    <h2>My Profile</h2>
                 </div>
                 <div class="col-12">
                     <a href="">Home</a>
-                    <a href="">Donate</a>
+                    <a href="">Profile</a>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@
 
     <div class="container bootstrap snippet">
         <div class="row">
-            <div class="col-sm-10"><h1>User name</h1></div>
+            <div class="col-sm-10"><h1>${account.name}</h1></div>
         </div>
         <div class="row">
             <div class="col-sm-3"><!--left col-->
@@ -35,20 +35,21 @@
 
                 <div class="text-center">
                     <img src="${account.avatar}" id="output" class="avatar img-circle img-thumbnail" alt="avatar">
-                    <h6>Upload a different photo...</h6>
-                    <br>
-                    <label class="button" name="avatar" for="upload">Upload Your Avatar</label>
-                    <input id="upload" name="avatar" type="file" accept="image/*" onchange="loadFile(event)">
+                    <c:if test="${(account.accountId == sessionScope.user.accountId)}">
+                        <h6>Upload a different photo...</h6>
+                        <br>
+                        <label class="button" name="avatar" for="upload">Upload Your Avatar</label>
+                    </c:if>
+
 
                 </div></hr><br>
 
 
                 <ul class="list-group">
                     <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
-                    <li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span> 125</li>
-                    <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
-                    <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 37</li>
-                    <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> 78</li>
+                    <li class="list-group-item text-left"><span class="pull-left"><strong>Program contributed: </strong></span> ${numberProgramContribute}</li>
+                    <li class="list-group-item text-left"><span class="pull-left"><strong>Donate this month: </strong></span> ${totalDonateThisMonth}</li>
+                    <li class="list-group-item text-left"><span class="pull-left"><strong>Donate total:</strong></span> ${totalDonate}</li>
                 </ul> 
 
 
@@ -57,7 +58,14 @@
             <div class="col-sm-9">
                 <ul class="nav nav-tabs">
                     <li class=""><a data-toggle="tab" class="active" href="#home">Basic information</a></li>
-                    <li><a data-toggle="tab" href="#messages">Donate history</a></li>
+                        <c:if test="${(account.accountId == sessionScope.user.accountId) || (sessionScope.user.role == 1)}">
+                        <li><a data-toggle="tab" href="#messages">Donate history</a></li>
+                        </c:if>
+                        <c:if test="${(account.accountId == sessionScope.user.accountId)}">
+                        <li><a data-toggle="tab" href="#privateInfo">Private infomation</a></li>
+                        <li><a data-toggle="tab" href="#passwordChange">Password</a></li>
+                        </c:if>
+
                     <!--<li><a data-toggle="tab" href="#settings">Menu 2</a></li>-->
                 </ul>
 
@@ -66,18 +74,20 @@
                     <div class="tab-pane active" id="home">
                         <hr>
                         <form class="form" action="##" method="post" id="registrationForm">
+
+
                             <div class="form-group">
 
                                 <div class="col-xs-6">
                                     <label for="name"><h4>Name</h4></label>
-                                    <input type="text" class="form-control" name="name" value="${account.name}" id="name" placeholder="Your name" title="enter your first name if any.">
+                                    <input type="text" class="form-control" name="name" value="${account.name}" id="name" placeholder="Your name" ${((account.accountId != sessionScope.user.accountId) || (sessionScope.user.role != 1)) ? 'disabled' : ''} title="enter your first name if any.">
                                 </div>
                             </div>
                             <div class="form-group">
 
                                 <div class="col-xs-6">
                                     <label for="email"><h4>Email</h4></label>
-                                    <input type="email" class="form-control" name="email" values="${account.email}"  id="email" placeholder="Your email" title="enter your last name if any.">
+                                    <input type="email" class="form-control" name="email" value="${account.email}"  id="email" placeholder="Your email" ${((account.accountId == sessionScope.user.accountId) || (sessionScope.user.role == 1)) ? '' : 'disabled'} title="enter your last name if any.">
                                 </div>
                             </div>
 
@@ -85,159 +95,162 @@
 
                                 <div class="col-xs-6">
                                     <label for="phone"><h4>Phone</h4></label>
-                                    <input type="text" class="form-control" name="phoneNumber" value="${account.phoneNumber}" id="phone" placeholder="enter phone" title="enter your phone number if any.">
+                                    <input type="text" class="form-control" name="phoneNumber" value="${account.phoneNumber}" id="phone" placeholder="enter phone" ${((account.accountId == sessionScope.user.accountId) || (sessionScope.user.role == 1)) ? '' : 'disabled'} title="enter your phone number if any.">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="col-xs-6">
                                     <label for="dob"><h4>Date of birth</h4></label>
-                                    <input type="date" class="form-control" name="dob" value="${account.dob}" id="dob" title="enter your mobile number if any.">
+                                    <input type="date" class="form-control" name="dob" value="${account.dob}" id="dob" title="enter your mobile number if any." ${((account.accountId == sessionScope.user.accountId) || (sessionScope.user.role == 1)) ? '' : 'disabled'}>
                                 </div>
                             </div>
                             <div class="form-group">
 
                                 <div class="col-xs-6">
                                     <label for="city"><h4>City</h4></label>
-                                    <input type="text" class="form-control" name="city" value="${account.city}" id="city" placeholder="Your city" title="enter your City.">
+                                    <input type="text" class="form-control" name="city" value="${account.city}" id="city" placeholder="Your city" title="enter your City." ${((account.accountId == sessionScope.user.accountId) || (sessionScope.user.role == 1)) ? '' : 'disabled'}>
                                 </div>
                             </div>
                             <div class="form-group">
 
                                 <div class="col-xs-6">
                                     <label for="province"><h4>Province</h4></label>
-                                    <input type="text" class="form-control" id="province" value="${account.province}" name="province" placeholder="Province" title="enter a location">
+                                    <input type="text" class="form-control" id="province" value="${account.province}" name="province" placeholder="Province" title="enter a location" ${((account.accountId == sessionScope.user.accountId) || (sessionScope.user.role == 1)) ? '' : 'disabled'}>
                                 </div>
                             </div>
                             <div class="form-group">
 
                                 <div class="col-xs-6">
                                     <label for="address"><h4>Address</h4></label>
-                                    <input type="text" class="form-control" name="address" value="${account.address}" id="password" placeholder="address" title="enter your address.">
+                                    <input type="text" class="form-control" name="address" value="${account.address}" id="address" placeholder="address" title="enter your address." ${((account.accountId == sessionScope.user.accountId) || (sessionScope.user.role == 1)) ? '' : 'disabled'}>
                                 </div>
                             </div>
-                            <div class="form-group">
 
-                                <div class="col-xs-6">
-                                    <label for="bankAcc"><h4>Bank Account</h4></label>
-                                    <input type="text" class="form-control" name="bank_account" value="${account.bank_account}" id="bankAcc" placeholder="Your bank account" title="enter your bank account.">
+                            <c:if test="${(account.accountId == sessionScope.user.accountId) || (sessionScope.user.role == 1)}">
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <br>
+                                        <button class="btn btn-lg" style="background-color: #FDBE33" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
+
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-xs-12">
-                                    <br>
-                                    <button class="btn btn-lg" style="background-color: #FDBE33" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
-                                    <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
-                                </div>
-                            </div>
+                            </c:if>
+
+                            <c:if test="${(account.accountId == sessionScope.user.accountId)}">
+                                <input id="upload" name="avatar" type="file" accept="image/*" onchange="loadFile(event)" style="display: none">
+                            </c:if>
+
                         </form>
 
                         <hr>
 
                     </div><!--/tab-pane-->
-                    <div class="tab-pane" id="messages">
-                        <div class="table-responsive">
-                            <table class="table table-hover" id="job-table">
-                                <thead>
-                                    <tr class="text-center">
-                                        <th scope="col">No.</th>
-                                        <th scope="col" colspan="2">Program name</th>
-                                        <th scope="col">Amount</th>
-                                        <th scope="col-2" colspan="3">At</th>
+                    <c:if test="${(account.accountId == sessionScope.user.accountId) || (sessionScope.user.role == 1)}">
+                        <div class="tab-pane" id="messages">
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="job-table">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th scope="col">No.</th>
+                                            <th scope="col" colspan="2">Program name</th>
+                                            <th scope="col">Amount</th>
+                                            <th scope="col-2" colspan="3">At</th>
 
-                                        <th scope="col">Message</th>
+                                            <th scope="col">Message</th>
 
-                                    </tr>
-                                </thead>
-
-                                <c:set var = "donateNo" value="${1}" />
-                                <tbody class="text-center tableBody">
-                                    <c:forEach var="item" items="${donateHistory}">
-                                        <tr key={key}>
-                                            <td class="font-weight-bold">${donateNo}</td>
-                                            <td class="font-weight-bold" colspan="2">${item.programName}</td>
-                                            <td>${item.amount} $</td>
-                                            <td class="font-weight-bold" colspan="3">${item.donate_date}</td>
-                                            <td>${item.message}</td>
-                                            <c:set var = "donateNo" value="${donateNo+1}" />
                                         </tr>
-                                    </c:forEach>
-                                </tbody>
-                            </table>
+                                    </thead>
+
+                                    <c:set var = "donateNo" value="${1}" />
+                                    <tbody class="text-center tableBody">
+                                        <c:forEach var="item" items="${donateHistory}">
+                                            <tr key={key}>
+                                                <td class="font-weight-bold">${donateNo}</td>
+                                                <td class="font-weight-bold" colspan="2">${item.programName}</td>
+                                                <td>${item.amount} $</td>
+                                                <td class="font-weight-bold" colspan="3">${item.donate_date}</td>
+                                                <td>${item.message}</td>
+                                                <c:set var = "donateNo" value="${donateNo+1}" />
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div><!--/tab-pane-->
-<!--
-                    <div class="tab-pane" id="settings">
+                    </c:if>
 
 
+                    <div class="tab-pane" id="privateInfo">
                         <hr>
                         <form class="form" action="##" method="post" id="registrationForm">
-                            <div class="form-group">
 
-                                <div class="col-xs-6">
-                                    <label for="first_name"><h4>First name</h4></label>
-                                    <input type="text" class="form-control" name="first_name" id="first_name" placeholder="first name" title="enter your first name if any.">
-                                </div>
-                            </div>
-                            <div class="form-group">
-
-                                <div class="col-xs-6">
-                                    <label for="last_name"><h4>Last name</h4></label>
-                                    <input type="text" class="form-control" name="last_name" id="last_name" placeholder="last name" title="enter your last name if any.">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-
-                                <div class="col-xs-6">
-                                    <label for="phone"><h4>Phone</h4></label>
-                                    <input type="text" class="form-control" name="phone" id="phone" placeholder="enter phone" title="enter your phone number if any.">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-xs-6">
-                                    <label for="mobile"><h4>Mobile</h4></label>
-                                    <input type="text" class="form-control" name="mobile" id="mobile" placeholder="enter mobile number" title="enter your mobile number if any.">
-                                </div>
-                            </div>
                             <div class="form-group">
 
                                 <div class="col-xs-6">
                                     <label for="email"><h4>Email</h4></label>
-                                    <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email.">
+                                    <input type="email" class="form-control" name="email" value="${account.email}"  id="email" placeholder="Your email" ${((account.accountId == sessionScope.user.accountId) || (sessionScope.user.role == 1)) ? '' : 'disabled'} title="enter your last name if any.">
                                 </div>
                             </div>
+
+
                             <div class="form-group">
 
                                 <div class="col-xs-6">
-                                    <label for="email"><h4>Location</h4></label>
-                                    <input type="email" class="form-control" id="location" placeholder="somewhere" title="enter a location">
+                                    <label for="bankAcc"><h4>Bank Account</h4></label>
+                                    <input type="text" class="form-control" name="bank_account" value="${account.bank_account}" id="bankAcc" placeholder="Your bank account" title="enter your bank account." ${((account.accountId == sessionScope.user.accountId) || (sessionScope.user.role == 1)) ? '' : 'disabled'}>
                                 </div>
                             </div>
+                            <c:if test="${(account.accountId == sessionScope.user.accountId) || (sessionScope.user.role == 1)}">
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <br>
+                                        <button class="btn btn-lg" style="background-color: #FDBE33" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
+
+                                    </div>
+                                </div>
+                            </c:if>
+
+
+                        </form>
+
+                        <hr>
+                    </div>
+
+                    <div class="tab-pane" id="passwordChange">
+                        <hr>
+                        <form class="form" action="##" method="post" id="registrationForm">
+
                             <div class="form-group">
 
                                 <div class="col-xs-6">
-                                    <label for="password"><h4>Password</h4></label>
-                                    <input type="password" class="form-control" name="password" id="password" placeholder="password" title="enter your password.">
+                                    <label for="email"><h4>Password</h4></label>
+                                    <input type="password" id="password" name="password" onkeyup="check();" class="form-control" minlength="6" value="*********" placeholder="Password" required="required" />
                                 </div>
                             </div>
+
+
                             <div class="form-group">
 
                                 <div class="col-xs-6">
-                                    <label for="password2"><h4>Verify</h4></label>
-                                    <input type="password" class="form-control" name="password2" id="password2" placeholder="password2" title="enter your password2.">
+                                    <label for="bankAcc"><h4>Password Confirm</h4></label>
+                                    <input type="password" class="form-control" name="passwordConfirm" id="confirm_password" value="*********" onkeyup="check();" minlength="6"  placeholder="Password confirmation" required="required" />
+                                    <span id='message'></span>
                                 </div>
                             </div>
+
                             <div class="form-group">
                                 <div class="col-xs-12">
                                     <br>
-                                    <button class="btn btn-lg btn-success pull-right" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
-                                    <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+                                    <button class="btn btn-lg" style="background-color: #FDBE33" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
+
                                 </div>
                             </div>
+
                         </form>
-                    </div>-->
+
+                        <hr>
+                    </div>
 
                 </div><!--/tab-pane-->
             </div><!--/tab-content-->
@@ -330,6 +343,21 @@
         };
 
 
+        var check = function () {
+            console.log(document.getElementById('password').value);
+
+            if (document.getElementById('password').value == document.getElementById('confirm_password').value) {
+                document.getElementById('message').style.color = 'green';
+                document.getElementById('message').innerHTML = 'matching';
+            } else {
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').innerHTML = 'not matching';
+            }
+
+            if (document.getElementById('password').value == "" || document.getElementById('confirm_password').value == "") {
+                document.getElementById('message').innerHTML = "";
+            }
+        }
     </script>
 
     <!-- JavaScript Libraries -->

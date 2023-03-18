@@ -33,4 +33,16 @@ public class UserService {
     public void changeRole(int accountId, String roleCase) {
         userDAO.changeRole(accountId, roleCase);
     }
+    
+    public double getUserDonateTotal(int accountId) {
+        return userDAO.getUserDonateTotal(accountId);
+    }
+    
+    public int getUserContributeProgramNum(int accountId) {
+        return userDAO.getUserContributeProgramNum(accountId);
+    }
+    
+    public double getContributeThisMonth(int accountId) {
+        return userDAO.getContributeThisMonth(accountId);
+    }
 }

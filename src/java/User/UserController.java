@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpSession;
 public class UserController extends HttpServlet {
     
     private final DonateService donateService = new DonateService();
+    private final UserService userService = new UserService();
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -52,20 +54,23 @@ public class UserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
          HttpSession session = req.getSession(false);
-        Account account = (Account) session.getAttribute("user");
-        List<Donate> donateHistory = donateService.getDonateHistoryByUserId(account.getAccountId());
-        
-        System.out.println(account.getAccountId());
+         int userId = Integer.parseInt(req.getParameter("userId"));
+        List<Donate> donateHistory = donateService.getDonateHistoryByUserId(userId);
+        Account account = userService.getUserByID(userId);
+        double totalDonate = userService.getUserDonateTotal(account.getAccountId());
+        double totalDonateThisMonth = userService.getContributeThisMonth(account.getAccountId());
+        int numberProgramContribute = userService.getUserContributeProgramNum(account.getAccountId());
         
         if(account==null) {
             req.setAttribute("signUpFailMessage", "Username existed");
             req.getRequestDispatcher("login.jsp").forward(req, resp);
         }
         
+        req.setAttribute("totalDonate", totalDonate);
+        req.setAttribute("totalDonateThisMonth", totalDonateThisMonth);
+        req.setAttribute("numberProgramContribute", numberProgramContribute);
         req.setAttribute("account", account);
         req.setAttribute("donateHistory", donateHistory);
-        
-        
         
         req.getRequestDispatcher("profilePage.jsp").forward(req, resp);
     }
@@ -82,7 +87,26 @@ public class UserController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp); //To change body of generated methods, choose Tools | Templates.
+        
+        String action = req.getParameter("action");
+        
+        switch (action) {
+            case "updateBasicInfo": 
+                updateBasicInfo(req, resp);
+                break;
+        }
+        
+        
+    }
+    
+    private void updateBasicInfo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String name = req.getParameter("name");
+        String dob = req.getParameter("dob");
+        String city = req.getParameter("city");
+        String province = req.getParameter("province");
+        String address = req.getParameter("address");
+        Part part = req.getPart("avatar");
+        String avatar;
     }
     
     /**

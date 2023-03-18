@@ -276,6 +276,10 @@ public class ImageDAO {
         }
         return images;
     }
+     
+     public void deleteImgByOperatorIds(String[] id) {
+         
+     }
 
     public static void main(String[] args) {
         ImageDAO dao = new ImageDAO();

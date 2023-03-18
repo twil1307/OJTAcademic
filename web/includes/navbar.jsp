@@ -16,9 +16,8 @@
                     <a href="home" class="nav-item nav-link">Home</a>
                     <a href="about.jsp" class="nav-item nav-link">About</a>
                     <a href="program?action=list" class="nav-item nav-link">Program</a>
-                    <a href="event.jsp" class="nav-item nav-link">Events</a>
                     <a href="news?action=list" class="nav-item nav-link">News</a>
-                    <div class="nav-item dropdown">
+<!--                    <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                         <div class="dropdown-menu">
                             <a href="detail.jsp" class="dropdown-item">Detail Page</a>
@@ -27,7 +26,7 @@
                             <a href="donate.jsp" class="dropdown-item">Donate Now</a>
                             <a href="volunteer.html" class="dropdown-item">Become A Volunteer</a>
                         </div>
-                    </div>
+                    </div>-->
                     <c:if test="${sessionScope.user !=null}">
                         <a href="contact" class="nav-item nav-link">Contact</a>
 
@@ -42,14 +41,14 @@
 
                         <c:choose>
                             <c:when test="${sessionScope.user !=null}">
-                                <a class="dropdown-item" href="">${sessionScope.user.getName()}</a>
+                                <a class="dropdown-item" href="user?userId=${sessionScope.user.accountId}">${sessionScope.user.getName()}</a>
 
                                 <c:if test="${sessionScope.user.role=='2' || sessionScope.user.role=='1'}">
                                     <a class="dropdown-item" href="program_register.jsp">Create program</a>
                                     <a class="dropdown-item" href="/OJT_Mock/news-manage">Create news</a>
                                 </c:if>
                                 <c:if test="${sessionScope.user.role=='1'}">
-                                    <a class="dropdown-item" href="dashboard">Dashboard</a>
+                                    <a class="dropdown-item" href="dashboard?action=donation">Dashboard</a>
                                 </c:if>
                                 <a class="dropdown-item" href="logout">Log out</a>
 
