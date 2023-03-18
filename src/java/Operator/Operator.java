@@ -27,4 +27,5 @@ public class Operator {
     private double actualExpense;
     private List<OperatorImage> activiesImgs;
     private List<OperatorImage> billImgs;
+
 }

@@ -16,5 +16,9 @@ public class DashBoardService {
         return dao.getTotal(totalCase);
     }
     
+    public double getTotalGoal() {
+        return dao.getTotalGoal();
+    }
+    
     
 }

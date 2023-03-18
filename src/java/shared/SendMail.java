@@ -13,9 +13,12 @@ import java.util.Properties;
 public class SendMail {
 
     static Session loginGetSession() {
+        
+        
+        
         final String username = "lanhtuan200@gmail.com";
 //        final String password = "xpdtqogzdwvfopez";        
-        final String password = "mxfcrbiptbtweakx";
+        final String password = "iatsybahtmugrakn";
 
 
         Properties props = new Properties();
@@ -128,7 +131,7 @@ public class SendMail {
         }
     }
 
-    public static void sendConfirmEmail(String status, String email, String subject, String emailTitle, String emailContent, String otp) {
+    public static boolean sendConfirmEmail(String status, String email, String subject, String emailTitle, String emailContent, String otp) {
         Session session = loginGetSession();
         try {
 
@@ -231,9 +234,12 @@ public class SendMail {
 
 //            }
             System.out.println("Done");
+            
+            return true;
 
         } catch (MessagingException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
@@ -241,7 +247,7 @@ public class SendMail {
 //        String status, String email, String subject, String emailTitle, String emailContent, String otp
 //We received a request to reset the password for the Klub4 account associated"
 //                    + "                                            with this e-mail address. Please ignore this email if you have not requested. Your OTP here:"
-        SendMail.sendConfirmEmail("success","hoangnde160204@fpt.edu.vn", "CONFIRM DONATING", "We receive a request that you donate 7000 dollars for the project xxx pllease confirm it by the OTP", "Thanks for being part of us", OTPGenerate.generateOTP());
+        SendMail.sendConfirmEmail("success","duclqde160552@fpt.edu.vn", "CONFIRM DONATING", "We receive a request that you donate 7000 dollars for the project xxx pllease confirm it by the OTP", "Thanks for being part of us", OTPGenerate.generateOTP());
 //            SendMail.sendSuccessEmail("totenduc1307@gmail.com");
     }
 

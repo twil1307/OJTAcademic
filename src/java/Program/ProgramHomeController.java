@@ -5,7 +5,14 @@
  */
 package Program;
 
+import Dashboard.DashBoardService;
+import News.News;
+import News.NewsService;
+import Operator.Operator;
+import Operator.OperatorService;
+import Operator.OperatorVO;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +27,11 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "ProgramHomeController", urlPatterns = {"/home"})
 public class ProgramHomeController extends HttpServlet {
     
+    private final ProgramService service = new ProgramService();
+    private final NewsService newsService = new NewsService();
+    private final OperatorService operatorService = new OperatorService();
+    private final DashBoardService dashBoardService = new DashBoardService();
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -31,14 +43,7 @@ public class ProgramHomeController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        HttpSession session = req.getSession(false);
         
-        String urlHistory = "home";
-
-        session = req.getSession(true);
-        session.setAttribute("urlHistory", urlHistory);
-        
-       req.getRequestDispatcher("index.jsp").forward(req, resp);
     }
 
     /**
@@ -54,11 +59,22 @@ public class ProgramHomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
+        List<Program> listPrograms = service.getListProgram(1, 6);
+        List<News> getListNews = newsService.getListNews(1, 3);
+        List<OperatorVO> operators = operatorService.getOperatorsHome();
+        double totalRaised = dashBoardService.getTotal("all");
+        double totalGoal = dashBoardService.getTotalGoal();
+        
         
         String urlHistory = "home";
-
         session = req.getSession(true);
         session.setAttribute("urlHistory", urlHistory);
+        
+        req.setAttribute("operators", operators);
+        req.setAttribute("totalRaised", totalRaised);
+        req.setAttribute("totalGoal", totalGoal);
+        req.setAttribute("listPrograms", listPrograms);
+        req.setAttribute("getListNews", getListNews);
         req.getRequestDispatcher("index.jsp").forward(req, resp);
     }
 

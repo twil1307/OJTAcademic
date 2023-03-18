@@ -107,6 +107,7 @@ public class DonateController extends HttpServlet {
             req.getRequestDispatcher("failedPage.jsp").forward(req, resp);
         }
         
+        session.removeAttribute("otp");
         req.getRequestDispatcher("successPage.jsp").forward(req, resp);
     }
 

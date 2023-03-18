@@ -42,6 +42,10 @@ public class OperatorService {
         return dao.getOperatorsByProgramId(programId);
     }
     
+    public List<OperatorVO> getOperatorsHome() {
+        return dao.getOperatorsHome();
+    }
+    
     public List<OperatorImage> getActivitiesImage(int operatorId) {
         return ImageDAO.getActivitiesImage(operatorId);
     }

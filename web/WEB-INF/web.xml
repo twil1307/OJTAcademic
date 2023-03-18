@@ -17,4 +17,17 @@
         <welcome-file>index.jsp</welcome-file>
         <welcome-file>home</welcome-file>
     </welcome-file-list>
+    
+    <filter-mapping>
+        <filter-name>FilterLogin</filter-name>
+        <url-pattern />
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>autoUpdate</filter-name>
+        <url-pattern />
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>programFilter</filter-name>
+        <url-pattern />
+    </filter-mapping>
 </web-app>

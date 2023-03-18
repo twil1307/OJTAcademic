@@ -29,6 +29,23 @@ public class Donor extends Account {
         
     }
     
+    public Donor(int accountId, String email, String bank_account) {
+        super(accountId);
+        this.email = email;
+        this.bank_account = bank_account;
+    }
+    public Donor(int accountId, String username, String name, String phoneNumber, String dob, String city, String province, String address, String avatar) {
+        super(accountId, username);
+        this.phoneNumber = phoneNumber;
+        this.dob=dob;
+        this.city = city;
+        this.province = province;
+        this.address = address;
+        this.name = name;
+        this.avatar = avatar;
+    }
+
+    
 public Donor(int accountId, String username, String password, int role, String salt, String email, String city, String province, String address, String name, String avatar, String phoneNumber, String dob, String bank_account) {
         super(accountId, username, password, role, salt);
         this.email = email;

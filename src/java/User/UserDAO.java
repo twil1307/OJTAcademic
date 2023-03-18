@@ -383,4 +383,84 @@ public class UserDAO {
         }
         return -1;
     }
+
+    void updateBasicInfo(Donor acc) {
+        try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+
+            String query = "update donor set phone_number=?, city=?, province=?, address=?, avatar=?, name=?, dob=? where account_id=?";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+            ps.setString(1, acc.getPhoneNumber());
+            ps.setString(2, acc.getCity());
+            ps.setString(3, acc.getProvince());
+            ps.setString(4, acc.getAddress());
+            ps.setString(5, acc.getAvatar());
+            ps.setString(6, acc.getName());
+            ps.setString(7, acc.getDob());
+            ps.setInt(8, acc.getAccountId());
+
+            ps.executeUpdate();
+
+//            rs = ps.getGeneratedKeys();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    void changeEmailAndBankAcc(Donor accUpdt) {
+        try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+
+            String query = "update donor set email=?, bank_account=? where account_id=?";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+            ps.setString(1, accUpdt.getEmail());
+            ps.setString(2, accUpdt.getBank_account());
+            ps.setInt(3, accUpdt.getAccountId());
+
+            ps.executeUpdate();
+
+//            rs = ps.getGeneratedKeys();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    void changePassword(String encryptedPassword, String saltValue, String userId) {
+        try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+
+            String query = "update account set password=?, salt=? where account_id=?";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+            ps.setString(1, encryptedPassword);
+            ps.setString(2, saltValue);
+            ps.setInt(3, Integer.parseInt(userId));
+
+            ps.executeUpdate();
+
+//            rs = ps.getGeneratedKeys();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

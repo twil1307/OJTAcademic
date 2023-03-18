@@ -10,7 +10,10 @@
     <body>
        <%@include file="/includes/navbar.jsp"%>
        <main>
-            <form method="POST" action="/OJT_Mock/program?action=register" id="form" class="container"  enctype="multipart/form-data">
+            <form method="POST" action="${action.equals("register") ? 
+                "/OJT_Mock/program?action=register" :
+                "/OJT_Mock/program?action=update" 
+            }" id="form" class="container"  enctype="multipart/form-data">
                <div class="form-group">
                    <label for="programName">Program Name</label>
                     <input 
@@ -20,6 +23,7 @@
                         aria-describedby="programName" 
                         name="programName"
                         placeholder="Enter Program Name"
+                        value="${program.programName}"
                         required
                     >
                </div>
@@ -32,6 +36,7 @@
                         aria-describedby="shortDescription" 
                         placeholder="Enter Short Description"
                         name="shortDes"
+                        value="${program.shortDes}"
                         required
                     >
                     >
@@ -47,7 +52,7 @@
                         style="height: 140px; min-height: 36px"
                         name="detailDes"
                         required
-                    ></textarea>
+                    >${program.detailDes}</textarea>
                </div>
                <div class="form-group">
                    <label for="goalAmount">Goal Amount</label>
@@ -58,6 +63,7 @@
                         aria-describedby="goalAmount" 
                         placeholder="Enter goal amount"
                         name="goalAmount"
+                        value="${program.goalAmount}"
                         required
                     >
                </div>
@@ -71,6 +77,7 @@
                             aria-describedby="startDate" 
                             placeholder="Enter Start Date"
                             name="startDate"
+                            value="${program.startDate}"
                             required
                         >
                     </div>
@@ -83,6 +90,7 @@
                             aria-describedby="endDate" 
                             placeholder="Enter End Date"
                             name="endDate"
+                            value="${program.endDate}"
                             required
                         >
                     </div>
@@ -98,6 +106,7 @@
                              placeholder="Enter City"
                              name="city"
                              required
+                             value="${program.destination.city}"
                          >
                      </div>
                      <div class="col">
@@ -110,6 +119,7 @@
                              placeholder="Enter city"
                              name="province"
                              required
+                             value="${program.destination.province}"
                          >
                      </div>
                  </div>
@@ -123,6 +133,7 @@
                          placeholder="Enter Address"
                          name="address"
                          required
+                         value="${program.destination.address}"
                      >
                 </div>
                 <div class="form-row mb-3">
@@ -136,6 +147,7 @@
                              placeholder="Enter Start Date"
                              name="scheStartDate"
                              required
+                             value="${program.scheStartDate}"
                          >
                      </div>
                      <div class="col">
@@ -148,6 +160,7 @@
                              placeholder="Enter End Date"
                              name="scheEndDate"
                              required
+                             value="${program.scheEndDate}"
                          >
                      </div>
                  </div>
@@ -162,12 +175,15 @@
                         name="programImgs"
                         accept="image/*"
                         multiple
-                        required
+                        ${action.equals("register") ? "required" : ""}
                      >
                 </div>
                 <div id="image-preview-section" class="row">
-                    
+                    <c:forEach items="${program.programImgs}" var="image">
+                        <img src="${image.path}" alt="" class="col-sm-12 col-md-6 col-lg-4 image-preview"/>
+                    </c:forEach>
                 </div>
+                <input type="hidden" value="${action.equals("register") ? "" : program.programId}" name="programId" />
                <button class="mt-5 btn btn-primary container-fluid">Submit</button>
            </form>
        </main>

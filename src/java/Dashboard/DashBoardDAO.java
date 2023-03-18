@@ -68,7 +68,34 @@ public class DashBoardDAO {
         }
         return -1;
     }
-    
+
+    public double getTotalGoal() {
+        try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+            String query = "select sum(goal_amount) as total_goal from program";
+
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                return rs.getInt("total_goal");
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DashBoardDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DashBoardDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
     public static void main(String[] args) {
         DashBoardDAO dao = new DashBoardDAO();
         System.out.println(dao.getTotal("total"));

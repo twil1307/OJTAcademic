@@ -65,6 +65,7 @@ public class AuthenticateFilter implements Filter {
                 session = httpRequest.getSession(true); // create a new session
                 session.setAttribute("user", user);
             }
+
         } catch (Exception e) {
             System.out.println(e);
         } finally {

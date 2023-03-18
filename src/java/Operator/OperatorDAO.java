@@ -129,8 +129,58 @@ public class OperatorDAO {
         }
         return operators;
     }
-    
- 
+
+    public List<OperatorVO> getOperatorsHome() {
+        Connection conn;
+        PreparedStatement ps;
+        ResultSet rs;
+        List<OperatorVO> operators = new ArrayList();
+
+        try {
+            String query = "select top 4 opr.*, des.city, des.province, des.address from operator opr, program pr, destination des \n"
+                    + "where opr.program_id = pr.program_id and pr.program_id=des.program_id order by operator_date asc";
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int operatorId = rs.getInt("operator_id");
+                int programId = rs.getInt("program_id");
+                String operatorDate = rs.getString("operator_date");
+                String detailDes = rs.getString("operator_detail_des");
+                double actualExpense = rs.getDouble("actual_expense");
+                String city = rs.getString("city");
+                String province = rs.getString("province");
+                String address = rs.getString("address");
+                OperatorVO operator = OperatorVO.builder()
+                        .operatorId(operatorId)
+                        .programId(programId)
+                        .operatorDate(operatorDate)
+                        .operatorDetailDes(detailDes.trim())
+                        .actualExpense(actualExpense)
+                        .city(city)
+                        .province(province)
+                        .address(address)
+                        .build();
+                
+               
+                List<OperatorImage> activitiesImages = (List<OperatorImage>) imageDao.getImages(operatorId, "activies_img");
+                operator.setActiviesImgs(activitiesImages);
+                operators.add(operator);
+            }
+
+            // close connection after execute query
+            ps.close();
+            conn.close();
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(OperatorDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return operators;
+    }
+
     public void deleteOperatorById(int programId) {
         Connection conn;
         PreparedStatement ps;

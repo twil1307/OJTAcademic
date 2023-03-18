@@ -87,7 +87,7 @@ public class PasswordEncrypt {
     
      public static void main(String[] args)  {  
         /* Plain text Password. */  
-        String password = "myNewPass1asd";  
+        String password = "123456";  
           
         /* generates the Salt value. It can be stored in a database. */  
         String saltvalue = getSaltvalue(30);  

@@ -73,7 +73,7 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="home">
                         <hr>
-                        <form class="form" action="##" method="post" id="registrationForm">
+                        <form class="form" action="user?action=updateBasicInfo" method="post" id="registrationForm" enctype="multipart/form-data">
 
 
                             <div class="form-group">
@@ -81,13 +81,6 @@
                                 <div class="col-xs-6">
                                     <label for="name"><h4>Name</h4></label>
                                     <input type="text" class="form-control" name="name" value="${account.name}" id="name" placeholder="Your name" ${((account.accountId != sessionScope.user.accountId) || (sessionScope.user.role != 1)) ? 'disabled' : ''} title="enter your first name if any.">
-                                </div>
-                            </div>
-                            <div class="form-group">
-
-                                <div class="col-xs-6">
-                                    <label for="email"><h4>Email</h4></label>
-                                    <input type="email" class="form-control" name="email" value="${account.email}"  id="email" placeholder="Your email" ${((account.accountId == sessionScope.user.accountId) || (sessionScope.user.role == 1)) ? '' : 'disabled'} title="enter your last name if any.">
                                 </div>
                             </div>
 
@@ -139,6 +132,7 @@
 
                             <c:if test="${(account.accountId == sessionScope.user.accountId)}">
                                 <input id="upload" name="avatar" type="file" accept="image/*" onchange="loadFile(event)" style="display: none">
+                                <input id="accountId" name="accountId" type="hidden" value="${account.accountId}">
                             </c:if>
 
                         </form>
@@ -181,9 +175,9 @@
                     </c:if>
 
 
-                    <div class="tab-pane" id="privateInfo">
+                    <div onsubmit="return submitFormPrivate()" class="tab-pane" id="privateInfo">
                         <hr>
-                        <form class="form" action="##" method="post" id="registrationForm">
+                        <form class="form" action="user?action=requestChangeEmail&userId=${param.userId}" method="post" id="registrationForm">
 
                             <div class="form-group">
 
@@ -205,7 +199,7 @@
                                 <div class="form-group">
                                     <div class="col-xs-12">
                                         <br>
-                                        <button class="btn btn-lg" style="background-color: #FDBE33" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
+                                        <button id="privateSubmitBtn" class="btn btn-lg" style="background-color: #FDBE33" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
 
                                     </div>
                                 </div>
@@ -219,7 +213,7 @@
 
                     <div class="tab-pane" id="passwordChange">
                         <hr>
-                        <form class="form" action="##" method="post" id="registrationForm">
+                        <form onsubmit="return checkPassword()" class="form" action="user?action=changePassword&userId=${param.userId}" method="post" id="registrationForm">
 
                             <div class="form-group">
 
@@ -234,7 +228,7 @@
 
                                 <div class="col-xs-6">
                                     <label for="bankAcc"><h4>Password Confirm</h4></label>
-                                    <input type="password" class="form-control" name="passwordConfirm" id="confirm_password" value="*********" onkeyup="check();" minlength="6"  placeholder="Password confirmation" required="required" />
+                                    <input type="password" class="form-control" name="passwordConfirm" id="passwordConfirm" value="*********" onkeyup="check();" minlength="6"  placeholder="Password confirmation" required="required" />
                                     <span id='message'></span>
                                 </div>
                             </div>
@@ -342,11 +336,27 @@
             }
         };
 
+        function submitFormPrivate() {
+            document.getElementById("privateSubmitBtn").disabled = true;
+            document.getElementById("privateSubmitBtn").cursor = "none";
+        }
+        
+        function checkPassword() {
+            let password = document.getElementById("password");
+            let passwordConfirm = document.getElementById("passwordConfirm");
+            
+            if(password.value !==passwordConfirm.value) {
+                alert("The password confirm is incorrect!!");
+                return false;
+            } else {
+                return true;
+            }
+        }
 
         var check = function () {
             console.log(document.getElementById('password').value);
 
-            if (document.getElementById('password').value == document.getElementById('confirm_password').value) {
+            if (document.getElementById('password').value == document.getElementById('passwordConfirm').value) {
                 document.getElementById('message').style.color = 'green';
                 document.getElementById('message').innerHTML = 'matching';
             } else {
@@ -354,7 +364,7 @@
                 document.getElementById('message').innerHTML = 'not matching';
             }
 
-            if (document.getElementById('password').value == "" || document.getElementById('confirm_password').value == "") {
+            if (document.getElementById('password').value == "" || document.getElementById('passwordConfirm').value == "") {
                 document.getElementById('message').innerHTML = "";
             }
         }

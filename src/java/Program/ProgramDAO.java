@@ -537,5 +537,72 @@ public class ProgramDAO {
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(ProgramDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+         
+    }
+
+    public int updateProgram(Program program) {
+        Connection conn;
+        PreparedStatement ps;
+        
+        try {
+            ImageDAO imageDao = new ImageDAO();
+            int programId = program.getProgramId();
+
+            String query = "update program "
+                    + "set program_name = ?, "
+                    + "program_short_des = ?, "
+                    + "program_detail_des = ?, "
+                    + "goal_amount = ?, "
+                    + "start_date = ?, "
+                    + "end_date = ?, "
+                    + "sche_start_date = ?, "
+                    + "sche_end_date = ? "
+                    + "where program_id = ?";
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+            ps.setString(1, program.getProgramName());
+            ps.setString(2, program.getShortDes());
+            ps.setString(3, program.getDetailDes());
+            ps.setDouble(4, program.getGoalAmount());
+            ps.setString(5, program.getStartDate());
+            ps.setString(6, program.getEndDate());
+            ps.setString(7, program.getScheStartDate());
+            ps.setString(8, program.getScheEndDate());
+            ps.setInt(9, programId);
+            
+            int result = ps.executeUpdate();
+
+            System.out.println("Update existed program with affected rows " + result);
+
+            if (program.getProgramImgs().size() > 0) {
+                program.getProgramImgs().stream().forEach(programImg -> {
+                    programImg.setProgramId(programId);
+                });
+
+                imageDao.updateImage(program.getProgramImgs(), "program_img");
+            }
+            
+            // insert destination into db
+            Destination des = program.getDestination();
+            query = "update destination set city = ?, province = ?, address = ? where program_id = ?";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, des.getCity());
+            ps.setString(2, des.getProvince());
+            ps.setString(3, des.getAddress());
+            ps.setInt(4, programId);
+            
+            ps.executeUpdate();
+            
+            // close connection after execute query
+            ps.close();
+            conn.close();
+            
+            // return number of affected rows
+            return result;
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(ProgramDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        return 0;
     }
 }

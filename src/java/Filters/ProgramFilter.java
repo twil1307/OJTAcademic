@@ -17,6 +17,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -24,8 +25,8 @@ import javax.servlet.http.HttpSession;
  * @author toten
  */
 @WebFilter(
-        urlPatterns = "/program",
-        filterName = "FilterLogin"
+        urlPatterns = {"/program", "/schedule", "/operator", "/news-manage"},
+        filterName = "programFilter"
 )
 public class ProgramFilter implements Filter {
 
@@ -36,14 +37,31 @@ public class ProgramFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-//        HttpServletResponse httpResponse = (HttpServletResponse) response;
-
-        HttpSession session = httpRequest.getSession(false);
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
+        HttpSession session = req.getSession();
 //        String urlHistory = (String) session.getAttribute("urlHistory");
+        String action = req.getParameter("action");
+        String urlHistory = (String) session.getAttribute("urlHistory");
+        
+        
+        if(action.equals("register") || action.equals("update") || action.equals("delete")) {
+            Account acc = (Account) session.getAttribute("user");
+            
+            if(acc.getRole() == 1 || acc.getRole() ==2) {
+                chain.doFilter(request, response);
+            } else {
+                if(urlHistory!=null) {
+                    res.sendRedirect(urlHistory);
+                } else {
+                    res.sendRedirect("home");
+                }
+                
+            }
+        } else {
+            chain.doFilter(request, response);
+        }
 
-
-        chain.doFilter(request, response);
     }
 
     @Override

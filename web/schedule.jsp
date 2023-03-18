@@ -12,9 +12,13 @@
        <main>
             <h2 class="text-center text-light mt-10">Program <span class="font-weight-bold">${programName}</span></h2>
 
-            <form method="POST" action="/OJT_Mock/schedule?action=register" id="form" class="container my-0" enctype="multipart/form-data">
+            <form method="POST" action="${action.equals("register") ? 
+                "/OJT_Mock/schedule?action=register" :
+                "/OJT_Mock/schedule?action=update" 
+            }" id="form" class="container my-0" enctype="multipart/form-data">
                 <input type="hidden" value="${dateBetween.size()}" name="scheduleSize" />    
                 <input type="hidden" value="${programId}" name="programId" />
+                <input type="hidden" value="${state}" name="state" />
                 <c:forEach 
                 begin="0" 
                 end="${dateBetween.size() - 1}" 
@@ -22,20 +26,21 @@
                 var="item"
                 varStatus="counter"
                 >
+                    <c:set var="schedule" value="${schedules.get(counter.index)}"/>
                     <div data-schedule-date="${item.toString()}" >
                         <h4 class="text-light">Schedule for ${item.toString()}</h4>
                         <div class="form-group">
                         <label for="detail_des">Detail Description</label>
                             <textarea 
                                 type="text" 
-                                class="form-control" Jung
+                                class="form-control"
                                 id="detail_des_${counter.index}"
                                 aria-describedby="detailDescription" 
                                 placeholder="Enter Detail Description"
                                 style="height: 140px; min-height: 36px"
                                 name="detail_des_${counter.index}"
                                 required
-                            ></textarea>
+                            >${schedule.detail_des}</textarea>
                         </div>
                          <div class="form-group">
                              <label for="input_file_${counter.index}">Schedule Images</label>
@@ -45,13 +50,16 @@
                                  id="input_file_${counter.index}"
                                  name="schedule_img_${counter.index}"
                                  multiple
-                                 required
+                                 ${action.equals("register") ? "required" : ""}
                                  accept="image/*"
                              >
                          </div>
                          <div class="row">
-
+                             <c:forEach items="${schedule.imgPath}" var="image">
+                                 <img src="${image.path}" alt="" class="col-sm-12 col-md-6 col-lg-4 image-preview" />
+                             </c:forEach>
                          </div>
+                        <input type="hidden" value="${action.equals("register") ? "" : schedule.schedule_id}" name="schedule_id_${counter.index}" />
                         <input type="hidden" value="${item.toString()}" name="schedule_${counter.index}_date" />
                     </div>
                 </c:forEach>

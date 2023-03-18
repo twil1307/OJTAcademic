@@ -89,16 +89,24 @@ public class OperatorController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getParameter("action");
 
+        switch (action) {
+            case "update":
+                updateOperator(req, resp);
+                break;
+        }
+    }
+
+    protected void updateOperator(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String[] unChangedActivitiesProgram = req.getParameterValues("actImgId");
         String[] unChangedBillProgram = req.getParameterValues("billImgId");
         String[] unChangeOperatorId = req.getParameterValues("operatorId-unchange");
         String[] operatorIdDels = req.getParameterValues("operatorIdDel");
         String[] deletedIndex = req.getParameterValues("operatorDelIndex");
-        
-        
-        if(deletedIndex!=null) {
-            for(String i : deletedIndex) {
+
+        if (deletedIndex != null) {
+            for (String i : deletedIndex) {
                 System.out.println(i);
             }
         }
@@ -110,8 +118,8 @@ public class OperatorController extends HttpServlet {
         String imageUploadPath = req.getServletContext().getRealPath("");
 
         for (int i = 0; i < investorNumber; i++) {
-            
-            if(deletedIndex!=null && Arrays.asList(deletedIndex).contains(String.valueOf(i + 1))) {
+
+            if (deletedIndex != null && Arrays.asList(deletedIndex).contains(String.valueOf(i + 1))) {
                 continue;
             }
 
@@ -139,15 +147,15 @@ public class OperatorController extends HttpServlet {
             } catch (IOException | ServletException ex) {
                 Logger.getLogger(ScheduleController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            if(activitiesImage.isEmpty() && operatorId!=null) {
+
+            if (activitiesImage.isEmpty() && operatorId != null) {
                 activitiesImage = operatorService.getActivitiesImage(Integer.parseInt(operatorId));
             }
-            
-            if(bilImage.isEmpty() && operatorId!=null) {
+
+            if (bilImage.isEmpty() && operatorId != null) {
                 bilImage = operatorService.getBillsImage(Integer.parseInt(operatorId));
             }
- 
+
             listOperator.add(new Operator((operatorId != null ? Integer.parseInt(operatorId) : 0), programId, operatorDate, operatorDetailDes, actualExpense, activitiesImage, bilImage));
 
         }
@@ -175,7 +183,7 @@ public class OperatorController extends HttpServlet {
         if (operatorIdDels != null) {
             operatorService.deleteMultipleOperator(operatorIdDels);
         }
-        
+
         operatorService.registerOperator(listOperator, activitiesParts, bilParts, "" + programId, imageUploadPath, unChangedActivitiesProgram, unChangedBillProgram, unChangeOperatorId);
 
         req.getRequestDispatcher("successPage.jsp").forward(req, resp);

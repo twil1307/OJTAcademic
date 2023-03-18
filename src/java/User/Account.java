@@ -5,12 +5,12 @@
  */
 package User;
 
-
 /**
  *
  * @author toten
  */
 public class Account {
+
     private int accountId;
     private String username;
     private String password;
@@ -24,9 +24,19 @@ public class Account {
         this.role = role;
         this.salt = salt;
     }
-    
+
+    public Account(int accountId, String username) {
+        this.accountId = accountId;
+        this.username = username;
+    }
+
+    public Account(int accountId) {
+        this.accountId = accountId;
+
+    }
+
     public Account() {
-        
+
     }
 
     public int getAccountId() {
@@ -74,7 +84,4 @@ public class Account {
         return "Account{" + "accountId=" + accountId + ", username=" + username + ", password=" + password + ", role=" + role + ", salt=" + salt + '}';
     }
 
-    
-    
-    
 }

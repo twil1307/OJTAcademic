@@ -27,7 +27,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-5">
                     <div class="donate-form">
-                        <form method="POST" action="signup" enctype="multipart/form-data">
+                        <form method="POST" action="signup?action=request" enctype="multipart/form-data">
                             <div class="control-group">
                                 <input type="text" name="username" class="form-control" placeholder="Username" required="required" value="${userSignUp.getUsername()}" />
                             </div>

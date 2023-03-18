@@ -16,7 +16,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import shared.OTPGenerate;
+import shared.SendMail;
 
 /**
  *
@@ -67,17 +70,22 @@ public class UserSignUpController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
+
         String action = req.getParameter("action");
-        
+
         switch (action) {
-            case "request": 
+            case "request":
+                requestSignUpUser(req, resp);
                 break;
             case "confirm":
+                confirmSignUpUser(req, resp);
                 break;
         }
-        
-        UserDAO userDAO = new UserDAO();
+
+    }
+
+    protected void requestSignUpUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
 
         String username = req.getParameter("username");
         String password = req.getParameter("password");
@@ -92,54 +100,92 @@ public class UserSignUpController extends HttpServlet {
         String bankAccount = req.getParameter("bank_account");
         Part part = req.getPart("avatar");
         String avatar;
-        
-//        
-//        User userSignUp = new User(0, username, password, email, city, province, address, name, "donor", null, phoneNumber, dob, bankAccount, null);
-        
+
         Account accountSignUp = new Account(0, username, password, 3, null);
         Donor donorSignUp = new Donor(0, username, password, 3, null, email, city, province, address, name, null, phoneNumber, dob, bankAccount);
-        
-//        Check avatar is null or not to store an empty string
+
+        //        Check password confirm is true
+        if (!password.equals(passwordConfirm)) {
+            req.setAttribute("signUpFailMessage", "Please check the password confirmation again!");
+            req.setAttribute("userSignUp", donorSignUp);
+            req.getRequestDispatcher("signup.jsp").forward(req, resp);
+        }
+
+        //        Check avatar is null or not to store an empty string
         if (part == null) {
             avatar = "";
         } else {
-            String realPath = req.getServletContext().getRealPath("/images");
+            String realPath = req.getServletContext().getRealPath("/img");
             String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
 
             if (!Files.exists(Paths.get(realPath))) {
                 Files.createDirectories(Paths.get(realPath));
             }
             part.write(realPath + File.separator + fileName);
-            avatar = "images/" + fileName;
-            
+            avatar = "img/" + fileName;
+
             donorSignUp.setAvatar(avatar);
         }
-        
-        //        Check password confirm is true
 
-        if(!password.equals(passwordConfirm)) {
-            req.setAttribute("signUpFailMessage", "Please check the password confirmation again!");
-            req.setAttribute("userSignUp", donorSignUp);
-            req.getRequestDispatcher("signup.jsp").forward(req, resp);
+        String regisOtp = OTPGenerate.generateOTP();
+
+        session.setAttribute("regisOtp", regisOtp);
+
+        boolean sendMailCheck = SendMail.sendConfirmEmail("success", email, "VERIFY YOUR EMAIL", "We receive your request to create a new account, please confirm by the OTP", "Here is your OTP", regisOtp);
+
+        if (sendMailCheck == false) {
+            req.getRequestDispatcher("failedPage.jsp").forward(req, resp);
+        } else {
+            session.setAttribute("partAvatar", part);
+
+            req.setAttribute("passwordConfirm", passwordConfirm);
+            req.setAttribute("accountSignUp", accountSignUp);
+            req.setAttribute("donorSignUp", donorSignUp);
+
+            req.getRequestDispatcher("confirmEmailRegis.jsp").forward(req, resp);
+
         }
+
+    }
+
+    protected void confirmSignUpUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        UserDAO userDAO = new UserDAO();
+        HttpSession session = req.getSession();
+
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        String email = req.getParameter("email");
+        String city = req.getParameter("city");
+        String province = req.getParameter("province");
+        String address = req.getParameter("address");
+        String name = req.getParameter("name");
+        String phoneNumber = req.getParameter("phoneNumber");
+        String dob = req.getParameter("dob");
+        String bankAccount = req.getParameter("bank_account");
+        String avatar = req.getParameter("avatarPath");
+
+//        
+//        User userSignUp = new User(0, username, password, email, city, province, address, name, "donor", null, phoneNumber, dob, bankAccount, null);
+        Account accountSignUp = new Account(0, username, password, 3, null);
+        Donor donorSignUp = new Donor(0, username, password, 3, null, email, city, province, address, name, avatar, phoneNumber, dob, bankAccount);
 
 //        Check if username is empty or existed
         if (!username.isEmpty() && userDAO.checkExistedUsername(username) == null) {
             try {
-                
+
 //                Encrypt password
                 String saltValue = PasswordEncrypt.getSaltvalue(20);
                 String encryptedPassword = PasswordEncrypt.generateSecurePassword(accountSignUp.getPassword(), saltValue);
                 accountSignUp.setPassword(encryptedPassword);
                 accountSignUp.setSalt(saltValue);
-                
+
 //                Sign up account
                 int accountId = userDAO.signUpAccount(accountSignUp);
                 donorSignUp.setAccountId(accountId);
-                
+
 //                Sign up donor
                 userDAO.signUpDonor(donorSignUp);
-                
+
                 req.setAttribute("message", "Create account successfully");
                 req.getRequestDispatcher("login.jsp").forward(req, resp);
             } catch (Exception e) {
@@ -152,11 +198,9 @@ public class UserSignUpController extends HttpServlet {
             req.setAttribute("userSignUp", donorSignUp);
             req.getRequestDispatcher("signup.jsp").forward(req, resp);
         }
-
     }
-    
-//    protected void confirmRegisUser() 
 
+//    protected void confirmRegisUser() 
     /**
      * Handles the HTTP <code>POST</code> method.
      *

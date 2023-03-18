@@ -18,16 +18,18 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class OperatorVO extends Operator {
-    private String operatorStartDate;
-    private String operatorEndDate;
+@Builder
+public class OperatorVO {
+    private int operatorId;
+    private int programId;
+    private String operatorDate;
+    private String operatorDetailDes;
+    private double actualExpense;
+    private List<OperatorImage> activiesImgs;
+    private List<OperatorImage> billImgs;
+    private String city;
+    private String province;
+    private String address;
 
-    public OperatorVO(int operatorId, int programId, String operatorDate, String operatorDetailDes, double actualExpense, List<OperatorImage> activiesImgs, List<OperatorImage> billImgs) {
-        super(operatorId, programId, operatorDate, operatorDetailDes, actualExpense, activiesImgs, billImgs);
-    }
-
-   
-    
-    
     
 }

@@ -66,6 +66,11 @@ public class ProgramController extends HttpServlet {
                 getProgramInformation(req, resp);
                 break;
             case "register":
+                req.setAttribute("action", "register");
+                req.getRequestDispatcher("program_register.jsp").forward(req, resp);
+                break;
+            case "update": 
+                getProgramInformation(req, resp);
                 break;
             default:
                 break;
@@ -87,6 +92,9 @@ public class ProgramController extends HttpServlet {
                 break;
             case "open":
                 openProgram(req, resp);
+                break;
+            case "update": 
+                handleUpdateProgram(req, resp);
                 break;
             default:
 
@@ -121,6 +129,40 @@ public class ProgramController extends HttpServlet {
 
     }
 
+    
+    private void handleUpdateProgram(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // TODO: retrieve account from session
+        // Account account = (Account) session.getAttribute("user");
+        int programId = Integer.parseInt(req.getParameter("programId"));
+        List<Object> results = getProgramFromForm(req);
+        Program updatedProgram = (Program) results.get(0);
+        updatedProgram.setProgramId(programId);
+        // TODO: compare scheDate from old and new one
+        Program programToUpdate = service.getProgramById(updatedProgram.getProgramId());
+        List<Part> programImgParts = (List<Part>) results.get(1);
+        List<LocalDate> datesBetweenSche = (List<LocalDate>) results.get(2);
+        
+        if (
+            updatedProgram.getScheStartDate().equals(programToUpdate.getScheStartDate()) &&
+            updatedProgram.getScheEndDate().equals(programToUpdate.getScheEndDate())
+        ) {
+            List<Schedule> schedules = new ScheduleService().getSchedulesByProgramId(programId);
+            req.setAttribute("state", false);
+            req.setAttribute("schedules", schedules);
+        }
+        
+        String imageUploadPath = req.getServletContext().getRealPath("");
+
+        service.updateProgram(updatedProgram, programImgParts, imageUploadPath);
+
+        req.setAttribute("dateBetween", datesBetweenSche);
+        req.setAttribute("programId", programId);
+        req.setAttribute("programName", updatedProgram.getProgramName());
+        req.setAttribute("action", "update");
+        
+        req.getRequestDispatcher("schedule.jsp?programId=" + programId).forward(req, resp);
+    }
+    
     private void getListPrograms(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final int PAGE_SIZE = 6;
 
@@ -158,6 +200,7 @@ public class ProgramController extends HttpServlet {
 
     private void getProgramInformation(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
+        String action = req.getParameter("action");
         int programId = Integer.parseInt(req.getParameter("programId"));
         Program program = service.getProgramById(programId);
         List<Schedule> programSchedules = new ScheduleService().getSchedulesByProgramId(programId);
@@ -181,8 +224,22 @@ public class ProgramController extends HttpServlet {
         req.setAttribute("author", acc);
         req.setAttribute("listDonate", listDonate);
         req.setAttribute("destination", program.getDestination());
+        
+        req.setAttribute("program", program);
+        
+        if (action.equals("detail")) {
+            req.setAttribute("schedules", programSchedules);
+            req.setAttribute("raisedAmount", raisedAmount);
+            req.setAttribute("author", acc);
+            req.setAttribute("listDonate", listDonate);
+            req.setAttribute("investors", investors);
+            
+            req.getRequestDispatcher("program.jsp").forward(req, resp);
+        } else if (action.equals("update")) {
+            req.setAttribute("action", action);
+            req.getRequestDispatcher("program_register.jsp").forward(req, resp);
+        }
 
-        req.getRequestDispatcher("program.jsp").forward(req, resp);
     }
 
     private Map<String, String> getParametterCondition(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -204,9 +261,9 @@ public class ProgramController extends HttpServlet {
         return conditionMap;
     }
 
-    private void handleRegisterProgram(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession(false);
-        Account account = (Account) session.getAttribute("user");
+
+    
+    private List<Object> getProgramFromForm(HttpServletRequest req) throws ServletException, IOException {
         String programName = req.getParameter("programName");
         String shortDes = req.getParameter("shortDes");
         String detailDes = req.getParameter("detailDes");
@@ -225,11 +282,9 @@ public class ProgramController extends HttpServlet {
         List<LocalDate> datesBetweenSche = getDatesBetween(localScheStartDate, localScheEndDate);
         datesBetweenSche.add(localScheEndDate);
 
-        String imageUploadPath = req.getServletContext().getRealPath("");
-
         try {
             for (Part part : req.getParts()) {
-                if (part.getName().equals("programImgs")) {
+                if (part.getName().equals("programImgs") && !part.getSubmittedFileName().isEmpty()) {
                     String fileName = "img" + File.separator + programName + part.getSubmittedFileName();
                     ProgramImage programImage = new ProgramImage(0, fileName, 0);
                     programImgs.add(programImage);
@@ -243,16 +298,38 @@ public class ProgramController extends HttpServlet {
         Program newProgram = new Program(
                 0, programName, shortDes, detailDes,
                 goalAmount, startDate, endDate, null,
-                scheStartDate, scheEndDate, account.getAccountId(), programImgs
+                scheStartDate, scheEndDate, 2, programImgs
         );
         Program.Destination programDestination = newProgram.new Destination(0, city, province, address);
         newProgram.setDestination(programDestination);
+        
+        List<Object> results = new ArrayList();
+        
+        results.add(newProgram);
+        results.add(programImgParts);
+        results.add(datesBetweenSche);
+        
+        return results;
+    }
+    
+
+    private void handleRegisterProgram(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        Testing purpose only
+//        HttpSession session = req.getSession(false);
+//        Account account = (Account) session.getAttribute("user");
+        List<Object> results = getProgramFromForm(req);
+        Program newProgram = (Program) results.get(0);
+        List<Part> programImgParts = (List<Part>) results.get(1);
+        List<LocalDate> datesBetweenSche = (List<LocalDate>) results.get(2);
+//        newProgram.setUserId(account.getAccountId());
+
+        String imageUploadPath = req.getServletContext().getRealPath("");
 
         int programId = service.registerProgram(newProgram, programImgParts, imageUploadPath);
 
         req.setAttribute("dateBetween", datesBetweenSche);
         req.setAttribute("programId", programId);
-        req.setAttribute("programName", programName);
+        req.setAttribute("programName", newProgram.getProgramName());
         req.getRequestDispatcher("schedule.jsp?programId=" + programId).forward(req, resp);
     }
 
