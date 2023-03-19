@@ -105,12 +105,6 @@ public class OperatorController extends HttpServlet {
         String[] operatorIdDels = req.getParameterValues("operatorIdDel");
         String[] deletedIndex = req.getParameterValues("operatorDelIndex");
 
-        if (deletedIndex != null) {
-            for (String i : deletedIndex) {
-                System.out.println(i);
-            }
-        }
-
         int investorNumber = Integer.parseInt(req.getParameter("operator-days"));
 
         int programId = Integer.parseInt(req.getParameter("programId"));

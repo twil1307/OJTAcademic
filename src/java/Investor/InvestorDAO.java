@@ -7,6 +7,7 @@ package Investor;
 
 import News.News;
 import News.NewsDAO;
+import Operator.OperatorDAO;
 import context.DBContext;
 import java.sql.BatchUpdateException;
 import java.sql.Connection;
@@ -85,6 +86,86 @@ public class InvestorDAO {
             Logger.getLogger(NewsDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    public String getInvestorImg(int investorId) {
+
+        try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+
+            String query = "select investor_img from investor where investor_id=?";
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, investorId);
+
+            rs = ps.executeQuery();
+
+            
+            while (rs.next()) {
+                return rs.getString("investor_img");
+            }
+
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(NewsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+     public String getQualifyImg(int investorId) {
+
+        try {
+            Connection conn;
+            PreparedStatement ps;
+            ResultSet rs;
+
+            String query = "select qualify_img from investor where investor_id=?";
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, investorId);
+
+            rs = ps.executeQuery();
+
+            
+            while (rs.next()) {
+                return rs.getString("investor_img");
+            }
+
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(NewsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+     
+     void deleteMultipleInvestor(String[] investorIdDels) {
+        Connection conn;
+        PreparedStatement ps;
+
+        try {
+
+            String query = "delete from investor where investor_id=?";
+            conn = new DBContext().getConnection();
+
+            ps = conn.prepareStatement(query);
+
+            for (String id : investorIdDels) {
+                ps.setInt(1, Integer.parseInt(id));
+                ps.addBatch();
+            }
+
+            ps.executeBatch();
+
+            ps.close();
+            conn.close();
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(OperatorDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public static void main(String[] args) {

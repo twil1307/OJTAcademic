@@ -5,6 +5,8 @@
  */
 package Schedule;
 
+import Investor.Investor;
+import Investor.InvestorService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,7 @@ import javax.servlet.http.Part;
 public class ScheduleController extends HttpServlet {
 
     private ScheduleService service = new ScheduleService();
+    private final InvestorService investorService = new InvestorService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -61,6 +64,7 @@ public class ScheduleController extends HttpServlet {
         List<Schedule> schedules = (List<Schedule>) results.get(0);
         List<Part> scheduleImageParts = (List<Part>) results.get(1);
         boolean isNewlyAdded = !req.getParameter("state").equals("false");
+        List<Investor> listInvestor = investorService.getListInvestorsByProgramId(programId);
 
         String imageUploadPath = req.getServletContext().getRealPath("");
         
@@ -68,8 +72,11 @@ public class ScheduleController extends HttpServlet {
         service.updateSchedule(schedules, scheduleImageParts, "" + programId, imageUploadPath, isNewlyAdded);
         
         // Testing purpose only
-//        req.getRequestDispatcher("investor.jsp?programId=" + programId).forward(req, resp);
-        
+        req.setAttribute("listInvestor", listInvestor);
+        req.setAttribute("action", "update");
+        req.setAttribute("programId", programId);
+//        req.getRequestDispatcher("investor?action=update&programId=" + programId).forward(req, resp);
+        resp.sendRedirect("investor?action=update&programId=" + programId);
     }
 
     @Override
@@ -141,8 +148,9 @@ public class ScheduleController extends HttpServlet {
         service.registerSchedule(schedules, scheduleImageParts, "" + programId, imageUploadPath);
         
 //        Testing purpose only
-//        req.setAttribute("action", "register");
-//        req.getRequestDispatcher("investor.jsp?programId=" + programId).forward(req, resp);
+        req.setAttribute("action", "register");
+        req.setAttribute("programId", programId);
+        req.getRequestDispatcher("investor.jsp?action=register&programId=" + programId).forward(req, resp);
 
     }
 }

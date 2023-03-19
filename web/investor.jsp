@@ -63,7 +63,7 @@
                 </div>
 
                 <input type="hidden" id="investor-number" name="investor-number" value="1">
-                <input type="hidden" value="${param.programId}" name="programId" />
+                <input type="hidden" value="${programId}" name="programId" />
                 <button type="button" class="mt-5 btn btn-primary" onclick="addRow()">Add investor</button>
                 <button type="button" class="mt-5 btn btn-danger" onclick="deleteRow()">Delete investor</button>
                 <button type="submit" class="mt-5 btn btn-primary container-fluid">Submit</button>

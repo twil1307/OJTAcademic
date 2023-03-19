@@ -53,7 +53,7 @@
                                     <textarea type="text" onchange="inputChange(${itemStatus.index+1})" class="form-control" Jung id="operatorDetailDes" name="operatorDetailDes-${itemStatus.index+1}" aria-describedby="operatorDetailDes" placeholder="Enter Investor Description" style="height: 140px; min-height: 36px" name="operatorDetailDes-${itemStatus.index+1}" required>${item.operatorDetailDes}</textarea>
 
                                     <label for="activities">Activities Images</label>
-                                    <input type="file" class="form-control-file" id="activities-${itemStatus.index+1}" onchange="activitiesImgChange(${itemStatus.index+1})" name="activities-${itemStatus.index+1}" ${item.activiesImgs.size()==0 ? required : ''} accept="image/*" multiple>
+                                    <input type="file" class="form-control-file activitiesImgCls-${itemStatus.index+1}" id="activities-${itemStatus.index+1}" onchange="activitiesImgChange(${itemStatus.index+1})" name="activities-${itemStatus.index+1}" ${item.activiesImgs.size()==0 ? required : ''} accept="image/*" multiple>
                                     <div id="investAvatar-preview-section-${itemStatus.index+1}" class="row">
                                         <c:forEach var="actImg" items="${item.activiesImgs}">
                                             <img class="col-sm-12 col-md-6 col-lg-4 image-preview" src="${actImg.path}">
@@ -63,7 +63,7 @@
                                     <label for="actualExpense">Actual total Expense</label>
                                     <input type="number" onchange="inputChange(${itemStatus.index+1})" class="form-control form-control-lg" id="actualExpense" value="${item.actualExpense}" name="actualExpense-${itemStatus.index+1}" maxlength="10" placeholder="Enter total expense" required>
                                     <label for="billImg">Bill Images</label>
-                                    <input type="file" class="form-control-file" id="billImg-${itemStatus.index+1}" onchange="billImgChange(${itemStatus.index+1})" name="billImg-${itemStatus.index+1}" ${item.billImgs.size()==0 ? required : ''} accept="image/*" multiple>
+                                    <input type="file" class="form-control-file billImgCls-${itemStatus.index+1}" id="billImg-${itemStatus.index+1}" onchange="billImgChange(${itemStatus.index+1})" name="billImg-${itemStatus.index+1}" ${item.billImgs.size()==0 ? required : ''} accept="image/*" multiple>
                                     <div id="qualifyImg-preview-section-${itemStatus.index+1}" class="row">
                                         <c:forEach var="billImg" items="${item.billImgs}">
                                             <img class="col-sm-12 col-md-6 col-lg-4 image-preview" src="${billImg.path}">
@@ -110,10 +110,6 @@
                         </div>
                     </c:otherwise>
                 </c:choose>
-
-
-
-
                 <input type="hidden" id="operator-days" name="operator-days" value="${operators.size() > 0 ? operators.size()  : 1 }">
                 <input type="hidden" value="${programId}" name="programId" />
 
@@ -136,8 +132,8 @@
         submitButton.addEventListener('click', function () {
             if (!isFormChanged) {
                 event.preventDefault();
-                window.alert('Form has been modified');
-            } 
+                window.alert('Form has not been modified');
+            }
         });
 
 
@@ -172,6 +168,20 @@
                 }
             }
         }
+
+        const investorEls = form.querySelectorAll('.form-group-invest');
+
+        investorEls.forEach((investorEl, index) => {
+
+            const counter = index + 1;
+            const investAvatarInputEl = investorEl.querySelector(".activitiesImgCls-" + counter);
+            const qualifyImgInputEl = investorEl.querySelector(".billImgCls-" + counter);
+            const investAvatarPreviewEl = investorEl.querySelector("#investAvatar-preview-section-" + counter);
+            const qualifyImgPreviewEl = investorEl.querySelector("#qualifyImg-preview-section-" + counter);
+
+            investAvatarInputEl.addEventListener('change', onFileInputChange(investAvatarPreviewEl));
+            qualifyImgInputEl.addEventListener("change", onFileInputChange(qualifyImgPreviewEl));
+        })
 
         activitiesNew.onchange = onFileInputChange(operatorActPreviewEl);
         billNew.onchange = onFileInputChange(operatorBillPreviewEl);
@@ -234,7 +244,7 @@
             hiddenElement.setAttribute("name", "operatorIdDel");
             hiddenElement.setAttribute("id", "operatorIdDel");
             hiddenElement.setAttribute("value", operatorIdDel);
-            
+
             var hiddenElementIndex = document.createElement("input");
             hiddenElementIndex.setAttribute("type", "hidden");
             hiddenElementIndex.setAttribute("name", "operatorDelIndex");
@@ -250,7 +260,7 @@
 
         const deleteRowAddById = (index) => {
             return (e) => {
-                  i = i - 1;
+                i = i - 1;
                 $('#operator-days').val(i);
                 $("#operator-form-" + index).remove();
             }

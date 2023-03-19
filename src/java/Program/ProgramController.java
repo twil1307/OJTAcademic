@@ -315,13 +315,13 @@ public class ProgramController extends HttpServlet {
 
     private void handleRegisterProgram(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        Testing purpose only
-//        HttpSession session = req.getSession(false);
-//        Account account = (Account) session.getAttribute("user");
+        HttpSession session = req.getSession(false);
+        Account account = (Account) session.getAttribute("user");
         List<Object> results = getProgramFromForm(req);
         Program newProgram = (Program) results.get(0);
         List<Part> programImgParts = (List<Part>) results.get(1);
         List<LocalDate> datesBetweenSche = (List<LocalDate>) results.get(2);
-//        newProgram.setUserId(account.getAccountId());
+        newProgram.setUserId(account.getAccountId());
 
         String imageUploadPath = req.getServletContext().getRealPath("");
 
@@ -330,6 +330,7 @@ public class ProgramController extends HttpServlet {
         req.setAttribute("dateBetween", datesBetweenSche);
         req.setAttribute("programId", programId);
         req.setAttribute("programName", newProgram.getProgramName());
+        req.setAttribute("action", "register");
         req.getRequestDispatcher("schedule.jsp?programId=" + programId).forward(req, resp);
     }
 

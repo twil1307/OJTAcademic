@@ -28,4 +28,16 @@ public class InvestorService {
      public List<Investor> getListInvestorsByProgramId(int programId) {
          return dao.getListInvestorsByProgramId(programId);
      }
+     
+     public String getInvestorImg(int investorId) {
+         return dao.getInvestorImg(investorId);
+     }
+     
+     public String getQualifyImg(int investorId) {
+         return dao.getQualifyImg(investorId);
+     }
+
+    void deleteMultipleInvestor(String[] investorIdDels) {
+        dao.deleteMultipleInvestor(investorIdDels);
+    }
 }

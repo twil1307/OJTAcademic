@@ -172,7 +172,7 @@ public class ProgramDAO {
             ResultSet rs;
 
             String query = "select count(DISTINCT pr.program_id) as total_program\n"
-                    + "from program pr, destination des, investor inv, donor dn where pr.program_id=des.program_id and pr.program_id=inv.program_id  and pr.account_id=dn.account_id";
+                    + "from program pr, destination des, investor inv, donor dn where pr.program_id=des.program_id and pr.program_id=inv.program_id  and pr.account_id=dn.account_id and pr.is_closed='FALSE'";
             conn = new DBContext().getConnection();
             
             for (Map.Entry<String, String> entry : conditions.entrySet()) {
@@ -307,7 +307,7 @@ public class ProgramDAO {
             ResultSet rs;
 
             String query = "select *, (select top 1 program_img_path from program_img where program_id=pr.program_id) as display_img, (SELECT ISNULL((select sum(amount) from donate where program_id=pr.program_id), 0)) as raised_amount \n"
-                    + "from program as pr order by pr.start_date\n"
+                    + "from program as pr where pr.is_closed='FALSE' order by pr.start_date\n"
                     + "offset ? rows fetch next ? rows only";
 //            OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
 
@@ -346,7 +346,7 @@ public class ProgramDAO {
 
             String query = "select DISTINCT pr.*, (select top 1 program_img_path from program_img where program_id=pr.program_id) as display_img, \n"
                     + "(SELECT ISNULL((select sum(amount) from donate where program_id=pr.program_id), 0)) as raised_amount \n"
-                    + "from program pr, destination des, investor inv, donor dn where pr.program_id=des.program_id and pr.program_id=inv.program_id  and pr.account_id=dn.account_id";
+                    + "from program pr, destination des, investor inv, donor dn where pr.program_id=des.program_id and pr.program_id=inv.program_id  and pr.account_id=dn.account_id and pr.is_closed='FALSE'";
 
             // classic way, loop a Map
             for (Map.Entry<String, String> entry : conditions.entrySet()) {

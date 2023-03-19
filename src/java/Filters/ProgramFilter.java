@@ -44,6 +44,9 @@ public class ProgramFilter implements Filter {
         String action = req.getParameter("action");
         String urlHistory = (String) session.getAttribute("urlHistory");
         
+        if(action==null) {
+            chain.doFilter(request, response);
+        }
         
         if(action.equals("register") || action.equals("update") || action.equals("delete")) {
             Account acc = (Account) session.getAttribute("user");

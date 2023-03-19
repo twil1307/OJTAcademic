@@ -44,7 +44,7 @@
                                 <a class="dropdown-item" href="user?userId=${sessionScope.user.accountId}">${sessionScope.user.getName()}</a>
 
                                 <c:if test="${sessionScope.user.role=='2' || sessionScope.user.role=='1'}">
-                                    <a class="dropdown-item" href="program_register.jsp">Create program</a>
+                                    <a class="dropdown-item" href="program?action=register">Create program</a>
                                     <a class="dropdown-item" href="/OJT_Mock/news-manage">Create news</a>
                                 </c:if>
                                 <c:if test="${sessionScope.user.role=='1'}">
