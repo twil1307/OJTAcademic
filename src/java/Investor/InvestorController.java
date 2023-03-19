@@ -13,7 +13,9 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -105,6 +107,7 @@ public class InvestorController extends HttpServlet {
     protected void updateInvestor(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String[] unChangeInvestorId = req.getParameterValues("investorId-unchanged");
+        String[] changeInvestorId = req.getParameterValues("changed-investor-id");
         String[] investorIdDels = req.getParameterValues("investorIdDel");
         String[] deletedIndex = req.getParameterValues("investorIdDelIndex");
 
@@ -152,7 +155,7 @@ public class InvestorController extends HttpServlet {
             }
 
             if (qualifyImg == null && investorId != null) {
-                qualifyImg = service.getQualifyImg(investorNumber);
+                qualifyImg = service.getQualifyImg(Integer.parseInt(investorId));
             }
 
             listInvestor.add(new Investor((investorId != null ? Integer.parseInt(investorId) : 0), programId, investorName, investorImg, investorDes, contact, qualifyImg, legalRepresent));
@@ -171,9 +174,15 @@ public class InvestorController extends HttpServlet {
                 }
             }
         }
-
+        
         if (investorIdDels != null) {
             service.deleteMultipleInvestor(investorIdDels);
+        }
+
+        if (changeInvestorId != null) {
+            Set<String> set = new HashSet<>(Arrays.asList(changeInvestorId));
+            String[] uniqueArray = set.toArray(new String[0]);
+            service.deleteMultipleInvestor(uniqueArray);
         }
 
         service.saveInvestors(listInvestor);

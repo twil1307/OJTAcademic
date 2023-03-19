@@ -65,7 +65,7 @@ public class InvestorDAO {
             PreparedStatement ps;
             ResultSet rs;
 
-            String query = "select * from investor where program_id=?";
+            String query = "select * from investor where program_id=? order by investor_id asc";
             conn = new DBContext().getConnection();
 
             ps = conn.prepareStatement(query);
@@ -132,7 +132,7 @@ public class InvestorDAO {
 
             
             while (rs.next()) {
-                return rs.getString("investor_img");
+                return rs.getString("qualify_img");
             }
 
 

@@ -41,20 +41,20 @@
                         </div>
                         <div class="form-group">
                             <label for="investorName">Investor name</label>
-                            <input type="text" class="form-control form-control-lg" id="investorName" onchange="formChange(${itemStatus.index + 1})" value="${item.investorName}" aria-describedby="investorName" name="investorName-1" placeholder="Enter Program Name" required>
+                            <input type="text" class="form-control form-control-lg" id="investorName" onchange="formChange(${itemStatus.index + 1})" value="${item.investorName}" aria-describedby="investorName" name="investorName-${itemStatus.index + 1}" placeholder="Enter Program Name" required>
                             <label for="legalRepresent">Legal Represent</label>
-                            <input type="text" class="form-control form-control-lg" id="legalRepresent" onchange="formChange(${itemStatus.index + 1})" value="${item.legalRepresent}" aria-describedby="legalRepresent" name="legalRepresent-1" placeholder="Enter legal represent" required>
+                            <input type="text" class="form-control form-control-lg" id="legalRepresent" onchange="formChange(${itemStatus.index + 1})" value="${item.legalRepresent}" aria-describedby="legalRepresent" name="legalRepresent-${itemStatus.index + 1}" placeholder="Enter legal represent" required>
                             <label for="investorDes">Detail Description</label>
-                            <textarea type="text" class="form-control" Jung id="investorDes" onchange="formChange(${itemStatus.index + 1})" name="investorDes-1" aria-describedby="detailDescription" placeholder="Enter Investor Description" style="height: 140px; min-height: 36px" name="detailDes-1" required>${item.investorDes}</textarea>
+                            <textarea type="text" class="form-control" Jung id="investorDes" onchange="formChange(${itemStatus.index + 1})" name="investorDes-${itemStatus.index + 1}" aria-describedby="detailDescription" placeholder="Enter Investor Description" style="height: 140px; min-height: 36px" required>${item.investorDes}</textarea>
                             <label for="contact">Contact</label>
-                            <input type="number" class="form-control form-control-lg" onchange="formChange(${itemStatus.index + 1})"   id="contact" value="${item.contact}" name="contact-1" maxlength="10" placeholder="Enter Contact" pattern="[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" required>
-                            <label for="investAvatar-1">Investor Images</label>
-                            <input type="file" class="form-control-file" id="investAvatar-1" onchange="formChange(${itemStatus.index + 1})"  name="investAvatar-1" ${item.investorImg != null ? required : ''} accept="image/*">
+                            <input type="number" class="form-control form-control-lg" onchange="formChange(${itemStatus.index + 1})"   id="contact" value="${item.contact}" name="contact-${itemStatus.index + 1}" maxlength="10" placeholder="Enter Contact" pattern="[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" required>
+                            <label for="investAvatar-${itemStatus.index + 1}">Investor Images</label>
+                            <input type="file" class="form-control-file" id="investAvatar-${itemStatus.index + 1}" onchange="formChange(${itemStatus.index + 1})"  name="investAvatar-${itemStatus.index + 1}" ${item.investorImg != null ? required : ''} accept="image/*">
                             <div id="investAvatar-preview-section" class="row">
                                 <img class="col-sm-12 col-md-6 col-lg-4 image-preview" src="${item.investorImg}">
                             </div>
-                            <label for="qualifyImg-1">Qualify Images</label>
-                            <input type="file" class="form-control-file" id="qualifyImg-1" onchange="formChange(${itemStatus.index + 1})" ${item.qualifyImg != null ? required : ''}  name="qualifyImg-1" accept="image/*">
+                            <label for="qualifyImg-${itemStatus.index + 1}">Qualify Images</label>
+                            <input type="file" class="form-control-file" id="qualifyImg-${itemStatus.index + 1}" onchange="formChange(${itemStatus.index + 1})" ${item.qualifyImg != null ? required : ''}  name="qualifyImg-${itemStatus.index + 1}" accept="image/*">
                             <div id="qualifyImg-preview-section" class="row">
                                 <img class="col-sm-12 col-md-6 col-lg-4 image-preview" src="${item.qualifyImg}">
                             </div>
@@ -218,7 +218,14 @@
                     }
                     
                     function formChange(index) {
+                        var changeValue =  $('#investorId-'+index).val();
                         $('#investorId-unchanged-'+index).remove();
+                        var hiddenElementIndex = document.createElement("input");
+                        hiddenElementIndex.setAttribute("type", "hidden");
+                        hiddenElementIndex.setAttribute("name", "changed-investor-id");
+                        hiddenElementIndex.setAttribute("id", "changed-investor-id");
+                        hiddenElementIndex.setAttribute("value", changeValue);
+                        $("#investor-number").after(hiddenElementIndex);
                     }
 
     </script>
