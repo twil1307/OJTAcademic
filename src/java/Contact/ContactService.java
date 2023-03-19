@@ -5,6 +5,8 @@
  */
 package Contact;
 
+import java.util.List;
+
 /**
  *
  * @author toten
@@ -14,5 +16,9 @@ public class ContactService {
     
     public void createMessage(Contact contact) {
         dao.createMessage(contact);
+    }
+    
+    public List<ContactVO> getAllMessage() {
+        return dao.getAllMessage();
     }
 }

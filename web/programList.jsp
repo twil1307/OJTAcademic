@@ -171,6 +171,7 @@
                         </div>
                         <div class="causes-text" style="height: 6em">
                             <h3><a href="program?action=detail&programId=${item.programId}">${item.programName}</a></h3>
+                             <h6>${item.destination.city} - ${item.destination.province}</h6>
                             <p>${item.shortDes}</p>
                         </div>
                         <div class="causes-btn" style="padding: 10px">

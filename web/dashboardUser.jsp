@@ -52,7 +52,9 @@
                         <li class="nav-item">
                             <a href="dashboard?action=user" class="nav-link"><span class="pcoded-micon"><i class="feather icon-user"></i></span><span class="pcoded-mtext">User</span></a>
                         </li>
-                        
+                         <li class="nav-item">
+                            <a href="dashboard?action=contact" class="nav-link"><span class="pcoded-micon"><i class="feather icon-message-circle"></i></span><span class="pcoded-mtext">Message</span></a>
+                        </li>
 
                     </ul>
 

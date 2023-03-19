@@ -48,7 +48,7 @@
                                 <button class="btn btn-custom" type="submit">Login</button>
                             </div>
                             <div class="regis-nav">
-                                <a href="">Don't have an account?</a>
+                                <a href="signup">Don't have an account?</a>
                             </div>
                         </form>
                     </div>

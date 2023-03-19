@@ -53,6 +53,7 @@
                         <form method="POST" action="user?action=confirmChangeEmail&userId=${userId}">
                             <div class="control-group">
                                 <input type="hidden" class="form-control" name="email" value="${email}"/>
+                                <input type="hidden" class="form-control" name="userId" value="${userId}"/>
                                 <input type="hidden" class="form-control" name="bankAccount" value="${bankAccount}"/>
                                 <input type="text" class="form-control" name="otp" placeholder="Confirm your OTP code" required="required" />
                             </div>

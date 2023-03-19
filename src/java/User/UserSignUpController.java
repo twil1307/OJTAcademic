@@ -86,6 +86,7 @@ public class UserSignUpController extends HttpServlet {
 
     protected void requestSignUpUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
+        UserDAO userDAO = new UserDAO();
 
         String username = req.getParameter("username");
         String password = req.getParameter("password");
@@ -103,6 +104,12 @@ public class UserSignUpController extends HttpServlet {
 
         Account accountSignUp = new Account(0, username, password, 3, null);
         Donor donorSignUp = new Donor(0, username, password, 3, null, email, city, province, address, name, null, phoneNumber, dob, bankAccount);
+
+        if (userDAO.checkExistedUsername(username) != null) {
+            req.setAttribute("signUpFailMessage", "Username existed");
+            req.setAttribute("userSignUp", donorSignUp);
+            req.getRequestDispatcher("signup.jsp").forward(req, resp);
+        }
 
         //        Check password confirm is true
         if (!password.equals(passwordConfirm)) {
@@ -169,35 +176,29 @@ public class UserSignUpController extends HttpServlet {
         Account accountSignUp = new Account(0, username, password, 3, null);
         Donor donorSignUp = new Donor(0, username, password, 3, null, email, city, province, address, name, avatar, phoneNumber, dob, bankAccount);
 
-//        Check if username is empty or existed
-        if (!username.isEmpty() && userDAO.checkExistedUsername(username) == null) {
-            try {
+        try {
 
 //                Encrypt password
-                String saltValue = PasswordEncrypt.getSaltvalue(20);
-                String encryptedPassword = PasswordEncrypt.generateSecurePassword(accountSignUp.getPassword(), saltValue);
-                accountSignUp.setPassword(encryptedPassword);
-                accountSignUp.setSalt(saltValue);
+            String saltValue = PasswordEncrypt.getSaltvalue(20);
+            String encryptedPassword = PasswordEncrypt.generateSecurePassword(accountSignUp.getPassword(), saltValue);
+            accountSignUp.setPassword(encryptedPassword);
+            accountSignUp.setSalt(saltValue);
 
 //                Sign up account
-                int accountId = userDAO.signUpAccount(accountSignUp);
-                donorSignUp.setAccountId(accountId);
+            int accountId = userDAO.signUpAccount(accountSignUp);
+            donorSignUp.setAccountId(accountId);
 
 //                Sign up donor
-                userDAO.signUpDonor(donorSignUp);
+            userDAO.signUpDonor(donorSignUp);
 
-                req.setAttribute("message", "Create account successfully");
-                req.getRequestDispatcher("login.jsp").forward(req, resp);
-            } catch (Exception e) {
-                req.setAttribute("signUpFailMessage", "Create account failed");
-                req.setAttribute("userSignUp", donorSignUp);
-                req.getRequestDispatcher("signup.jsp").forward(req, resp);
-            }
-        } else {
-            req.setAttribute("signUpFailMessage", "Username existed");
+            req.setAttribute("message", "Create account successfully");
+            req.getRequestDispatcher("login.jsp").forward(req, resp);
+        } catch (Exception e) {
+            req.setAttribute("signUpFailMessage", "Create account failed");
             req.setAttribute("userSignUp", donorSignUp);
             req.getRequestDispatcher("signup.jsp").forward(req, resp);
         }
+
     }
 
 //    protected void confirmRegisUser() 

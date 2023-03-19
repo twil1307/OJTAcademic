@@ -33,7 +33,7 @@
         <!-- [ Pre-loader ] End -->
 
         <!-- [ navigation menu ] start -->
-      <nav class="pcoded-navbar menupos-fixed menu-light brand-blue ">
+        <nav class="pcoded-navbar menupos-fixed menu-light brand-blue ">
             <div class="navbar-wrapper ">
                 <div class="navbar-brand header-logo">
                     <a href="home" class="b-brand" style="color: white">
@@ -52,7 +52,9 @@
                         <li class="nav-item">
                             <a href="dashboard?action=user" class="nav-link"><span class="pcoded-micon"><i class="feather icon-user"></i></span><span class="pcoded-mtext">User</span></a>
                         </li>
-                        
+                        <li class="nav-item">
+                            <a href="dashboard?action=contact" class="nav-link"><span class="pcoded-micon"><i class="feather icon-message-circle"></i></span><span class="pcoded-mtext">Message</span></a>
+                        </li>
 
                     </ul>
 
@@ -236,7 +238,7 @@
                                                                     <th><span>PROVINCE</span></th>
                                                                     <th><span>ADDRESS</span></th>
 
-                                                                    <th><span>SCHEDULE</span></th>
+                                                                    <th><span>RAISE DATE</span></th>
                                                                     <th><span>GOAL AMOUNT </span></th>
                                                                     <th><span>RAISED</span></th>
                                                                     <th><span>PROCESS</span></th>
@@ -249,6 +251,7 @@
                                                                 <c:choose>
                                                                     <c:when test="${not empty programs}">
                                                                         <c:set var = "programNo" value="${1}" />
+                                                                        <jsp:useBean id="now" class="java.util.Date"/>
                                                                         <c:forEach var="item" items="${programs}">
                                                                             <tr>
                                                                                 <td>${programNo}</td>
@@ -259,6 +262,7 @@
                                                                                 <td>${item.startDate} - ${item.endDate}</td>
                                                                                 <td>${item.goalAmount}$</td>
                                                                                 <td>${item.raisedAmount}$</td>
+                                                                                <td>${item.isOutDate}$</td>
                                                                                 <td>${(item.raisedAmount / item.goalAmount) * 100}%
                                                                                     <div class="progress mt-1" style="height:4px;">
                                                                                         <div class="progress-bar bg-warning rounded" role="progressbar" style="width: ${(item.raisedAmount / item.goalAmount) * 100}%;" aria-valuenow="${(item.raisedAmount / item.goalAmount) * 100}" aria-valuemin="0" aria-valuemax="100"></div>
@@ -275,7 +279,18 @@
                                                                                         <c:if test="${item.isClosed == 'TRUE'}">
                                                                                             <form method="POST" action="/OJT_Mock/program?action=open">
                                                                                                 <input  type="hidden" class="form-control"  name="programId"  value="${item.programId}" >
-                                                                                                <button class="btn btn-success btn-sm text-white m-0" type="submit">OPEN</button>
+                                                                                                
+
+                                                                                                <c:choose>
+                                                                                                    <c:when test="${item.isOutDate == 'TRUE'}">
+                                                                                                        <button class="btn btn-success btn-sm text-white m-0" type="submit" disabled>OPEN</button>
+                                                                                                    </c:when>
+                                                                                                    <c:otherwise>
+                                                                                                        <button class="btn btn-success btn-sm text-white m-0" type="submit">OPEN</button>
+                                                                                                    </c:otherwise>
+                                                                                                </c:choose>
+
+
                                                                                             </form>
                                                                                         </c:if>
 

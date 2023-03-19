@@ -183,23 +183,27 @@ public class UserController extends HttpServlet {
     private void confirmChangeEmail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
         String otp = req.getParameter("otp");
+        String email = req.getParameter("email");
+        String bankAccount = req.getParameter("bankAccount");
+        int userId = Integer.parseInt(req.getParameter("userId"));
         String otpConfirm = (String) session.getAttribute("emailChangeConfirmOtp");
 
         if (!otp.equalsIgnoreCase(otpConfirm)) {
             req.setAttribute("error", "Your OTP is not correct, please try again!");
+            req.setAttribute("email", email);
+            req.setAttribute("bankAccount", bankAccount);
+            req.setAttribute("userId", userId);
             req.getRequestDispatcher("confirmEmail.jsp").forward(req, resp);
         } else {
-            String email = req.getParameter("email");
-            String bankAccount = req.getParameter("bankAccount");
-            int userId = Integer.parseInt(req.getParameter("userId"));
 
             Donor accUpdt = new Donor(userId, email, bankAccount);
 
             req.setAttribute("email", email);
             req.setAttribute("bankAccount", bankAccount);
+            req.setAttribute("userId", userId);
 
             userService.changeEmailAndBankAcc(accUpdt);
-            
+
             session.removeAttribute("otp");
 
             req.getRequestDispatcher("successPage.jsp").forward(req, resp);
@@ -212,10 +216,10 @@ public class UserController extends HttpServlet {
         String password = req.getParameter("password");
         String passwordConfirm = req.getParameter("passwordConfirm");
         String userId = req.getParameter("userId");
-        
-        if(!password.equals(passwordConfirm)) {
+
+        if (!password.equals(passwordConfirm)) {
             req.setAttribute("error", "The confirmation is not correct!!");
-            req.getRequestDispatcher("user?userId="+userId).forward(req, resp);
+            req.getRequestDispatcher("user?userId=" + userId).forward(req, resp);
         }
 
         String saltValue = PasswordEncrypt.getSaltvalue(20);

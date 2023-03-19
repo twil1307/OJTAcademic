@@ -59,7 +59,7 @@ public class DonateDAO {
             PreparedStatement ps;
             ResultSet rs;
 
-            String query = "select dnt.*, dn.name from donate dnt, donor dn where dnt.donor_id=dn.donor_id and program_id=? order by donate_date desc";
+            String query = "select dnt.*, dn.name, dn.account_id from donate dnt, donor dn where dnt.donor_id=dn.donor_id and program_id=? order by donate_date desc";
             conn = new DBContext().getConnection();
 
             ps = conn.prepareStatement(query);
@@ -69,7 +69,7 @@ public class DonateDAO {
 
             List<Donate> listDonate = new ArrayList<>();
             while (rs.next()) {
-                Donate donateAdd =  new DonateVO(rs.getInt("donate_id"), 0, rs.getInt("program_id"), rs.getDouble("amount"), rs.getString("donate_date"), rs.getString("message"), rs.getString("name"));
+                Donate donateAdd =  new DonateVO(rs.getInt("donate_id"), 0, rs.getInt("program_id"), rs.getDouble("amount"), rs.getString("donate_date"), rs.getString("message"), rs.getString("name"), rs.getInt("account_id"));
                 
                 listDonate.add(donateAdd);
             }

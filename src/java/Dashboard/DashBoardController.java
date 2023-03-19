@@ -5,6 +5,8 @@
  */
 package Dashboard;
 
+import Contact.ContactService;
+import Contact.ContactVO;
 import Donate.Donate;
 import Donate.DonateService;
 import News.NewsService;
@@ -34,6 +36,7 @@ public class DashBoardController extends HttpServlet {
     private final ProgramService programService = new ProgramService();
     private final UserService userService = new UserService();
     private final DashBoardService dashBoardService = new DashBoardService();
+    private final ContactService contactService = new ContactService();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -62,7 +65,7 @@ public class DashBoardController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
-        
+
         switch (action) {
             case "donation":
                 donationDashboard(req, resp);
@@ -70,10 +73,13 @@ public class DashBoardController extends HttpServlet {
             case "user":
                 userDashboard(req, resp);
                 break;
-            default: 
+            case "contact":
+                messageDashboard(req, resp);
+                break;
+            default:
                 req.getRequestDispatcher("home").forward(req, resp);
                 break;
-        }      
+        }
     }
 
     /**
@@ -102,14 +108,14 @@ public class DashBoardController extends HttpServlet {
         double totalActualAmountOpen = programService.getGoalAmountAll("open");
         List<Program> programs = programService.getListProgramAllAvaiable();
         List<Donate> donate = donateService.getListDonation();
-        
+
         System.out.println(totalCalledAmountClose);
-        
+
         String urlHistory = "dashboard?action=donation";
 
         session = req.getSession(true);
         session.setAttribute("urlHistory", urlHistory);
-        
+
         req.setAttribute("totalCalledAmountClose", totalCalledAmountClose);
         req.setAttribute("totalCalledAmountOpen", totalCalledAmountOpen);
         req.setAttribute("totalActualAmountClose", totalActualAmountClose);
@@ -120,24 +126,42 @@ public class DashBoardController extends HttpServlet {
         req.setAttribute("totalAll", totalAll);
         req.setAttribute("avaiablePrograms", programs.size());
         req.setAttribute("programs", programs);
-        
+
         req.getRequestDispatcher("dashboard.jsp").forward(req, resp);
     }
-    
+
     public void userDashboard(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       HttpSession session = req.getSession(false);
+        HttpSession session = req.getSession(false);
         List<Account> listUser = userService.listUser();
         int managerCount = userService.getManagerNumber();
-        
+
         String urlHistory = "dashboard?action=user";
 
         session = req.getSession(true);
         session.setAttribute("urlHistory", urlHistory);
-        
+
         req.setAttribute("listUser", listUser);
         req.setAttribute("managerNumber", managerCount);
-        
+
         req.getRequestDispatcher("dashboardUser.jsp").forward(req, resp);
+    }
+    
+    public void messageDashboard(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
+        List<ContactVO> listContact = contactService.getAllMessage();
+        int managerCount = userService.getManagerNumber();
+        
+        System.out.println(listContact);
+
+        String urlHistory = "dashboard?action=contact";
+
+        session = req.getSession(true);
+        session.setAttribute("urlHistory", urlHistory);
+
+        req.setAttribute("listContact", listContact);
+        req.setAttribute("managerNumber", managerCount);
+
+        req.getRequestDispatcher("dashboardContact.jsp").forward(req, resp);
     }
 
 }

@@ -36,7 +36,7 @@
                 <div class="text-center">
                     <img src="${account.avatar}" id="output" class="avatar img-circle img-thumbnail" alt="avatar">
                     <c:if test="${(account.accountId == sessionScope.user.accountId)}">
-                        <h6>Upload a different photo...</h6>
+                        <h6>Upload a different photo... </h6>
                         <br>
                         <label class="button" name="avatar" for="upload">Upload Your Avatar</label>
                     </c:if>
@@ -80,7 +80,7 @@
 
                                 <div class="col-xs-6">
                                     <label for="name"><h4>Name</h4></label>
-                                    <input type="text" class="form-control" name="name" value="${account.name}" id="name" placeholder="Your name" ${((account.accountId != sessionScope.user.accountId) || (sessionScope.user.role != 1)) ? 'disabled' : ''} title="enter your first name if any.">
+                                    <input type="text" class="form-control" name="name" value="${account.name}" id="name" placeholder="Your name" ${((account.accountId != sessionScope.user.accountId) && (sessionScope.user.role != 1)) ? 'disabled' : ''} title="enter your first name if any.">
                                 </div>
                             </div>
 
@@ -88,39 +88,39 @@
 
                                 <div class="col-xs-6">
                                     <label for="phone"><h4>Phone</h4></label>
-                                    <input type="text" class="form-control" name="phoneNumber" value="${account.phoneNumber}" id="phone" placeholder="enter phone" ${((account.accountId == sessionScope.user.accountId) || (sessionScope.user.role == 1)) ? '' : 'disabled'} title="enter your phone number if any.">
+                                    <input type="text" class="form-control" name="phoneNumber" value="${account.phoneNumber}" id="phone" placeholder="enter phone" ${((account.accountId != sessionScope.user.accountId) && (sessionScope.user.role != 1)) ? 'disabled' : ''} title="enter your phone number if any.">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="col-xs-6">
                                     <label for="dob"><h4>Date of birth</h4></label>
-                                    <input type="date" class="form-control" name="dob" value="${account.dob}" id="dob" title="enter your mobile number if any." ${((account.accountId == sessionScope.user.accountId) || (sessionScope.user.role == 1)) ? '' : 'disabled'}>
+                                    <input type="date" class="form-control" name="dob" value="${account.dob}" id="dob" title="enter your mobile number if any." ${((account.accountId != sessionScope.user.accountId) && (sessionScope.user.role != 1)) ? 'disabled' : ''}>
                                 </div>
                             </div>
                             <div class="form-group">
 
                                 <div class="col-xs-6">
                                     <label for="city"><h4>City</h4></label>
-                                    <input type="text" class="form-control" name="city" value="${account.city}" id="city" placeholder="Your city" title="enter your City." ${((account.accountId == sessionScope.user.accountId) || (sessionScope.user.role == 1)) ? '' : 'disabled'}>
+                                    <input type="text" class="form-control" name="city" value="${account.city}" id="city" placeholder="Your city" title="enter your City." ${((account.accountId != sessionScope.user.accountId) && (sessionScope.user.role != 1)) ? 'disabled' : ''}>
                                 </div>
                             </div>
                             <div class="form-group">
 
                                 <div class="col-xs-6">
                                     <label for="province"><h4>Province</h4></label>
-                                    <input type="text" class="form-control" id="province" value="${account.province}" name="province" placeholder="Province" title="enter a location" ${((account.accountId == sessionScope.user.accountId) || (sessionScope.user.role == 1)) ? '' : 'disabled'}>
+                                    <input type="text" class="form-control" id="province" value="${account.province}" name="province" placeholder="Province" title="enter a location" ${((account.accountId != sessionScope.user.accountId) && (sessionScope.user.role != 1)) ? 'disabled' : ''}>
                                 </div>
                             </div>
                             <div class="form-group">
 
                                 <div class="col-xs-6">
                                     <label for="address"><h4>Address</h4></label>
-                                    <input type="text" class="form-control" name="address" value="${account.address}" id="address" placeholder="address" title="enter your address." ${((account.accountId == sessionScope.user.accountId) || (sessionScope.user.role == 1)) ? '' : 'disabled'}>
+                                    <input type="text" class="form-control" name="address" value="${account.address}" id="address" placeholder="address" title="enter your address." ${((account.accountId != sessionScope.user.accountId) && (sessionScope.user.role != 1)) ? 'disabled' : ''}>
                                 </div>
                             </div>
 
-                            <c:if test="${(account.accountId == sessionScope.user.accountId) || (sessionScope.user.role == 1)}">
+                            <c:if test="${(account.accountId == sessionScope.user.accountId)}">
                                 <div class="form-group">
                                     <div class="col-xs-12">
                                         <br>

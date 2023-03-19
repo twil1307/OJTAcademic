@@ -96,9 +96,17 @@ public class DonateController extends HttpServlet {
         
         if(!otpCheck.equals(otp)) {
             String errOtp = "The OTP is not correct, please input it again.";
-            String urlRedirect = "donate?action=request&programId=" + programId + "&amount=" + amount + "&message="+message+"&errorMessage"+errOtp;
-            resp.sendRedirect(urlRedirect);
+           
+            req.setAttribute("programId", programId);
+            req.setAttribute("amount", amount);
+            req.setAttribute("message", message);
+            req.setAttribute("errorMessage", errOtp);
+            
+            req.getRequestDispatcher("confirm.jsp").forward(req, resp);
+            return;
         }
+        
+        session.removeAttribute("otp");
         Donate donate = new Donate(0, account.getAccountId(), Integer.parseInt(programId), Double.parseDouble(amount), null, message);
         try {
             service.donate(donate);
@@ -107,7 +115,6 @@ public class DonateController extends HttpServlet {
             req.getRequestDispatcher("failedPage.jsp").forward(req, resp);
         }
         
-        session.removeAttribute("otp");
         req.getRequestDispatcher("successPage.jsp").forward(req, resp);
     }
 

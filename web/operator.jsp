@@ -34,7 +34,7 @@
 
                 </div>
             </div>
-            <form method="POST" action="/OJT_Mock/operator?action=register" id="operator-form-main" class="container" style="margin-top: 12em" enctype="multipart/form-data">
+            <form method="POST" action="/OJT_Mock/operator?action=update" id="operator-form-main" class="container" style="margin-top: 12em" enctype="multipart/form-data">
 
                 <c:choose>
                     <c:when test="${not empty operators}">
@@ -59,7 +59,6 @@
                                             <img class="col-sm-12 col-md-6 col-lg-4 image-preview" src="${actImg.path}">
                                             <input type="hidden" value="${actImg.id}" name="actImgId" id="actImgId-${itemStatus.index+1}" />
                                         </c:forEach>
-
                                     </div>
                                     <label for="actualExpense">Actual total Expense</label>
                                     <input type="number" onchange="inputChange(${itemStatus.index+1})" class="form-control form-control-lg" id="actualExpense" value="${item.actualExpense}" name="actualExpense-${itemStatus.index+1}" maxlength="10" placeholder="Enter total expense" required>
