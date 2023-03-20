@@ -35,7 +35,7 @@ public class AutoUpdateProgramStatus implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-//        service.autoUpdate();
+        service.autoUpdate();
         chain.doFilter(request, response);
 
     }

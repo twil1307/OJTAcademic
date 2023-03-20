@@ -480,7 +480,7 @@ public class ProgramDAO {
 
         try {
 
-            String query = "update program set is_closed = 'TRUE' where end_date<getdate()";
+            String query = "update program set is_closed = 'TRUE' where end_date<cast(getdate() as date)";
             conn = new DBContext().getConnection();
 
             ps = conn.prepareStatement(query);

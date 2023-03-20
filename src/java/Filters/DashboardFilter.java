@@ -25,10 +25,10 @@ import javax.servlet.http.HttpSession;
  * @author toten
  */
 @WebFilter(
-        urlPatterns = "/*",
-        filterName = "FilterLogin"
+        urlPatterns = {"/dashboard"},
+        filterName = "dashboardFilter"
 )
-public class AuthenticateFilter implements Filter {
+public class DashboardFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -37,39 +37,22 @@ public class AuthenticateFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
+        HttpSession session = req.getSession();
+        String urlHistory = (String) session.getAttribute("urlHistory");
 
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        Account acc = (Account) session.getAttribute("user");
 
-        HttpSession session = httpRequest.getSession();
-//        String urlHistory = (String) session.getAttribute("urlHistory");
-        Cookie[] cookies = httpRequest.getCookies();
-
-        String username = null;
-
-        try {
-            if (cookies != null && cookies.length > 0) {
-                for (Cookie c : cookies) {
-                    if (c.getName().equals("username")) {
-                        username = c.getValue();
-                        if (username != null) {
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (username != null) {
-                Account user = new UserDAO().checkExistedUsername(username);
-
-                
-                session.setAttribute("user", user);
-            }
-
-        } catch (Exception e) {
-            System.out.println(e);
-        } finally {
+        if (acc.getRole() == 1) {
             chain.doFilter(request, response);
+        } else {
+            if (urlHistory != null) {
+                res.sendRedirect(urlHistory);
+            } else {
+                res.sendRedirect("home");
+            }
+
         }
 
     }
@@ -78,5 +61,4 @@ public class AuthenticateFilter implements Filter {
     public void destroy() {
         Filter.super.destroy(); //To change body of generated methods, choose Tools | Templates.
     }
-
 }

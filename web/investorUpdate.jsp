@@ -26,8 +26,14 @@
                     <input type="number" class="form-control form-control-lg" id="contact"  maxlength="10" placeholder="Enter Contact" pattern="[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" required>
                     <label for="investAvatar">Investor Images</label>
                     <input type="file" class="form-control-file" id="investAvatar" required accept="image/*">
+                    <div id="investAvatar-preview-section" class="row">
+
+                    </div>
                     <label for="qualifyImg">Qualify Images</label>
                     <input type="file" class="form-control-file" id="qualifyImg" required accept="image/*">
+                    <div id="qualifyImg-preview-section" class="row">
+
+                    </div>
                 </div>
 
 
@@ -41,21 +47,21 @@
                         </div>
                         <div class="form-group">
                             <label for="investorName">Investor name</label>
-                            <input type="text" class="form-control form-control-lg" id="investorName" onchange="formChange(${itemStatus.index + 1})" value="${item.investorName}" aria-describedby="investorName" name="investorName-${itemStatus.index + 1}" placeholder="Enter Program Name" required>
+                            <input type="text" class="form-control form-control-lg" id="investorName"  value="${item.investorName}" aria-describedby="investorName" name="investorName-${itemStatus.index + 1}" placeholder="Enter Program Name" required>
                             <label for="legalRepresent">Legal Represent</label>
-                            <input type="text" class="form-control form-control-lg" id="legalRepresent" onchange="formChange(${itemStatus.index + 1})" value="${item.legalRepresent}" aria-describedby="legalRepresent" name="legalRepresent-${itemStatus.index + 1}" placeholder="Enter legal represent" required>
+                            <input type="text" class="form-control form-control-lg" id="legalRepresent" value="${item.legalRepresent}" aria-describedby="legalRepresent" name="legalRepresent-${itemStatus.index + 1}" placeholder="Enter legal represent" required>
                             <label for="investorDes">Detail Description</label>
-                            <textarea type="text" class="form-control" Jung id="investorDes" onchange="formChange(${itemStatus.index + 1})" name="investorDes-${itemStatus.index + 1}" aria-describedby="detailDescription" placeholder="Enter Investor Description" style="height: 140px; min-height: 36px" required>${item.investorDes}</textarea>
+                            <textarea type="text" class="form-control" Jung id="investorDes"  name="investorDes-${itemStatus.index + 1}" aria-describedby="detailDescription" placeholder="Enter Investor Description" style="height: 140px; min-height: 36px" required>${item.investorDes}</textarea>
                             <label for="contact">Contact</label>
-                            <input type="number" class="form-control form-control-lg" onchange="formChange(${itemStatus.index + 1})"   id="contact" value="${item.contact}" name="contact-${itemStatus.index + 1}" maxlength="10" placeholder="Enter Contact" pattern="[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" required>
+                            <input type="number" class="form-control form-control-lg " id="contact" value="${item.contact}" name="contact-${itemStatus.index + 1}" maxlength="10" placeholder="Enter Contact" pattern="[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" required>
                             <label for="investAvatar-${itemStatus.index + 1}">Investor Images</label>
-                            <input type="file" class="form-control-file" id="investAvatar-${itemStatus.index + 1}" onchange="formChange(${itemStatus.index + 1})"  name="investAvatar-${itemStatus.index + 1}" ${item.investorImg != null ? required : ''} accept="image/*">
-                            <div id="investAvatar-preview-section" class="row">
+                            <input type="file" class="form-control-file investorImgCls-${itemStatus.index + 1}" id="investAvatar-${itemStatus.index + 1}" name="investAvatar-${itemStatus.index + 1}" ${item.investorImg != null ? required : ''} accept="image/*">
+                            <div id="investAvatar-preview-section-${itemStatus.index + 1}" class="row">
                                 <img class="col-sm-12 col-md-6 col-lg-4 image-preview" src="${item.investorImg}">
                             </div>
                             <label for="qualifyImg-${itemStatus.index + 1}">Qualify Images</label>
-                            <input type="file" class="form-control-file" id="qualifyImg-${itemStatus.index + 1}" onchange="formChange(${itemStatus.index + 1})" ${item.qualifyImg != null ? required : ''}  name="qualifyImg-${itemStatus.index + 1}" accept="image/*">
-                            <div id="qualifyImg-preview-section" class="row">
+                            <input type="file" class="form-control-file qualifyImgCls-${itemStatus.index + 1}" id="qualifyImg-${itemStatus.index + 1}" ${item.qualifyImg != null ? required : ''}  name="qualifyImg-${itemStatus.index + 1}" accept="image/*">
+                            <div id="qualifyImg-preview-section-${itemStatus.index + 1}" class="row">
                                 <img class="col-sm-12 col-md-6 col-lg-4 image-preview" src="${item.qualifyImg}">
                             </div>
                             <input type="hidden" id="investorId-${itemStatus.index+1}" name="investorId-${itemStatus.index + 1}" value="${item.investorId}">
@@ -71,7 +77,7 @@
                 <input type="hidden" id="investor-number" name="investor-number" value="${listInvestor.size()}">
                 <input type="hidden" value="${param.programId}" name="programId" />
                 <button type="button" class="mt-5 btn btn-primary" onclick="addRow()">Add investor</button>
-                <button type="button" class="mt-5 btn btn-danger" onclick="deleteRow()">Delete investor</button>
+                
                 <button type="submit" id="submit-button" class="mt-5 btn btn-primary container-fluid">Submit</button>
             </form>
         </main>
@@ -131,9 +137,22 @@
                         }
                     }
 
+                    const investorEls = form.querySelectorAll('.form-group-invest');
+
+                    investorEls.forEach((investorEl, index) => {
+
+                        const counter = index + 1;
+                        const investAvatarInputEl = investorEl.querySelector(".investorImgCls-" + counter);
+                        const qualifyImgInputEl = investorEl.querySelector(".qualifyImgCls-" + counter);
+                        const investAvatarPreviewEl = investorEl.querySelector("#investAvatar-preview-section-" + counter);
+                        const qualifyImgPreviewEl = investorEl.querySelector("#qualifyImg-preview-section-" + counter);
+
+                        investAvatarInputEl.addEventListener('change', onFileInputChange(investAvatarPreviewEl));
+                        qualifyImgInputEl.addEventListener("change", onFileInputChange(qualifyImgPreviewEl));
+                    })
+
                     investAvatarEl.onchange = onFileInputChange(investAvatarPreviewEl);
                     qualifyImgEl.onchange = onFileInputChange(qualifyImgPreviewEl);
-
 
                     function addRow() {
                         var investorForm = $('.investor-form').clone();
@@ -216,10 +235,11 @@
                             $("#investor-form-" + index).remove();
                         }
                     }
-                    
+
                     function formChange(index) {
-                        var changeValue =  $('#investorId-'+index).val();
-                        $('#investorId-unchanged-'+index).remove();
+                        console.log('aaaaaa');
+                        var changeValue = $('#investorId-' + index).val();
+                        $('#investorId-unchanged-' + index).remove();
                         var hiddenElementIndex = document.createElement("input");
                         hiddenElementIndex.setAttribute("type", "hidden");
                         hiddenElementIndex.setAttribute("name", "changed-investor-id");
@@ -227,6 +247,20 @@
                         hiddenElementIndex.setAttribute("value", changeValue);
                         $("#investor-number").after(hiddenElementIndex);
                     }
+
+                    const formGroups = formEl.querySelectorAll('.form-group');
+
+                    formGroups.forEach((formGroup, index) => {
+                            const counter = index + 1;
+                            const inputEls = formGroup.querySelectorAll('input');
+                            const textAreaEl = formGroup.querySelector('textarea');
+                            const inputElAndTextArea = [...inputEls, textAreaEl];
+                            inputElAndTextArea.forEach(el => {
+                                el.onchange = () => {
+                                    formChange(counter);
+                                }
+                            })
+                    })
 
     </script>
 </html>

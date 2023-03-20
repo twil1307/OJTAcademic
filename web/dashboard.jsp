@@ -262,7 +262,6 @@
                                                                                 <td>${item.startDate} - ${item.endDate}</td>
                                                                                 <td>${item.goalAmount}$</td>
                                                                                 <td>${item.raisedAmount}$</td>
-                                                                                <td>${item.isOutDate}$</td>
                                                                                 <td>${(item.raisedAmount / item.goalAmount) * 100}%
                                                                                     <div class="progress mt-1" style="height:4px;">
                                                                                         <div class="progress-bar bg-warning rounded" role="progressbar" style="width: ${(item.raisedAmount / item.goalAmount) * 100}%;" aria-valuenow="${(item.raisedAmount / item.goalAmount) * 100}" aria-valuemin="0" aria-valuemax="100"></div>
@@ -297,7 +296,7 @@
                                                                                     </div>
                                                                                 </td>
                                                                             </tr>
-                                                                            <c:set var = "donateNo" value="${donateNo+1}" />
+                                                                            <c:set var = "programNo" value="${programNo+1}" />
                                                                         </c:forEach>
                                                                     </c:when>
                                                                     <c:otherwise>
