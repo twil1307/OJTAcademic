@@ -1,4 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -103,7 +105,8 @@
                                                 <div class="row align-items-center m-b-25">
                                                     <div class="col">
                                                         <h6 class="m-b-5 text-white">Total donate today</h6>
-                                                        <h3 class="m-b-0 text-white">$${totalToday}</h3>
+                                                        <h3 class="m-b-0 text-white">$<fmt:formatNumber type = "number" 
+                                                                          groupingUsed = "false" value = "${totalToday}" /></h3>
                                                     </div>
                                                     <div class="col-auto">
                                                         <i class="fas fa-money-bill-alt text-c-red f-18"></i>
@@ -119,7 +122,8 @@
                                                 <div class="row align-items-center m-b-25">
                                                     <div class="col">
                                                         <h6 class="m-b-5 text-white">Total donate this month</h6>
-                                                        <h3 class="m-b-0 text-white">$${totalThisMonth}</h3>
+                                                        <h3 class="m-b-0 text-white">$<fmt:formatNumber type = "number" 
+                                                                          groupingUsed = "false" value = "${totalThisMonth}" /></h3>
                                                     </div>
                                                     <div class="col-auto">
                                                         <i class="fas fa-database text-c-blue f-18"></i>
@@ -135,7 +139,8 @@
                                                 <div class="row align-items-center m-b-25">
                                                     <div class="col">
                                                         <h6 class="m-b-5 text-white">Total donate</h6>
-                                                        <h3 class="m-b-0 text-white">$${totalAll}</h3>
+                                                        <h3 class="m-b-0 text-white">$<fmt:formatNumber type = "number" 
+                                                                          groupingUsed = "false" value = "${totalAll}" /></h3>
                                                     </div>
                                                     <div class="col-auto">
                                                         <i class="fas fa-dollar-sign text-c-green f-18"></i>
@@ -174,14 +179,16 @@
 
                                                     </div>
                                                     <div class="col text-right">
-                                                        <h3>${totalCalledAmountClose}$</h3>
+                                                        <h3><fmt:formatNumber type = "number" 
+                                                                          groupingUsed = "false" value = "${totalCalledAmountClose}" />$</h3>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-block">
                                                 <div class="row align-items-center justify-content-center card-active">
                                                     <div class="col-12">
-                                                        <h6 class="text-center m-b-10"><span class="text-muted m-r-5">Target:</span>${totalActualAmountClose}$</h6>
+                                                        <h6 class="text-center m-b-10"><span class="text-muted m-r-5">Target:</span><fmt:formatNumber type = "number" 
+                                                                          groupingUsed = "false" value = "${totalActualAmountClose}" />$</h6>
                                                         <div class="progress">
                                                             <div class="progress-bar progress-c-blue" role="progressbar" style="${(totalCalledAmountClose/totalActualAmountClose) * 100}%;height:6px;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                                                         </div>
@@ -203,7 +210,11 @@
 
                                                     </div>
                                                     <div class="col text-right">
-                                                        <h3>${totalCalledAmountOpen}$</h3>
+                                                        <h3>
+                                                            <fmt:formatNumber type = "number" 
+                                                                              groupingUsed = "false" value = "${totalCalledAmountOpen}" />
+                                                            $
+                                                        </h3>
                                                     </div>
                                                 </div>
                                             </div>
@@ -211,7 +222,11 @@
                                                 <div class="row align-items-center justify-content-center card-active">
 
                                                     <div class="col-12">
-                                                        <h6 class="text-center  m-b-10"><span class="text-muted m-r-5">Target:</span>${totalActualAmountOpen}$</h6>
+                                                        <h6 class="text-center  m-b-10"><span class="text-muted m-r-5">Target:</span>
+                                                            <fmt:formatNumber type = "number" 
+                                                                              groupingUsed = "false" value = "${totalActualAmountOpen}" />
+
+                                                            $</h6>
                                                         <div class="progress">
                                                             <div class="progress-bar progress-c-green" role="progressbar" style="width:${totalActualAmountOpen == 0 ? 0 : (totalCalledAmountOpen/totalActualAmountOpen)*100}%;height:6px;" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
                                                         </div>
@@ -260,8 +275,10 @@
                                                                                 <td>${item.destination.province}</td>
                                                                                 <td>${item.destination.address} </td>
                                                                                 <td>${item.startDate} - ${item.endDate}</td>
-                                                                                <td>${item.goalAmount}$</td>
-                                                                                <td>${item.raisedAmount}$</td>
+                                                                                <td><fmt:formatNumber type = "number" 
+                                                                                                  groupingUsed = "false" value = "${(item.goalAmount)}" />$</td>
+                                                                                <td><fmt:formatNumber type = "number" 
+                                                                                                  groupingUsed = "false" value = "${item.raisedAmount}" />$</td>
                                                                                 <td>${(item.raisedAmount / item.goalAmount) * 100}%
                                                                                     <div class="progress mt-1" style="height:4px;">
                                                                                         <div class="progress-bar bg-warning rounded" role="progressbar" style="width: ${(item.raisedAmount / item.goalAmount) * 100}%;" aria-valuenow="${(item.raisedAmount / item.goalAmount) * 100}" aria-valuemin="0" aria-valuemax="100"></div>
@@ -278,7 +295,7 @@
                                                                                         <c:if test="${item.isClosed == 'TRUE'}">
                                                                                             <form method="POST" action="/OJT_Mock/program?action=open">
                                                                                                 <input  type="hidden" class="form-control"  name="programId"  value="${item.programId}" >
-                                                                                                
+
 
                                                                                                 <c:choose>
                                                                                                     <c:when test="${item.isOutDate == 'TRUE'}">

@@ -75,7 +75,11 @@
                 <div class="facts-item justify-content-center">
                     <i class="flaticon-kindness"></i>
                     <div class="facts-text">
-                        <h3 class="facts-dollar" data-toggle="counter-up">${program.goalAmount}</h3>
+                        <h3 class="facts-dollar" data-toggle="counter-up">
+                            
+                            <fmt:formatNumber type = "number" 
+                                              groupingUsed = "false" value = "${program.goalAmount}" />
+                        </h3>
                         <p>Our Goal</p>
                     </div>
                 </div>
@@ -84,7 +88,11 @@
                 <div class="facts-item justify-content-center">
                     <i class="flaticon-donation"></i>
                     <div class="facts-text">
-                        <h3 class="facts-dollar" data-toggle="counter-up">${raisedAmount}</h3>
+                        <h3 class="facts-dollar" data-toggle="counter-up">
+                            
+                            <fmt:formatNumber type = "number" 
+                                              groupingUsed = "false" value = "${raisedAmount}" />
+                        </h3>
                         <p>Raised</p>
                     </div>
                 </div>
