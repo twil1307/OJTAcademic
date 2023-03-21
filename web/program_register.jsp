@@ -196,6 +196,22 @@
         const scheStartDateEl = document.getElementById("scheStartDate");
         const scheEndDateEl = document.getElementById("scheEndDate");
         
+        startDateEl.onchange = (e) => {
+            endDateEl.setAttribute("min", e.target.value);
+        }
+        
+        endDateEl.onchange = (e) => {
+            startDateEl.setAttribute("max", e.target.value);
+        }
+        
+        scheStartDateEl.onchange = (e) => {
+            scheEndDateEl.setAttribute("min", e.target.value);
+        }
+        
+        scheEndDateEl.onchange = (e) => {
+            scheStartDateEl.setAttribute("max", e.target.value);
+        }
+        
         programImgInputEl.onchange = (e) => {
             const { files } = e.target;
             imagePreviewSectionEl.innerHTML = ``;
