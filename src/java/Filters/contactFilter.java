@@ -25,10 +25,10 @@ import javax.servlet.http.HttpSession;
  * @author toten
  */
 @WebFilter(
-        urlPatterns = {"/dashboard"},
-        filterName = "dashboardFilter"
+        urlPatterns = {"/contact"},
+        filterName = "contactFilter"
 )
-public class DashboardFilter implements Filter {
+public class contactFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -40,22 +40,15 @@ public class DashboardFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         HttpSession session = req.getSession();
+//        String urlHistory = (String) session.getAttribute("urlHistory");
         String urlHistory = (String) session.getAttribute("urlHistory");
 
         Account acc = (Account) session.getAttribute("user");
-        
-        if(acc==null ) {
-                 if (urlHistory != null) {
-                res.sendRedirect(urlHistory);
-            } else {
-                res.sendRedirect("home");
-            }
-        }
 
-        if (acc.getRole() == 1) {
+        if (acc!=null) {
             chain.doFilter(request, response);
         } else {
-            if (urlHistory != null) {
+            if (urlHistory != null && !urlHistory.contains("contact")) {
                 res.sendRedirect(urlHistory);
             } else {
                 res.sendRedirect("home");

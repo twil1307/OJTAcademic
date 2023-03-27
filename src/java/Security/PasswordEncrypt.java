@@ -103,7 +103,7 @@ public class PasswordEncrypt {
         System.out.println("Salt value = " + saltvalue);  
           
         /* verify the original password and encrypted password */  
-        Boolean status = verifyUserPassword(password,encryptedpassword,saltvalue);  
+        Boolean status = verifyUserPassword("123456","2r4hIGPyTnOjKM5WYb3rZHqYWzBijBq0DwMlstCHTn0=","FOTumFjx0qzGuTMaZe8X");  
         if(status==true)  
             System.out.println("Password Matched!!");  
         else  

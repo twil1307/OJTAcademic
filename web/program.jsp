@@ -76,9 +76,16 @@
                     <i class="flaticon-kindness"></i>
                     <div class="facts-text">
                         <h3 class="facts-dollar" data-toggle="counter-up">
-                            
-                            <fmt:formatNumber type = "number" 
-                                              groupingUsed = "false" value = "${program.goalAmount}" />
+                            <c:choose>
+                                <c:when test="${program.goalAmount > 9999999}">
+                                    999999+
+                                </c:when>
+                                <c:otherwise>
+                                    <fmt:formatNumber type = "number" 
+                                                      groupingUsed = "false" value = "${program.goalAmount}" />
+                                </c:otherwise>
+                            </c:choose>
+
                         </h3>
                         <p>Our Goal</p>
                     </div>
@@ -89,7 +96,7 @@
                     <i class="flaticon-donation"></i>
                     <div class="facts-text">
                         <h3 class="facts-dollar" data-toggle="counter-up">
-                            
+
                             <fmt:formatNumber type = "number" 
                                               groupingUsed = "false" value = "${raisedAmount}" />
                         </h3>
@@ -197,34 +204,51 @@
                 </div>
             </div>
             <div class="col-lg-5 text-center">
-
                 <c:choose>
-                    <c:when test="${sessionScope.user !=null}">
-                        <div class="donate-form">
-                            <form  onsubmit="return submitFormPrivate()" method="POST" action="donate?action=request&programId=${program.programId}">
-                                <div class="control-group">
-                                    <input type="number" class="form-control" name="amount" placeholder="Donate amount" required="required" />
-                                    <input type="hidden" class="form-control" name="programName" value="${program.programName}"  required="required" />
-                                </div>
-                                <div class="control-group">
-                                    <textarea class="form-control" id="message" style="height: auto" rows="7" placeholder="Message" name="message" required="required" data-validation-required-message="Please enter your message"></textarea>
-                                    <p class="help-block text-danger"></p>
-                                </div>
-                                <div>
-                                    <button class="btn btn-custom" id="privateSubmitBtn" type="submit">Donate Now</button>
-                                </div>
-                            </form>
+                    <c:when test="${param.isClosed == 'TRUE' && not empty param.isClosed}">
+                        <div class="section-header">
+                            <h1 style="color: #FDBE33">THIS PROGRAM IS CLOSED</h1>
                         </div>
+
                     </c:when>
                     <c:otherwise>
-                        <button style="color: white; padding: 0; height: 3em" class="btn btn-custom" type="submit">
-                            <a style="width: 100%; height: 100%; color: white; padding: 5em 1em" href="login">
-                                Login now to donate
+                        <c:choose>
+                            <c:when test="${sessionScope.user !=null}">
+                                <div class="donate-form">
+                                    <c:if test="${param.errorMessage!=null}">
+                                        <div class="alert alert-danger">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <strong>${param.errorMessage}</strong>
+                                        </div>
+                                    </c:if>
+                                    <form  onsubmit="return submitFormPrivate()" method="POST" action="donate?action=request&programId=${program.programId}">
+                                        <div class="control-group">
+                                            <input type="number" class="form-control" name="amount" placeholder="Donate amount" required="required" />
+                                            <input type="hidden" class="form-control" name="programName" value="${program.programName}"  required="required" />
+                                        </div>
+                                        <div class="control-group">
+                                            <textarea class="form-control" id="message" style="height: auto" rows="7" placeholder="Message" name="message" required="required" data-validation-required-message="Please enter your message"></textarea>
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-custom" id="privateSubmitBtn" type="submit">Donate Now</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <button style="color: white; padding: 0; height: 3em" class="btn btn-custom" type="submit">
+                                    <a style="width: 100%; height: 100%; color: white; padding: 5em 1em" href="login">
+                                        Login now to donate
 
-                            </a>
-                        </button>
+                                    </a>
+                                </button>
+                            </c:otherwise>
+                        </c:choose>
                     </c:otherwise>
                 </c:choose>
+
+
 
 
             </div>

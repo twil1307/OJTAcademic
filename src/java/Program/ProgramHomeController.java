@@ -26,12 +26,12 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "ProgramHomeController", urlPatterns = {"/home"})
 public class ProgramHomeController extends HttpServlet {
-    
+
     private final ProgramService service = new ProgramService();
     private final NewsService newsService = new NewsService();
     private final OperatorService operatorService = new OperatorService();
     private final DashBoardService dashBoardService = new DashBoardService();
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,7 +43,7 @@ public class ProgramHomeController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        
+
     }
 
     /**
@@ -64,15 +64,16 @@ public class ProgramHomeController extends HttpServlet {
         List<OperatorVO> operators = operatorService.getOperatorsHome();
         double totalRaised = dashBoardService.getTotal("all");
         double totalGoal = dashBoardService.getTotalGoal();
-        
-        
+
+        System.out.println(totalGoal);
+
         String urlHistory = "home";
         session = req.getSession(true);
         session.setAttribute("urlHistory", urlHistory);
-        
+
         req.setAttribute("operators", operators);
         req.setAttribute("totalRaised", totalRaised);
-        req.setAttribute("totalGoal", totalGoal);
+         req.setAttribute("totalGoal", totalGoal);
         req.setAttribute("listPrograms", listPrograms);
         req.setAttribute("getListNews", getListNews);
         req.getRequestDispatcher("index.jsp").forward(req, resp);
@@ -92,8 +93,7 @@ public class ProgramHomeController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doPost(req, resp); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
     /**
      * Handles the HTTP <code>POST</code> method.
      *

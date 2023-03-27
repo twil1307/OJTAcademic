@@ -3,70 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/java_web/OJTmoc/src/java/Filters/DashboardFilter.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Donate/Donate.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Donate/DonateController.java</file>
-            <file>file:/D:/java_web/OJTmoc/web/newsList.jsp</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Properties/charity.properties</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/User/UserDAO.java</file>
-            <file>file:/D:/java_web/OJTmoc/web/contact.jsp</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Program/ProgramVO.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Operator/OperatorController.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/News/NewsService.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Donate/DonateService.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Dashboard/DashBoardController.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Operator/OperatorDAO.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/User/UserManage.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Image/ImageDAO.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Program/ProgramService.java</file>
-            <file>file:/D:/java_web/OJTmoc/web/includes/navbar.jsp</file>
-            <file>file:/D:/java_web/OJTmoc/web/includes/header.jsp</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Filters/AuthenticateFilter.java</file>
-            <file>file:/D:/java_web/OJTmoc/web/dashboardUser.jsp</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/shared/SendMail.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Donate/DonateVO.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Donate/DonateDAO.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/context/DBContext.java</file>
-            <file>file:/D:/java_web/OJTmoc/web/newsDetail.jsp</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Dashboard/DashBoardDAO.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Schedule/ScheduleController.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Schedule/ScheduleService.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/User/UserService.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Contact/ContactDAO.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Contact/ContactController.java</file>
-            <file>file:/D:/java_web/OJTmoc/web/schedule.jsp</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/User/UserLoginController.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/News/NewsDAO.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Image/Image.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/News/NewsController.java</file>
-            <file>file:/D:/java_web/OJTmoc/web/investorUpdate.jsp</file>
-            <file>file:/D:/java_web/OJTmoc/web/investor.jsp</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/User/UserSignUpController.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Operator/OperatorImage.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Program/ProgramController.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Dashboard/DashBoard.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Dashboard/DashBoardService.java</file>
-            <file>file:/D:/java_web/OJTmoc/web/testInvestor.htm</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Operator/OperatorService.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Contact/Contact.java</file>
-            <file>file:/D:/java_web/OJTmoc/web/failedPage.jsp</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/User/UserLogOutController.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Contact/ContactService.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Operator/Operator.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/User/UserController.java</file>
-            <file>file:/D:/java_web/OJTmoc/web/program.jsp</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/News/News.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/User/Donor.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/News/NewsManageController.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Investor/InvestorController.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/User/Account.java</file>
-            <file>file:/D:/java_web/OJTmoc/web/operator.jsp</file>
             <file>file:/D:/java_web/OJTmoc/src/java/Schedule/ScheduleDAO.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Program/ProgramHomeController.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Filters/ProgramFilter.java</file>
-            <file>file:/D:/java_web/OJTmoc/web/dashboard.jsp</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Filters/AutoUpdateProgramStatus.java</file>
-            <file>file:/D:/java_web/OJTmoc/src/java/Program/ProgramDAO.java</file>
+            <file>file:/D:/java_web/OJTmoc/src/java/News/NewsDAO.java</file>
+            <file>file:/D:/java_web/OJTmoc/src/java/Schedule/ScheduleController.java</file>
+            <file>file:/D:/java_web/OJTmoc/src/java/User/UserSignUpController.java</file>
+            <file>file:/D:/java_web/OJTmoc/src/java/context/DBContext.java</file>
+            <file>file:/D:/java_web/OJTmoc/src/java/Donate/DonateDAO.java</file>
+            <file>file:/D:/java_web/OJTmoc/src/java/Program/ProgramController.java</file>
         </group>
     </open-files>
 </project-private>

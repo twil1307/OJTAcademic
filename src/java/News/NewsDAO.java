@@ -17,6 +17,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  *
@@ -308,5 +310,20 @@ public class NewsDAO {
         }
     }
     
+    
+    public static void main(String[] args) {
+        
+        NewsDAO dao = new NewsDAO();
+        
+        List<News> listNews = dao.getListRecentNews(2);
+        
+        List<News> newsListFilter = listNews.stream().filter(action -> action.getNewsId() >= 2015).collect(Collectors.toList());
+        
+        System.out.println(newsListFilter);
+        
+        List<String> listIns = IntStream.iterate(0, i -> i+1).limit(newsListFilter.size()).mapToObj(i -> newsListFilter.get(i).getNewsTitle()).filter(i -> i.startsWith("O")).collect(Collectors.toList());
+        
+        listIns.stream().forEach(i -> System.out.println(i));
+    }
     
 }

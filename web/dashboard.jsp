@@ -270,7 +270,7 @@
                                                                         <c:forEach var="item" items="${programs}">
                                                                             <tr>
                                                                                 <td>${programNo}</td>
-                                                                                <td>${item.programName}</td>
+                                                                                <td><a href="program?action=detail&programId=${item.programId}&isClosed=${item.isClosed}">${item.programName}</a></td>
                                                                                 <td>${item.destination.city}</td>
                                                                                 <td>${item.destination.province}</td>
                                                                                 <td>${item.destination.address} </td>

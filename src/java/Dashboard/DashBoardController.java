@@ -104,8 +104,8 @@ public class DashBoardController extends HttpServlet {
         double totalAll = dashBoardService.getTotal("all");
         double totalCalledAmountClose = programService.getActutalAmountAll("close");
         double totalCalledAmountOpen = programService.getActutalAmountAll("open");
-        double totalActualAmountClose = programService.getGoalAmountAll("close");
-        double totalActualAmountOpen = programService.getGoalAmountAll("open");
+        long totalActualAmountClose = (long) programService.getGoalAmountAll("close");
+        long totalActualAmountOpen = (long) programService.getGoalAmountAll("open");
         List<Program> programs = programService.getListProgramAllAvaiable();
         List<Donate> donate = donateService.getListDonation();
 

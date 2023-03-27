@@ -161,7 +161,7 @@
                                         <c:forEach var="item" items="${donateHistory}">
                                             <tr key={key}>
                                                 <td class="font-weight-bold">${donateNo}</td>
-                                                <td class="font-weight-bold" colspan="2">${item.programName}</td>
+                                                <td class="font-weight-bold" colspan="2"><a href="program?action=detail&programId=${item.program_id}&isClosed=${item.isProgramClosed}">${item.programName}</a></td>
                                                 <td>${item.amount} $</td>
                                                 <td class="font-weight-bold" colspan="3">${item.donate_date}</td>
                                                 <td>${item.message}</td>

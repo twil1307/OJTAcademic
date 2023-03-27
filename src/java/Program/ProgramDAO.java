@@ -222,7 +222,7 @@ public class ProgramDAO {
         return -1;
     }
 
-    double getGoalAmountAll(String statusCase) {
+    long getGoalAmountAll(String statusCase) {
         try {
             Connection conn;
             PreparedStatement ps;
@@ -232,13 +232,13 @@ public class ProgramDAO {
 
             switch (statusCase) {
                 case "close":
-                    query = "select ISNULL(sum(pr.goal_amount), 0) as total from donate dn, program pr where dn.program_id=pr.program_id and pr.is_closed='TRUE'";
+                    query = "select ISNULL(sum(pr.goal_amount), 0) as total from program pr where pr.is_closed='TRUE'";
                     break;
                 case "open":
-                    query = "select ISNULL(sum(pr.goal_amount), 0) as total from donate dn, program pr where dn.program_id=pr.program_id and pr.is_closed='FALSE'";
+                    query = "select ISNULL(sum(pr.goal_amount), 0) as total from program pr where pr.is_closed='FALSE'";
                     break;
                 default:
-                    query = "select ISNULL(sum(pr.goal_amount), 0) as total from donate dn, program pr where dn.program_id=pr.program_id and pr.is_closed='FALSE'";
+                    query = "select ISNULL(sum(pr.goal_amount), 0) as total from program pr where pr.is_closed='FALSE'";
                     break;
             }
 
@@ -248,9 +248,9 @@ public class ProgramDAO {
 
             rs = ps.executeQuery();
 
-            int a = -1;
+            long a = -1;
             while (rs.next()) {
-                a = rs.getInt("total");
+                a = rs.getLong("total");
             }
 
             return a;
@@ -259,6 +259,11 @@ public class ProgramDAO {
             Logger.getLogger(ProgramDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return -1;
+    }
+    
+    public static void main(String[] args) {
+        ProgramDAO dao = new ProgramDAO();
+        System.out.println(dao.getGoalAmountAll("close"));
     }
 
     double getActutalAmountAll(String statusCase) {

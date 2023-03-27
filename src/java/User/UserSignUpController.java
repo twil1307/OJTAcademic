@@ -143,8 +143,6 @@ public class UserSignUpController extends HttpServlet {
         if (sendMailCheck == false) {
             req.getRequestDispatcher("failedPage.jsp").forward(req, resp);
         } else {
-            session.setAttribute("partAvatar", part);
-
             req.setAttribute("passwordConfirm", passwordConfirm);
             req.setAttribute("accountSignUp", accountSignUp);
             req.setAttribute("donorSignUp", donorSignUp);
@@ -158,6 +156,8 @@ public class UserSignUpController extends HttpServlet {
     protected void confirmSignUpUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserDAO userDAO = new UserDAO();
         HttpSession session = req.getSession();
+        String otp = req.getParameter("otp");
+        String otpConfirm = (String) session.getAttribute("regisOtp");
 
         String username = req.getParameter("username");
         String password = req.getParameter("password");
@@ -171,11 +171,20 @@ public class UserSignUpController extends HttpServlet {
         String bankAccount = req.getParameter("bank_account");
         String avatar = req.getParameter("avatarPath");
 
+        
+
 //        
 //        User userSignUp = new User(0, username, password, email, city, province, address, name, "donor", null, phoneNumber, dob, bankAccount, null);
         Account accountSignUp = new Account(0, username, password, 3, null);
         Donor donorSignUp = new Donor(0, username, password, 3, null, email, city, province, address, name, avatar, phoneNumber, dob, bankAccount);
 
+        if (!otp.equals(otpConfirm)) {
+            req.setAttribute("accountSignUp", accountSignUp);
+            req.setAttribute("donorSignUp", donorSignUp);
+            req.setAttribute("error", "Your OTP is incorrect");
+            req.getRequestDispatcher("confirmEmailRegis.jsp").forward(req, resp);
+        }
+        
         try {
 
 //                Encrypt password

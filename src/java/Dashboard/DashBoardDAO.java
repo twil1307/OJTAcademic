@@ -83,9 +83,12 @@ public class DashBoardDAO {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-
-                return rs.getInt("total_goal");
-
+                if (rs.getDouble("total_goal") > (double) Integer.MAX_VALUE || rs.getDouble("total_goal") < (double) Integer.MIN_VALUE) {
+                    System.out.println("bigger");
+                    return 9999999;
+                } else {
+                    return rs.getDouble("total_goal");
+                }
             }
 
         } catch (SQLException ex) {
@@ -98,7 +101,7 @@ public class DashBoardDAO {
 
     public static void main(String[] args) {
         DashBoardDAO dao = new DashBoardDAO();
-        System.out.println(dao.getTotal("total"));
+        System.out.println(dao.getTotalGoal());
     }
 
 }
