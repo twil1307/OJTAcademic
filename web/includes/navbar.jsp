@@ -16,6 +16,7 @@
                     <a href="home" class="nav-item nav-link">Home</a>
                     <a href="about.jsp" class="nav-item nav-link">About</a>
                     <a href="program?action=list" class="nav-item nav-link">Program</a>
+                    <a href="program?action=closed" class="nav-item nav-link">Closed Program</a>
                     <a href="news?action=list" class="nav-item nav-link">News</a>
 <!--                    <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>

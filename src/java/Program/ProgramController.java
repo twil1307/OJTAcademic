@@ -72,6 +72,8 @@ public class ProgramController extends HttpServlet {
             case "update": 
                 getProgramInformation(req, resp);
                 break;
+            case "closed":
+                getListProgramsClosed(req, resp);
             default:
                 break;
         }
@@ -169,8 +171,6 @@ public class ProgramController extends HttpServlet {
         HttpSession session = req.getSession(false);
         String pageStr = req.getParameter("page");
         Map<String, String> conditions = getParametterCondition(req, resp);
-        
-        
 
         List<Program> listProgram = null;
         int totalProgram = service.getTotalProgram(conditions);
@@ -196,6 +196,39 @@ public class ProgramController extends HttpServlet {
         req.setAttribute("page", pageStr);
         req.setAttribute("pageNumber", pageNumber);
         req.getRequestDispatcher("programList.jsp").forward(req, resp);
+    }
+    
+    private void getListProgramsClosed(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        final int PAGE_SIZE = 6;
+
+        HttpSession session = req.getSession(false);
+        String pageStr = req.getParameter("page");
+        Map<String, String> conditions = getParametterCondition(req, resp);
+
+        List<Program> listProgram = null;
+        int totalProgram = service.getTotalProgramClosed(conditions);
+        int pageNumber = (int) Math.floor(totalProgram / PAGE_SIZE) + (totalProgram % PAGE_SIZE > 0 ? 1 : 0);
+
+        if (pageStr != null) {
+            int page = Integer.parseInt(pageStr);
+            int beginElement = (page - 1) * PAGE_SIZE;
+            listProgram = service.getListProgramClosedWithCondition(beginElement, PAGE_SIZE, conditions);
+
+        } else {
+            pageStr = "1";
+            int beginElement = (Integer.parseInt(pageStr) - 1) * PAGE_SIZE;
+            listProgram = service.getListProgramClosedWithCondition(beginElement, PAGE_SIZE, conditions);
+        }
+
+        String urlHistory = "program?action=closed&page=" + pageStr;
+
+        session = req.getSession(true);
+        session.setAttribute("urlHistory", urlHistory);
+        req.setAttribute("listProgram", listProgram);
+        req.setAttribute("totalProgram", totalProgram);
+        req.setAttribute("page", pageStr);
+        req.setAttribute("pageNumber", pageNumber);
+        req.getRequestDispatcher("programListClosed.jsp").forward(req, resp);
     }
 
     private void getProgramInformation(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
