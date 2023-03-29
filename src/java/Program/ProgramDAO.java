@@ -97,7 +97,7 @@ public class ProgramDAO {
                 String programName = rs.getString("program_name");
                 String shortDes = rs.getString("program_short_des");
                 String detailDes = rs.getString("program_detail_des");
-                double goalAmount = rs.getDouble("goal_amount");
+                long goalAmount = rs.getLong("goal_amount");
                 String startDate = rs.getString("start_date");
                 String endDate = rs.getString("end_date");
                 String scheStartDate = rs.getString("sche_start_date");
@@ -384,7 +384,7 @@ public class ProgramDAO {
             List<Program> programs = new ArrayList<>();
             while (rs.next()) {
                 Program programAdd = new ProgramVO(rs.getInt("program_id"), rs.getString("program_name"), rs.getString("program_short_des"),
-                        null, rs.getDouble("goal_amount"), rs.getString("start_date"), rs.getString("end_date"), null, null, null, rs.getInt("account_id"),
+                        null, rs.getLong("goal_amount"), rs.getString("start_date"), rs.getString("end_date"), null, null, null, rs.getInt("account_id"),
                         null, rs.getString("display_img"), rs.getDouble("raised_amount"));
 
 //                Destination destination = getProgramDestination(programAdd.getProgramId(), programAdd);
@@ -455,7 +455,7 @@ public class ProgramDAO {
             List<Program> programs = new ArrayList<>();
             while (rs.next()) {
                 Program programAdd = new ProgramVO(rs.getInt("program_id"), rs.getString("program_name"), rs.getString("program_short_des"),
-                        null, rs.getDouble("goal_amount"), rs.getString("start_date"), rs.getString("end_date"), null, null, null, rs.getInt("account_id"),
+                        null, rs.getLong("goal_amount"), rs.getString("start_date"), rs.getString("end_date"), null, null, null, rs.getInt("account_id"),
                         null, rs.getString("display_img"), rs.getDouble("raised_amount"));
 
                 Destination destination = getProgramDestination(programAdd.getProgramId(), programAdd);
@@ -526,7 +526,7 @@ public class ProgramDAO {
             List<Program> programs = new ArrayList<>();
             while (rs.next()) {
                 Program programAdd = new ProgramVO(rs.getInt("program_id"), rs.getString("program_name"), rs.getString("program_short_des"),
-                        null, rs.getDouble("goal_amount"), rs.getString("start_date"), rs.getString("end_date"), null, null, null, rs.getInt("account_id"),
+                        null, rs.getLong("goal_amount"), rs.getString("start_date"), rs.getString("end_date"), null, null, null, rs.getInt("account_id"),
                         null, rs.getString("display_img"), rs.getDouble("raised_amount"));
 
                 Destination destination = getProgramDestination(programAdd.getProgramId(), programAdd);
@@ -561,7 +561,7 @@ public class ProgramDAO {
             List<Program> programs = new ArrayList<>();
             while (rs.next()) {
                 Program programAdd = new ProgramVO(rs.getInt("program_id"), rs.getString("program_name"), rs.getString("program_short_des"),
-                        null, rs.getDouble("goal_amount"), rs.getString("start_date"), rs.getString("end_date"), null, rs.getString("sche_start_date"), rs.getString("sche_end_date"), rs.getInt("account_id"),
+                        null, rs.getLong("goal_amount"), rs.getString("start_date"), rs.getString("end_date"), null, rs.getString("sche_start_date"), rs.getString("sche_end_date"), rs.getInt("account_id"),
                         null, rs.getString("display_img"), rs.getDouble("raised_amount"), rs.getString("is_closed"));
 
                 Destination destination = getProgramDestination(programAdd.getProgramId(), programAdd);

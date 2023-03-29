@@ -300,7 +300,7 @@ public class ProgramController extends HttpServlet {
         String programName = req.getParameter("programName");
         String shortDes = req.getParameter("shortDes");
         String detailDes = req.getParameter("detailDes");
-        double goalAmount = Double.parseDouble(req.getParameter("goalAmount"));
+        long goalAmount = Long.parseLong(req.getParameter("goalAmount"));
         String startDate = req.getParameter("startDate");
         String endDate = req.getParameter("endDate");
         String city = req.getParameter("city");

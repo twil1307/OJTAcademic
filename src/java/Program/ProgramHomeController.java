@@ -62,10 +62,11 @@ public class ProgramHomeController extends HttpServlet {
         List<Program> listPrograms = service.getListProgram(1, 6);
         List<News> getListNews = newsService.getListNews(1, 3);
         List<OperatorVO> operators = operatorService.getOperatorsHome();
-        double totalRaised = dashBoardService.getTotal("all");
-        double totalGoal = dashBoardService.getTotalGoal();
+        long totalRaised = dashBoardService.getTotal("all");
+        long totalGoal = dashBoardService.getTotalGoal();
 
         System.out.println(totalGoal);
+        System.out.println(totalRaised);
 
         String urlHistory = "home";
         session = req.getSession(true);

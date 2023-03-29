@@ -12,11 +12,11 @@ package Dashboard;
 public class DashBoardService {
     DashBoardDAO dao = new DashBoardDAO();
     
-    public double getTotal(String totalCase) {
+    public long getTotal(String totalCase) {
         return dao.getTotal(totalCase);
     }
     
-    public double getTotalGoal() {
+    public long getTotalGoal() {
         return dao.getTotalGoal();
     }
     

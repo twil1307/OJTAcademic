@@ -27,14 +27,14 @@ public class ProgramVO extends Program {
     private String province;
     private String address;
 
-    public ProgramVO(int programId, String programName, String shortDes, String detailDes, double goalAmount, String startDate, String endDate, Destination destination, String scheStartDate, String scheEndDate, int userId, List<ProgramImage> programImgs, String programDisplayImg, double raisedAmount) {
+    public ProgramVO(int programId, String programName, String shortDes, String detailDes, long goalAmount, String startDate, String endDate, Destination destination, String scheStartDate, String scheEndDate, int userId, List<ProgramImage> programImgs, String programDisplayImg, double raisedAmount) {
         super(programId, programName, shortDes, detailDes, goalAmount, startDate, endDate, destination, scheStartDate, scheEndDate, userId, programImgs);
         this.programDisplayImg = programDisplayImg;
         this.raisedAmount = raisedAmount;
     }
 
 
-    public ProgramVO(int programId, String programName, String shortDes, String detailDes, double goalAmount, String startDate, String endDate, Destination destination, String scheStartDate, String scheEndDate, int userId, List<ProgramImage> programImgs, String programDisplayImg, double raisedAmount, String isClosed) {
+    public ProgramVO(int programId, String programName, String shortDes, String detailDes, long goalAmount, String startDate, String endDate, Destination destination, String scheStartDate, String scheEndDate, int userId, List<ProgramImage> programImgs, String programDisplayImg, double raisedAmount, String isClosed) {
         super(programId, programName, shortDes, detailDes, goalAmount, startDate, endDate, destination, scheStartDate, scheEndDate, userId, programImgs);
         this.programDisplayImg = programDisplayImg;
         this.raisedAmount = raisedAmount;
