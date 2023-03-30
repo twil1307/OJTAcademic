@@ -229,7 +229,9 @@
                     }
 
                     const deleteRowAddById = (index) => {
+                        
                         return (e) => {
+                            console.log(index);
                             i = i - 1;
                             $('#investor-number').val(i);
                             $("#investor-form-" + index).remove();

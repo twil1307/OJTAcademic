@@ -257,7 +257,7 @@
                         
                         <h3 class="facts-dollar" data-toggle="counter-up">
                             
-                            <fmt:formatNumber type = "number" value = "${totalGoal}" />
+                            <fmt:formatNumber type = "number" groupingUsed="false" value = "${totalGoal}" />
                         
                         </h3>
                         <p>Our Goal</p>
@@ -268,7 +268,7 @@
                 <div class="facts-item">
                     <i class="flaticon-donation"></i>
                     <div class="facts-text">
-                        <h3 class="facts-dollar" data-toggle="counter-up"><fmt:formatNumber type = "number" value = "${totalRaised}" /></h3>
+                        <h3 class="facts-dollar" data-toggle="counter-up"><fmt:formatNumber type = "number"  groupingUsed="false" value = "${totalRaised}" /></h3>
                         <p>Raised</p>
                     </div>
                 </div>
